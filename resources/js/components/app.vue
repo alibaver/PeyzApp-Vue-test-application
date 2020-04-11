@@ -18,7 +18,7 @@
               :src="'../../images/logo/iste_ico.png'"
               alt
               class="whiteBG mr-2"
-              width="35"
+              width="auto"
               height="35"
             />
             <v-text-field
