@@ -13,15 +13,17 @@
       <v-row class="justify-center">
         <v-col cols="12">
           <div class="d-flex align-items-center justify-content-center">
-            <img
-              v-if="clientWidth > 359"
-              :src="'../../images/logo/iste_ico.png'"
-              alt
-              class="whiteBG mr-2"
-              width="auto"
-              height="35"
-            />
+            <div style="height:35px;width:35px;">
+              <img
+                width="100%"
+                height="100%"
+                v-if="clientWidth > 359"
+                :src="'../../images/logo/iste_ico.png'"
+                class="whiteBG"
+              />
+            </div>
             <v-text-field
+              class="ml-2"
               style="max-width: 500px;"
               clearable
               flat
