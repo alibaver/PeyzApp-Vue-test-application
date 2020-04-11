@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "mygame",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
