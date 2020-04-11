@@ -71,7 +71,7 @@
         </v-btn>
       </v-col>
 
-      <v-col class="footerDark white--text py-2 text-center overline" cols="12">
+      <v-col class="footerDark white--text pa-2 text-center overline" cols="12">
         İSKENDERUN TEKNİK ÜNİVERSİTESİ - BİLGİ İŞLEM DAİRE BAŞKANLIĞI ©
         2017
       </v-col>
