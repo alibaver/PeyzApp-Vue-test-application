@@ -13,6 +13,14 @@
       <v-row class="justify-center">
         <v-col cols="12">
           <div class="d-flex align-items-center justify-content-center">
+            <img
+              v-if="clientWidth > 359"
+              :src="'../../images/logo/iste_ico.png'"
+              alt
+              class="whiteBG mr-2"
+              width="35"
+              height="35"
+            />
             <v-text-field
               style="max-width: 500px;"
               clearable
@@ -35,7 +43,7 @@
       app
       v-model="drawer"
       clipped
-      :style="scY > bannerHeight ? 'position:fixed;' : 'position:absolute; height: calc(100vh - (' + bannerHeight + 'px - '+ scY +'px + 48px ))'"
+      :style="clientWidth > 1263 ? scY > bannerHeight ? 'position:fixed;' : 'position:absolute; height: calc(100vh - (' + bannerHeight +'px - ' + scY +'px + 48px ))' : 'position:absolute; height: 100vh;'"
     >
       <v-row v-if="clientWidth < 1264">
         <v-col>
@@ -49,7 +57,7 @@
       <v-divider></v-divider>
       <v-list dense :flat="isDark ? false : true">
         <div v-for="(menu, index) in menus" :key="index">
-          <div v-if=" menu.items.length">
+          <div v-if=" menu.items.length" class="py-1">
             <v-list-group :prepend-icon="menu.icon" no-action :color="isDark ? '' : 'base'">
               <template v-slot:activator>
                 <v-list-item-content>
@@ -71,7 +79,7 @@
             </v-list-group>
           </div>
           <div v-else>
-            <v-list-item link :to="menu.path" :color="isDark ? '' : 'base'">
+            <v-list-item @click="scrollTop()" link :to="menu.path" :color="isDark ? '' : 'base'">
               <v-list-item-action>
                 <v-icon>{{ menu.icon }}</v-icon>
               </v-list-item-action>
@@ -81,7 +89,13 @@
             </v-list-item>
           </div>
         </div>
-        <v-list-group v-if="clientWidth < 700" prepend-icon="mdi-calendar-clock" color="base" link>
+        <v-list-group
+          v-if="clientWidth < 700"
+          prepend-icon="mdi-calendar-clock"
+          :color="isDark ? '' : 'base'"
+          link
+          class="py-1"
+        >
           <template v-slot:activator>
             <v-list-item-title>Çalışma Saatleri</v-list-item-title>
           </template>
@@ -199,16 +213,21 @@ export default {
   }),
   computed: {},
   methods: {
+    scrollTop() {
+      window.scrollTo(0, 0);
+    },
     setTheme(val) {
       if (val == true) {
         this.isDark = true;
+        darkMode = true;
         localStorage.setItem("darkMode", this.isDark);
-        $("#topBanner,#isteLogo,.teknoversite").addClass("theme--dark");
+        $("#topBanner,.isteLogo,.teknoversite").addClass("theme--dark");
         return (this.$vuetify.theme.dark = true);
       } else {
         this.isDark = false;
+        darkMode = false;
         localStorage.setItem("darkMode", this.isDark);
-        $("#topBanner,#isteLogo,.teknoversite").removeClass("theme--dark");
+        $("#topBanner,.isteLogo,.teknoversite").removeClass("theme--dark");
         return (this.$vuetify.theme.dark = false);
       }
     },
@@ -227,11 +246,6 @@ export default {
   },
   mounted() {
     console.log("App Loaded..");
-    this.isDark
-      ? $("#compLogo")
-          .find(".imgchangeColor")
-          .toggleClass("whiteBG")
-      : "";
     this.breakpointName = this.$vuetify.breakpoint.name;
     this.setTheme(this.isDark);
   },
