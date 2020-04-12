@@ -12,7 +12,7 @@
         </v-tooltip>
       </template>
       <v-list dense rounded>
-        <v-list-item-group v-model="model" color="base">
+        <v-list-item-group v-model="model" :color="isDark ? '' : 'base'">
           <v-list-item v-for="(item, index) in list" :key="index">
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
@@ -31,6 +31,7 @@
 export default {
   data: () => ({
     model: 0,
+    isDark: JSON.parse(localStorage.getItem("darkMode")),
     list: [
       { title: "TÜMÜ", icon: "mdi-collapse-all" },
       { title: "Katalog", icon: "mdi-book-open-page-variant" },

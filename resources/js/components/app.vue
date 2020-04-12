@@ -15,7 +15,7 @@
           <div class="d-flex align-items-center justify-content-center">
             <v-btn
               depressed
-              active-class
+              active-class="_noActive"
               small
               icon
               v-if="clientWidth > 359"
@@ -37,6 +37,7 @@
               id="search"
               hide-details
               prepend-inner-icon="mdi-magnify"
+              :color="isDark ? '' : 'base'"
             ></v-text-field>
             <filter-menu></filter-menu>
           </div>
