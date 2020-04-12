@@ -166,6 +166,7 @@ export default {
   data: () => ({
     scY: null,
     drawer: null,
+    barHeight: null,
     clientWidth: window.innerWidth,
     bannerHeight: document.getElementById("topBanner").clientHeight,
     appBarStyle: "position:absolute;",
@@ -258,36 +259,41 @@ export default {
         return (this.$vuetify.theme.dark = false);
       }
     },
-    getWindowWidth() {
+    resizeWindow() {
       this.clientWidth = window.innerWidth;
+      this.clientWidth < 600 ? (this.barHeight = 96) : (this.barHeight = 48);
+      this.handleScroll();
+      console.log(this.barHeight);
       if (this.clientWidth < 600) {
-        this.appBarStyle += "height:96px;";
         $("#resSearch").appendTo("#appBar");
+        $("#appBar").css("height", this.barHeight);
       } else {
-        this.appBarStyle += "height:48px;";
         $("#resSearch").appendTo("#responsePlace");
+        $("#appBar").css("height", this.barHeight);
       }
     },
     handleScroll() {
       this.scY = window.scrollY;
       this.bannerHeight = document.getElementById("topBanner").clientHeight;
       if (this.scY > this.bannerHeight) {
-        this.appBarStyle = "position: fixed";
+        this.appBarStyle = "position: fixed; height:" + this.barHeight + "px";
       } else {
-        this.appBarStyle = "position: absolute";
+        this.appBarStyle =
+          "position: absolute; height:" + this.barHeight + "px";
       }
     }
   },
   mounted() {
-    console.log("App Loaded..");
+    console.log("App loaded");
+    this.clientWidth < 600 ? (this.barHeight = 96) : (this.barHeight = 48);
     this.breakpointName = this.$vuetify.breakpoint.name;
     this.setTheme(this.isDark);
-    this.getWindowWidth();
+    this.resizeWindow();
   },
   watch: {},
   created() {
     window.addEventListener("scroll", this.handleScroll);
-    window.addEventListener("resize", this.getWindowWidth);
+    window.addEventListener("resize", this.resizeWindow);
     this.scY = window.scrollY;
     this.clientWidth = window.innerWidth;
   }
