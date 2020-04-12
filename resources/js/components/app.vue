@@ -12,34 +12,39 @@
       <v-app-bar-nav-icon dark @click.stop="drawer = !drawer" />
       <v-row class="justify-center">
         <v-col cols="12" class="pa-0">
-          <div class="d-flex align-items-center justify-content-center">
+          <div id="responsePlace" class="d-flex align-items-center justify-content-center">
             <v-btn
               depressed
               active-class="_noActive"
               small
               icon
-              v-if="clientWidth > 359"
-              class="ml-4"
+              :style="clientWidth > 599 ? 'margin-left:16px' : 'margin-left:-48px'"
               :to="'/'"
               @click="scrollTop()"
             >
               <v-img width="25" height="25" :src="'../../images/logo/iste_ico.png'" class="whiteBG"></v-img>
             </v-btn>
-            <v-text-field
-              :class="clientWidth > 359 ? 'ml-2' : 'ml-4'"
-              style="width:100%;max-width: 500px;"
-              clearable
-              flat
-              solo
-              dense
-              name="search"
-              placeholder="Kitap, makale, diğer tüm kaynakları arayın.."
-              id="search"
-              hide-details
-              prepend-inner-icon="mdi-magnify"
-              :color="isDark ? '' : 'base'"
-            ></v-text-field>
-            <filter-menu></filter-menu>
+            <div
+              id="resSearch"
+              class="d-flex align-items-center justify-content-center"
+              :style="clientWidth > 599 ? 'max-width:500px; width:100%' : ''"
+            >
+              <v-text-field
+                id="search"
+                class="ml-2"
+                style="width:100%;max-width: 500px;"
+                clearable
+                flat
+                solo
+                dense
+                name="search"
+                placeholder="Kitap, makale, diğer tüm kaynakları arayın.."
+                hide-details
+                prepend-inner-icon="mdi-magnify"
+                :color="isDark ? '' : 'base'"
+              ></v-text-field>
+              <filter-menu></filter-menu>
+            </div>
           </div>
         </v-col>
       </v-row>
@@ -49,8 +54,7 @@
       app
       v-model="drawer"
       clipped
-      :style="
-                clientWidth > 1263
+      :style="clientWidth > 1263
                     ? scY > bannerHeight
                         ? 'position:fixed;'
                         : 'position:absolute; height: calc(100vh - (' +
@@ -142,7 +146,7 @@
 
     <float-action @set-theme="setTheme"></float-action>
 
-    <v-content class="bgColor">
+    <v-content :class="clientWidth < 600 ? 'bgColor' : ''">
       <v-container fluid>
         <router-view></router-view>
       </v-container>
@@ -162,7 +166,7 @@ export default {
   data: () => ({
     scY: null,
     drawer: null,
-    clientWidth: null,
+    clientWidth: window.innerWidth,
     bannerHeight: document.getElementById("topBanner").clientHeight,
     appBarStyle: "position:absolute;",
     isDark: JSON.parse(localStorage.getItem("darkMode")),
@@ -256,6 +260,13 @@ export default {
     },
     getWindowWidth() {
       this.clientWidth = window.innerWidth;
+      if (this.clientWidth < 600) {
+        this.appBarStyle += "height:96px;";
+        $("#resSearch").appendTo("#appBar");
+      } else {
+        this.appBarStyle += "height:48px;";
+        $("#resSearch").appendTo("#responsePlace");
+      }
     },
     handleScroll() {
       this.scY = window.scrollY;
@@ -271,6 +282,7 @@ export default {
     console.log("App Loaded..");
     this.breakpointName = this.$vuetify.breakpoint.name;
     this.setTheme(this.isDark);
+    this.getWindowWidth();
   },
   watch: {},
   created() {

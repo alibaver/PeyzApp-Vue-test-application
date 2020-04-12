@@ -1,3 +1,6 @@
+.bgColor {
+    padding: 96px 0px 0px !important;
+}
 ._noActive.v-btn:not(.v-btn--text):not(.v-btn--outlined).v-btn--active:before {
     opacity: 0 !important;
 }
