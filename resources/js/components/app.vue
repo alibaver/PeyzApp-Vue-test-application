@@ -11,20 +11,23 @@
     >
       <v-app-bar-nav-icon dark @click.stop="drawer = !drawer" />
       <v-row class="justify-center">
-        <v-col cols="12">
+        <v-col cols="12" class="pa-0">
           <div class="d-flex align-items-center justify-content-center">
-            <div style="height:35px;width:35px;">
-              <img
-                width="100%"
-                height="100%"
-                v-if="clientWidth > 359"
-                :src="'../../images/logo/iste_ico.png'"
-                class="whiteBG"
-              />
-            </div>
+            <v-btn
+              depressed
+              active-class
+              small
+              icon
+              v-if="clientWidth > 359"
+              class="ml-4"
+              :to="'/'"
+              @click="scrollTop()"
+            >
+              <v-img width="25" height="25" :src="'../../images/logo/iste_ico.png'" class="whiteBG"></v-img>
+            </v-btn>
             <v-text-field
-              class="ml-2"
-              style="max-width: 500px;"
+              :class="clientWidth > 359 ? 'ml-2' : 'ml-4'"
+              style="width:100%;max-width: 500px;"
               clearable
               flat
               solo
@@ -45,7 +48,17 @@
       app
       v-model="drawer"
       clipped
-      :style="clientWidth > 1263 ? scY > bannerHeight ? 'position:fixed;' : 'position:absolute; height: calc(100vh - (' + bannerHeight +'px - ' + scY +'px + 48px ))' : 'position:absolute; height: 100vh;'"
+      :style="
+                clientWidth > 1263
+                    ? scY > bannerHeight
+                        ? 'position:fixed;'
+                        : 'position:absolute; height: calc(100vh - (' +
+                          bannerHeight +
+                          'px - ' +
+                          scY +
+                          'px + 48px ))'
+                    : 'position:absolute; height: 100vh;'
+            "
     >
       <v-row v-if="clientWidth < 1264">
         <v-col>
@@ -59,7 +72,7 @@
       <v-divider></v-divider>
       <v-list dense :flat="isDark ? false : true">
         <div v-for="(menu, index) in menus" :key="index">
-          <div v-if=" menu.items.length" class="py-1">
+          <div v-if="menu.items.length" class="py-1">
             <v-list-group :prepend-icon="menu.icon" no-action :color="isDark ? '' : 'base'">
               <template v-slot:activator>
                 <v-list-item-content>
@@ -86,7 +99,11 @@
                 <v-icon>{{ menu.icon }}</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>{{ menu.name }}</v-list-item-title>
+                <v-list-item-title>
+                  {{
+                  menu.name
+                  }}
+                </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </div>
@@ -191,7 +208,10 @@ export default {
         name: "Hızlı Erişim",
         path: "",
         items: [
-          { title: "Üniversite Anasayfa", path: "http://iste.edu.tr" },
+          {
+            title: "Üniversite Anasayfa",
+            path: "http://iste.edu.tr"
+          },
           {
             title: "Öğrenci Bilgi Sistemi",
             path: "https://obs.iste.edu.tr/oibs/ogrenci/login.aspx"

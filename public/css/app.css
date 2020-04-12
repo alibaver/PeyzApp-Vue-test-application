@@ -3,8 +3,8 @@
             filter: grayscale(100%);
 }
 .whiteBG {
-    -webkit-filter: brightness(0) invert(1) opacity(0.85) !important;
-            filter: brightness(0) invert(1) opacity(0.85) !important;
+    -webkit-filter: brightness(0) invert(1) opacity(0.95) !important;
+            filter: brightness(0) invert(1) opacity(0.95) !important;
 }
 .h-35 {
     height: 35px;

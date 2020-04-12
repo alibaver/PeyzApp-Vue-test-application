@@ -1,5 +1,5 @@
 <template>
-  <div class="ml-2">
+  <div class="ml-1">
     <v-menu offset-y transition="scroll-y-transition">
       <template v-slot:activator="{ on: menu }">
         <v-tooltip bottom open-delay="500" z-index="1">
