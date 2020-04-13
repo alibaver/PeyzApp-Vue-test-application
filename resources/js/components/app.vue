@@ -241,9 +241,7 @@ export default {
   }),
   computed: {},
   methods: {
-    focusInput() {
-      alert("..");
-    },
+    focusInput() {},
     scrollTop() {
       window.scrollTo(0, 0);
     },
