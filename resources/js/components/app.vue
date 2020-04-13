@@ -47,7 +47,6 @@
               id="search"
               class="ml-2"
               style="max-width: 500px;"
-              clearable
               flat
               solo
               dense
