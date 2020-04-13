@@ -4,31 +4,61 @@
       id="appBar"
       app
       :color="isDark ? '' : 'base'"
+      :prominent="clientWidth < 600 ? true : false"
       dense
       clipped-left
       flat
       :style="appBarStyle"
     >
-      <v-app-bar-nav-icon dark @click.stop="drawer = !drawer" />
-      <v-row class="justify-center">
+      <v-app-bar-nav-icon
+        :class="clientWidth < 600 ? 'position-absolute' : ''"
+        dark
+        @click.stop="drawer = !drawer"
+      />
+      <v-btn
+        :class="clientWidth >= 600 ? 'ml-6': ''"
+        class="position-absolute mt-3"
+        style="margin-left:50%;transform:translateX(-100%)"
+        v-if="clientWidth < 600"
+        depressed
+        active-class="_noActive"
+        small
+        icon
+        :to="'/'"
+        @click="scrollTop()"
+      >
+        <v-img width="25" height="25" :src="'../../images/logo/iste_ico.png'" class="whiteBG"></v-img>
+      </v-btn>
+      <v-row class="justify-center align-self-end">
         <v-col cols="12" class="pa-0">
           <div id="responsePlace" class="d-flex align-items-center justify-content-center">
-            <v-btn depressed active-class="_noActive" small icon :to="'/'" @click="scrollTop()">
+            <v-btn
+              v-if="clientWidth >= 600"
+              depressed
+              active-class="_noActive ml-6"
+              small
+              icon
+              :to="'/'"
+              @click="scrollTop()"
+            >
               <v-img width="25" height="25" :src="'../../images/logo/iste_ico.png'" class="whiteBG"></v-img>
             </v-btn>
-            <search-component v-if="clientWidth > 600"></search-component>
-            <!-- <div
-              id="resSearch"
-              class="d-flex align-items-center justify-content-center"
-              :style="clientWidth > 599 ? 'max-width:500px; width:100%' : ''"
-            >-->
-            <!-- </div> -->
+            <v-text-field
+              id="search"
+              class="ml-2"
+              style="max-width: 500px;"
+              clearable
+              flat
+              solo
+              dense
+              name="search"
+              placeholder="Kitap, makale, diğer tüm kaynakları arayın.."
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+              :color="isDark ? '' : 'base'"
+            ></v-text-field>
+            <filter-menu></filter-menu>
           </div>
-        </v-col>
-      </v-row>
-      <v-row id="resSearch" v-if="clientWidth < 600">
-        <v-col class="py-0">
-          <search-component></search-component>
         </v-col>
       </v-row>
     </v-app-bar>
@@ -129,7 +159,7 @@
 
     <float-action @set-theme="setTheme"></float-action>
 
-    <v-content :class="clientWidth < 600 ? 'bgColor' : ''">
+    <v-content>
       <v-container fluid>
         <router-view></router-view>
       </v-container>
@@ -248,21 +278,20 @@ export default {
       this.clientWidth < 600 ? (this.barHeight = 96) : (this.barHeight = 48);
       this.handleScroll();
       if (this.clientWidth < 600) {
-        $("#resSearch").appendTo("#appBar");
-        $("#appBar").css("height", this.barHeight);
+        //$("#resSearch").appendTo("#appBar");
+        //$("#appBar").css("height", this.barHeight);
       } else {
         //$("#resSearch").appendTo("#responsePlace");
-        $("#appBar").css("height", this.barHeight);
+        //$("#appBar").css("height", this.barHeight);
       }
     },
     handleScroll() {
       this.scY = window.scrollY;
       this.bannerHeight = document.getElementById("topBanner").clientHeight;
       if (this.scY > this.bannerHeight) {
-        this.appBarStyle = "position: fixed; height:" + this.barHeight + "px";
+        this.appBarStyle = "position: fixed;"; // height:" + this.barHeight + "px";
       } else {
-        this.appBarStyle =
-          "position: absolute; height:" + this.barHeight + "px";
+        this.appBarStyle = "position: absolute;"; // height:" + this.barHeight + "px";
       }
     }
   },
