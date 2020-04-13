@@ -13,38 +13,30 @@
       <v-row class="justify-center">
         <v-col cols="12" class="pa-0">
           <div id="responsePlace" class="d-flex align-items-center justify-content-center">
-            <v-btn
-              depressed
-              active-class="_noActive"
-              small
-              icon
-              :style="clientWidth > 599 ? 'margin-left:16px' : 'margin-left:-48px'"
-              :to="'/'"
-              @click="scrollTop()"
-            >
+            <v-btn depressed active-class="_noActive" small icon :to="'/'" @click="scrollTop()">
               <v-img width="25" height="25" :src="'../../images/logo/iste_ico.png'" class="whiteBG"></v-img>
             </v-btn>
-            <div
+            <!-- <div
               id="resSearch"
               class="d-flex align-items-center justify-content-center"
               :style="clientWidth > 599 ? 'max-width:500px; width:100%' : ''"
-            >
-              <v-text-field
-                id="search"
-                class="ml-2"
-                style="width:100%;max-width: 500px;"
-                clearable
-                flat
-                solo
-                dense
-                name="search"
-                placeholder="Kitap, makale, diğer tüm kaynakları arayın.."
-                hide-details
-                prepend-inner-icon="mdi-magnify"
-                :color="isDark ? '' : 'base'"
-              ></v-text-field>
-              <filter-menu></filter-menu>
-            </div>
+            >-->
+            <v-text-field
+              id="search"
+              class="ml-2"
+              style="max-width: 500px;"
+              clearable
+              flat
+              solo
+              dense
+              name="search"
+              placeholder="Kitap, makale, diğer tüm kaynakları arayın.."
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+              :color="isDark ? '' : 'base'"
+            ></v-text-field>
+            <filter-menu></filter-menu>
+            <!-- </div> -->
           </div>
         </v-col>
       </v-row>
@@ -265,23 +257,22 @@ export default {
       this.clientWidth < 600 ? (this.barHeight = 96) : (this.barHeight = 48);
       this.handleScroll();
       console.log(this.barHeight);
-      if (this.clientWidth < 600) {
-        $("#resSearch").appendTo("#appBar");
-        $("#appBar").css("height", this.barHeight);
-        $("#appBar").delegate("#search", "click", this.focusInput());
-      } else {
-        $("#resSearch").appendTo("#responsePlace");
-        $("#appBar").css("height", this.barHeight);
-      }
+      // if (this.clientWidth < 600) {
+      //   $("#resSearch").appendTo("#appBar");
+      //   $("#appBar").css("height", this.barHeight);
+      //   $("#appBar").delegate("#search", "click", this.focusInput());
+      // } else {
+      //   $("#resSearch").appendTo("#responsePlace");
+      //   $("#appBar").css("height", this.barHeight);
+      // }
     },
     handleScroll() {
       this.scY = window.scrollY;
       this.bannerHeight = document.getElementById("topBanner").clientHeight;
       if (this.scY > this.bannerHeight) {
-        this.appBarStyle = "position: fixed; height:" + this.barHeight + "px";
+        this.appBarStyle = "position: fixed;"; // height:" + this.barHeight + "px";
       } else {
-        this.appBarStyle =
-          "position: absolute; height:" + this.barHeight + "px";
+        this.appBarStyle = "position: absolute;"; // height:" + this.barHeight + "px";
       }
     }
   },
