@@ -16,28 +16,19 @@
             <v-btn depressed active-class="_noActive" small icon :to="'/'" @click="scrollTop()">
               <v-img width="25" height="25" :src="'../../images/logo/iste_ico.png'" class="whiteBG"></v-img>
             </v-btn>
+            <search-component v-if="clientWidth > 600"></search-component>
             <!-- <div
               id="resSearch"
               class="d-flex align-items-center justify-content-center"
               :style="clientWidth > 599 ? 'max-width:500px; width:100%' : ''"
             >-->
-            <v-text-field
-              id="search"
-              class="ml-2"
-              style="max-width: 500px;"
-              clearable
-              flat
-              solo
-              dense
-              name="search"
-              placeholder="Kitap, makale, diğer tüm kaynakları arayın.."
-              hide-details
-              prepend-inner-icon="mdi-magnify"
-              :color="isDark ? '' : 'base'"
-            ></v-text-field>
-            <filter-menu></filter-menu>
             <!-- </div> -->
           </div>
+        </v-col>
+      </v-row>
+      <v-row id="resSearch" v-if="clientWidth < 600">
+        <v-col class="py-0">
+          <search-component></search-component>
         </v-col>
       </v-row>
     </v-app-bar>
@@ -257,7 +248,7 @@ export default {
       this.clientWidth < 600 ? (this.barHeight = 96) : (this.barHeight = 48);
       this.handleScroll();
       if (this.clientWidth < 600) {
-        //$("#resSearch").appendTo("#appBar");
+        $("#resSearch").appendTo("#appBar");
         $("#appBar").css("height", this.barHeight);
       } else {
         //$("#resSearch").appendTo("#responsePlace");
