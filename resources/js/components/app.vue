@@ -42,7 +42,6 @@
                 hide-details
                 prepend-inner-icon="mdi-magnify"
                 :color="isDark ? '' : 'base'"
-                @click.stop="focusInput()"
               ></v-text-field>
               <filter-menu></filter-menu>
             </div>
@@ -243,7 +242,7 @@ export default {
   computed: {},
   methods: {
     focusInput() {
-      $("#search").focus();
+      alert("..");
     },
     scrollTop() {
       window.scrollTo(0, 0);
@@ -271,6 +270,7 @@ export default {
       if (this.clientWidth < 600) {
         $("#resSearch").appendTo("#appBar");
         $("#appBar").css("height", this.barHeight);
+        $("#appBar").delegate("#search", "click", this.focusInput());
       } else {
         $("#resSearch").appendTo("#responsePlace");
         $("#appBar").css("height", this.barHeight);
