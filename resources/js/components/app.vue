@@ -42,6 +42,7 @@
                 hide-details
                 prepend-inner-icon="mdi-magnify"
                 :color="isDark ? '' : 'base'"
+                @click.stop="focusInput()"
               ></v-text-field>
               <filter-menu></filter-menu>
             </div>
@@ -241,6 +242,9 @@ export default {
   }),
   computed: {},
   methods: {
+    focusInput() {
+      $("#search").focus();
+    },
     scrollTop() {
       window.scrollTo(0, 0);
     },
