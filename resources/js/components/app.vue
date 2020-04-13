@@ -256,23 +256,22 @@ export default {
       this.clientWidth = window.innerWidth;
       this.clientWidth < 600 ? (this.barHeight = 96) : (this.barHeight = 48);
       this.handleScroll();
-      console.log(this.barHeight);
-      // if (this.clientWidth < 600) {
-      //   $("#resSearch").appendTo("#appBar");
-      //   $("#appBar").css("height", this.barHeight);
-      //   $("#appBar").delegate("#search", "click", this.focusInput());
-      // } else {
-      //   $("#resSearch").appendTo("#responsePlace");
-      //   $("#appBar").css("height", this.barHeight);
-      // }
+      if (this.clientWidth < 600) {
+        //$("#resSearch").appendTo("#appBar");
+        $("#appBar").css("height", this.barHeight);
+      } else {
+        //$("#resSearch").appendTo("#responsePlace");
+        $("#appBar").css("height", this.barHeight);
+      }
     },
     handleScroll() {
       this.scY = window.scrollY;
       this.bannerHeight = document.getElementById("topBanner").clientHeight;
       if (this.scY > this.bannerHeight) {
-        this.appBarStyle = "position: fixed;"; // height:" + this.barHeight + "px";
+        this.appBarStyle = "position: fixed; height:" + this.barHeight + "px";
       } else {
-        this.appBarStyle = "position: absolute;"; // height:" + this.barHeight + "px";
+        this.appBarStyle =
+          "position: absolute; height:" + this.barHeight + "px";
       }
     }
   },
