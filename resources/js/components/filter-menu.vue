@@ -5,7 +5,7 @@
         <v-tooltip bottom open-delay="500" z-index="1">
           <template v-slot:activator="{ on: tooltip }">
             <v-btn dark icon v-on="{ ...tooltip, ...menu }">
-              <v-icon>mdi-cog</v-icon>
+              <v-icon>mdi-filter-variant</v-icon>
             </v-btn>
           </template>
           <span>Gelişmiş Arama</span>

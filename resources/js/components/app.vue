@@ -35,7 +35,7 @@
             <v-btn
               v-if="clientWidth >= 600"
               depressed
-              active-class="_noActive ml-6"
+              active-class="_noActive ml-6 mr-2"
               small
               icon
               :to="'/'"
