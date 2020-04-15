@@ -41,6 +41,11 @@ export default {
       { title: "Tezler", icon: "mdi-file" },
       { title: "İSTE Akademik Arşiv", icon: "mdi-archive" }
     ]
-  })
+  }),
+  watch: {
+    isDark(val) {
+      console.log(val);
+    }
+  }
 };
 </script>

@@ -1,34 +1,7 @@
 <template>
-  <!-- <v-speed-dial
-    v-model="fab"
-    :top="top"
-    :bottom="bottom"
-    :right="right"
-    :left="left"
-    :direction="direction"
-    :open-on-hover="hover"
-    :transition="transition"
-  >
-    <template v-slot:activator>
-      <v-btn v-model="fab" color="blue darken-2" dark fab>
-        <v-icon v-if="fab">mdi-close</v-icon>
-        <v-icon v-else>mdi-account-circle</v-icon>
-      </v-btn>
-    </template>
-    <v-btn fab dark small color="green">
-      <v-icon>mdi-pencil</v-icon>
-    </v-btn>
-    <v-btn fab dark small color="indigo">
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
-    <v-btn fab dark small color="red">
-      <v-icon>mdi-delete</v-icon>
-    </v-btn>
-  </v-speed-dial>-->
-
   <v-speed-dial
     v-model="fab"
-    transition="scale-transition"
+    transition="slide-y-reverse-transition"
     z-index="2"
     style="position:fixed; right: 20px; bottom:20px;"
   >
@@ -38,15 +11,18 @@
         <v-icon v-else>mdi-plus</v-icon>
       </v-btn>
     </template>
-    <v-btn fab dark small color="indigo">
-      <v-icon>mdi-face-agent</v-icon>
-    </v-btn>
-    <v-btn fab dark small color="red">
-      <v-icon>mdi-pen</v-icon>
-    </v-btn>
-    <v-btn fab dark small color="green" @click="darkMode = !darkMode">
-      <v-icon>mdi-brightness-4</v-icon>
-    </v-btn>
+    <div class="d-inline-flex float_action justify-content-center align-items-center">
+      <v-chip small class="ma-1" label>Destek</v-chip>
+      <v-btn fab dark small color="indigo">
+        <v-icon>mdi-face-agent</v-icon>
+      </v-btn>
+    </div>
+    <div class="d-inline-flex float_action justify-content-center align-items-center">
+      <v-chip small class="ma-1" label>Karanlık Tema</v-chip>
+      <v-btn fab dark small color="green" @click="darkMode = !darkMode">
+        <v-icon>mdi-brightness-4</v-icon>
+      </v-btn>
+    </div>
   </v-speed-dial>
 </template>
 <script>
@@ -64,8 +40,13 @@ export default {
       $("#compLogo")
         .find(".imgchangeColor")
         .toggleClass("whiteBG");
-    },
-    mounted() {}
+    }
+  },
+  mounted() {
+    $(".v-speed-dial__list").css({
+      "justify-content": "flex-start",
+      "align-items": "flex-end"
+    });
   }
 };
 </script>
