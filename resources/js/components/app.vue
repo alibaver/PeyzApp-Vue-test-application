@@ -85,7 +85,7 @@
                     text
                     v-on="{ ...menu }"
                     :small="clientWidth > 425 && clientWidth < 700"
-                    :style="clientWidth > 425 && clientWidth < 700 ? 'height:38px' : ''"
+                    :style="clientWidth > 425 ? 'height:38px' : ''"
                   >
                     KATEGORİLER
                     <v-icon small right>mdi-menu-down</v-icon>
