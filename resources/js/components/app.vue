@@ -17,8 +17,8 @@
       />
       <v-btn
         :class="clientWidth >= 600 ? 'ml-6': ''"
-        class="position-absolute mt-3"
-        style="margin-left:50%;transform:translateX(-100%)"
+        class="position-absolute mt-2"
+        style="left:50%;transform:translateX(-100%)"
         v-if="clientWidth < 600"
         depressed
         active-class="_noActive"
@@ -29,8 +29,11 @@
       >
         <v-img width="25" height="25" :src="'../../images/logo/iste_ico.png'" class="whiteBG"></v-img>
       </v-btn>
+      <v-btn class="position-absolute" icon dark v-if="clientWidth < 600" style="right:0">
+        <v-icon>mdi-brightness-4</v-icon>
+      </v-btn>
       <v-row class="justify-center align-self-end">
-        <v-col cols="12" class="pa-0">
+        <v-col :cols="clientWidth >= 600 ? '11' : '12'" class="pa-0">
           <div id="responsePlace" class="d-flex align-items-center justify-content-center">
             <!-- logo btn -->
             <v-btn
@@ -90,6 +93,17 @@
             </div>
             <!-- /filter-menu -->
           </div>
+        </v-col>
+        <v-col cols="1" class="pa-0" v-if="clientWidth >= 600">
+          <v-tooltip bottom open-delay="500" z-index="1">
+            <template v-slot:activator="{ on: tooltip }">
+              <v-btn class="float-right" icon dark v-on="{ ...tooltip}" @click="isDark = !isDark">
+                <v-icon v-if="!isDark">mdi-brightness-4</v-icon>
+                <v-icon v-else>mdi-brightness-7</v-icon>
+              </v-btn>
+            </template>
+            <span>Karanlık Tema</span>
+          </v-tooltip>
         </v-col>
       </v-row>
     </v-app-bar>
@@ -183,10 +197,10 @@
       </v-list>
     </v-navigation-drawer>
     <!-- /navigation -->
-    <float-action @set-theme="setTheme"></float-action>
-
+    <float-action></float-action>
+    <!-- @set-theme="setTheme" -->
     <v-content>
-      <v-container fluid>
+      <v-container fluid :class="isDark ? '' : 'bgColor'">
         <router-view></router-view>
       </v-container>
 
@@ -333,12 +347,19 @@ export default {
   },
   mounted() {
     console.log("App loaded");
+    this.setTheme(this.isDark);
     this.clientWidth < 600 ? (this.barHeight = 96) : (this.barHeight = 48);
     this.breakpointName = this.$vuetify.breakpoint.name;
-    this.setTheme(this.isDark);
     this.resizeWindow();
   },
-  watch: {},
+  watch: {
+    isDark(val) {
+      this.setTheme(val);
+      $("#compLogo")
+        .find(".imgchangeColor")
+        .toggleClass("whiteBG");
+    }
+  },
   created() {
     window.addEventListener("scroll", this.handleScroll);
     window.addEventListener("resize", this.resizeWindow);

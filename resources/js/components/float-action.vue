@@ -1,5 +1,5 @@
 <template>
-  <v-speed-dial
+  <!-- <v-speed-dial
     v-model="fab"
     transition="slide-y-reverse-transition"
     z-index="2"
@@ -23,25 +23,20 @@
         <v-icon>mdi-brightness-4</v-icon>
       </v-btn>
     </div>
-  </v-speed-dial>
+  </v-speed-dial>-->
+  <v-btn color="pink" fab dark fixed bottom right>
+    <v-icon>mdi-face-agent</v-icon>
+  </v-btn>
 </template>
 <script>
 import JQuery from "jquery";
 var $ = JQuery;
 export default {
   data: () => ({
-    fab: false,
-    darkMode: JSON.parse(localStorage.getItem("darkMode"))
+    fab: false
   }),
   computed: {},
-  watch: {
-    darkMode(val) {
-      this.$emit("set-theme", this.darkMode);
-      $("#compLogo")
-        .find(".imgchangeColor")
-        .toggleClass("whiteBG");
-    }
-  },
+  watch: {},
   mounted() {
     $(".v-speed-dial__list").css({
       "justify-content": "flex-start",
