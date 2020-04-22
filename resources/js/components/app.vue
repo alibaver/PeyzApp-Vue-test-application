@@ -29,8 +29,16 @@
       >
         <v-img width="25" height="25" :src="'../../images/logo/iste_ico.png'" class="whiteBG"></v-img>
       </v-btn>
-      <v-btn class="position-absolute" icon dark v-if="clientWidth < 600" style="right:0">
-        <v-icon>mdi-brightness-4</v-icon>
+      <v-btn
+        class="position-absolute"
+        icon
+        dark
+        v-if="clientWidth < 600"
+        style="right:0"
+        @click="isDark = !isDark"
+      >
+        <v-icon v-if="!isDark">mdi-brightness-4</v-icon>
+        <v-icon v-else>mdi-brightness-7</v-icon>
       </v-btn>
       <v-row class="justify-center align-self-end" style="height:48px">
         <v-col
