@@ -32,8 +32,12 @@
       <v-btn class="position-absolute" icon dark v-if="clientWidth < 600" style="right:0">
         <v-icon>mdi-brightness-4</v-icon>
       </v-btn>
-      <v-row class="justify-center align-self-end">
-        <v-col :cols="clientWidth >= 600 ? '11' : '12'" class="pa-0">
+      <v-row class="justify-center align-self-end" style="height:48px">
+        <v-col
+          :cols="clientWidth >= 600 ? '11' : '12'"
+          :class="clientWidth <= 425 ? 'pa-0' : '' "
+          style="padding:5px 0 0 0"
+        >
           <div id="responsePlace" class="d-flex align-items-center justify-content-center">
             <!-- logo btn -->
             <v-btn
@@ -52,7 +56,7 @@
             <v-text-field
               id="search"
               class="ml-2"
-              style="max-width: 500px;"
+              style="max-width: 400px;"
               flat
               solo
               dense
@@ -67,16 +71,22 @@
             <div class="mx-1">
               <v-menu offset-y transition="scroll-y-transition">
                 <template v-slot:activator="{ on: menu }">
-                  <v-tooltip bottom open-delay="500" z-index="1">
-                    <template v-slot:activator="{ on: tooltip }">
-                      <v-btn dark icon v-on="{ ...tooltip, ...menu }">
-                        <v-icon>mdi-filter-variant</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Gelişmiş Arama</span>
-                  </v-tooltip>
+                  <v-btn
+                    v-if="clientWidth > 425"
+                    dark
+                    text
+                    v-on="{ ...menu }"
+                    :small="clientWidth > 425 && clientWidth < 700"
+                    :style="clientWidth > 425 && clientWidth < 700 ? 'height:38px' : ''"
+                  >
+                    KATEGORİLER
+                    <v-icon small right>mdi-menu-down</v-icon>
+                  </v-btn>
+                  <v-btn v-else dark icon v-on="{ ...menu }">
+                    <v-icon>mdi-menu-down</v-icon>
+                  </v-btn>
                 </template>
-                <v-list dense rounded>
+                <v-list dense>
                   <v-list-item-group v-model="model" :color="isDark ? '' : 'base'">
                     <v-list-item v-for="(item, index) in list" :key="index">
                       <v-list-item-icon>
