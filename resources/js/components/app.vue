@@ -18,7 +18,7 @@
       <v-btn
         :class="clientWidth >= 600 ? 'ml-6': ''"
         class="position-absolute mt-2"
-        style="left:50%;transform:translateX(-100%)"
+        style="left:50%;transform:translateX(-50%)"
         v-if="clientWidth < 600"
         depressed
         active-class="_noActive"
