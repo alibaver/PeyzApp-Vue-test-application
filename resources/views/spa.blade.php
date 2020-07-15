@@ -18,6 +18,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 
+
 <body>
     <div id="app">
         <div id="topBanner">
@@ -33,6 +34,7 @@
                 </div>
             </div>
         </div>
+
         <app></app>
     </div>
 

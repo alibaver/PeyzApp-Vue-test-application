@@ -1,5 +1,6 @@
 <template>
-  <!-- <v-speed-dial
+  <div>
+    <!-- <v-speed-dial
     v-model="fab"
     transition="slide-y-reverse-transition"
     z-index="2"
@@ -23,10 +24,12 @@
         <v-icon>mdi-brightness-4</v-icon>
       </v-btn>
     </div>
-  </v-speed-dial>-->
-  <v-btn color="pink" fab dark fixed bottom right>
-    <v-icon>mdi-face-agent</v-icon>
-  </v-btn>
+    </v-speed-dial>-->
+
+    <v-btn color="base" fab dark fixed bottom right @click="support = !support">
+      <v-icon>mdi-face-agent</v-icon>
+    </v-btn>
+  </div>
 </template>
 <script>
 import JQuery from "jquery";
@@ -35,6 +38,7 @@ export default {
   data: () => ({
     fab: false
   }),
+  methods: {},
   computed: {},
   watch: {},
   mounted() {

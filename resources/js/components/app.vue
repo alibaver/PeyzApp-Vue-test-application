@@ -1,141 +1,114 @@
 <template>
   <v-app id="inspire" :dark="isDark">
-    <v-app-bar
-      id="appBar"
-      app
-      :color="isDark ? '' : 'base'"
-      :prominent="clientWidth < 600 ? true : false"
-      dense
-      clipped-left
-      flat
-      :style="appBarStyle"
-    >
-      <v-app-bar-nav-icon
-        :class="clientWidth < 600 ? 'position-absolute' : ''"
-        dark
-        @click.stop="drawer = !drawer"
-      />
-      <v-btn
-        :class="clientWidth >= 600 ? 'ml-6': ''"
-        class="position-absolute mt-2"
-        style="left:50%;transform:translateX(-50%)"
-        v-if="clientWidth < 600"
-        depressed
-        active-class="_noActive"
-        small
-        icon
-        :to="'/'"
-        @click="scrollTop()"
-      >
-        <v-img width="25" height="25" :src="'../../images/logo/iste_ico.png'" class="whiteBG"></v-img>
-      </v-btn>
-      <v-btn
-        class="position-absolute"
-        icon
-        dark
-        v-if="clientWidth < 600"
-        style="right:0"
-        @click="isDark = !isDark"
-      >
-        <v-icon v-if="!isDark">mdi-brightness-4</v-icon>
-        <v-icon v-else>mdi-brightness-7</v-icon>
-      </v-btn>
-      <v-row class="justify-center align-self-end" style="height:48px">
-        <v-col
-          :cols="clientWidth >= 600 ? '11' : '12'"
-          :class="clientWidth <= 425 ? 'pa-0' : '' "
-          style="padding:5px 0 0 0"
-        >
-          <div id="responsePlace" class="d-flex align-items-center justify-content-center">
-            <!-- logo btn -->
-            <v-btn
-              v-if="clientWidth >= 600"
-              depressed
-              active-class="_noActive ml-6 mr-2"
-              small
-              icon
-              :to="'/'"
-              @click="scrollTop()"
-            >
-              <v-img width="25" height="25" :src="'../../images/logo/iste_ico.png'" class="whiteBG"></v-img>
-            </v-btn>
-            <!-- /logo btn -->
-            <!-- search input -->
-            <v-text-field
-              id="search"
-              class="ml-2"
-              style="max-width: 400px;"
-              flat
-              solo
-              dense
-              name="search"
-              placeholder="Kitap, makale, diğer tüm kaynakları arayın.."
-              hide-details
-              prepend-inner-icon="mdi-magnify"
-              :color="isDark ? '' : 'base'"
-            ></v-text-field>
-            <!-- /search input -->
-            <!-- filter-menu -->
-            <div class="mx-1">
-              <v-menu offset-y transition="scroll-y-transition">
-                <template v-slot:activator="{ on: menu }">
-                  <v-btn
-                    v-if="clientWidth > 425"
-                    dark
-                    text
-                    v-on="{ ...menu }"
-                    :small="clientWidth > 425 && clientWidth < 700"
-                    :style="clientWidth > 425 ? 'height:38px' : ''"
-                  >
-                    KATEGORİLER
-                    <v-icon small right>mdi-menu-down</v-icon>
-                  </v-btn>
-                  <v-btn v-else dark icon v-on="{ ...menu }">
-                    <v-icon>mdi-menu-down</v-icon>
-                  </v-btn>
-                </template>
-                <v-list dense>
-                  <v-list-item-group v-model="model" :color="isDark ? '' : 'base'">
-                    <v-list-item v-for="(item, index) in list" :key="index">
-                      <v-list-item-icon>
-                        <v-icon v-text="item.icon"></v-icon>
-                      </v-list-item-icon>
+    <!-- APPBAR -->
+    <v-app-bar id="appBar" app :color="isDark ? '' : 'base'" dense flat :style="appBarStyle">
+      <!-- HAMBURGER MENU -->
+      <v-app-bar-nav-icon class="d-block d-lg-none" dark @click.stop="drawer = !drawer" />
 
-                      <v-list-item-content>
-                        <v-list-item-title v-text="item.title"></v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list-item-group>
-                </v-list>
-              </v-menu>
+      <!-- ISTE LOGO BUTTON -->
+      <div class="d-flex justify-content-center align-center d-lg-none" style="width:100%;">
+        <v-avatar size="35" tile>
+          <v-img contain :src="'../../images/logo/iste_ico.png'" class="whiteBG"></v-img>
+        </v-avatar>
+      </div>
+
+      <!-- LINKS -->
+      <div v-for="(item, index) in Links" :key="index" class="d-none d-lg-block">
+        <!-- menu item -->
+        <v-btn
+          v-if="!item.childList"
+          small
+          text
+          tile
+          color="white"
+          :style="'height:' + barHeight + 'px'"
+          :to="item.path"
+        >{{ item.title }}</v-btn>
+        <!-- dropdown menu -->
+        <v-menu
+          v-else
+          offset-y
+          transition="scroll-y-transition"
+          rounded="0"
+          :close-on-content-click="false"
+          open-on-hover
+          :key="'dropMenu-' + index"
+          ref="menuRef"
+        >
+          <template v-slot:activator="{ on: menu }">
+            <v-btn
+              small
+              text
+              tile
+              color="white"
+              :style="'height:' + barHeight + 'px'"
+              v-on="{ ...menu }"
+            >
+              {{ item.title }}
+              <v-icon small right>mdi-menu-down</v-icon>
+            </v-btn>
+          </template>
+          <v-list dense>
+            <div v-for="(item, index) in item.childList" :key="index">
+              <!-- child list -->
+              <v-list-item
+                v-if="!item.childList"
+                link
+                :class="item.childList ? 'px-0' : ''"
+                :color="isDark ? '' : 'base'"
+                :to="item.path"
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.title"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <!-- child in child list-->
+              <v-list-group
+                v-else
+                no-action
+                :color="isDark ? '' : 'base'"
+                :close-on-content-click="false"
+              >
+                <template v-slot:activator>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="item.title"></v-list-item-title>
+                  </v-list-item-content>
+                </template>
+
+                <v-list-item
+                  v-for="(subItem, index) in item.childList"
+                  :key="index"
+                  link
+                  target="blank"
+                  class="pl-8"
+                  :to="item.path"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title v-text="subItem.title"></v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-group>
             </div>
-            <!-- /filter-menu -->
-          </div>
-        </v-col>
-        <v-col cols="1" class="pa-0" v-if="clientWidth >= 600">
-          <v-tooltip bottom open-delay="500" z-index="1">
-            <template v-slot:activator="{ on: tooltip }">
-              <v-btn class="float-right" icon dark v-on="{ ...tooltip}" @click="isDark = !isDark">
-                <v-icon v-if="!isDark">mdi-brightness-4</v-icon>
-                <v-icon v-else>mdi-brightness-7</v-icon>
-              </v-btn>
-            </template>
-            <span>Karanlık Tema</span>
-          </v-tooltip>
-        </v-col>
-      </v-row>
+          </v-list>
+        </v-menu>
+      </div>
+
+      <v-spacer></v-spacer>
+      <!-- DARK MODE -->
+      <v-tooltip bottom open-delay="500" z-index="1">
+        <template v-slot:activator="{ on: tooltip }">
+          <v-btn class="float-right" icon dark v-on="{ ...tooltip }" @click="isDark = !isDark">
+            <v-icon v-if="!isDark">mdi-brightness-4</v-icon>
+            <v-icon v-else>mdi-brightness-7</v-icon>
+          </v-btn>
+        </template>
+        <span>Karanlık Tema</span>
+      </v-tooltip>
     </v-app-bar>
-    <!-- navigation -->
-    <v-navigation-drawer
-      app
-      v-model="drawer"
-      clipped
-      :style="clientWidth > 1263 
-        ? scY > bannerHeight 
-          ? 'position:fixed;'
-          : 'position:absolute; height: calc(100vh - (' +bannerHeight +'px - ' +scY +'px + 48px ))'
-        : 'position:absolute; height: 100vh;'"
-    >
+
+    <!-- NAVİGATION -->
+    <v-navigation-drawer app v-model="drawer" temporary>
       <v-row v-if="clientWidth < 1264">
         <v-col>
           <img
@@ -147,54 +120,48 @@
       </v-row>
       <v-divider></v-divider>
       <v-list dense :flat="isDark ? false : true">
-        <div v-for="(menu, index) in menus" :key="index">
-          <div v-if="menu.items.length" class="py-1">
+        <div v-for="(menu, index) in Links" :key="index">
+          <div v-if="menu.childList" class="py-1">
             <v-list-group :prepend-icon="menu.icon" no-action :color="isDark ? '' : 'base'">
               <template v-slot:activator>
                 <v-list-item-content>
-                  <v-list-item-title v-text="menu.name"></v-list-item-title>
+                  <v-list-item-title v-text="menu.title"></v-list-item-title>
                 </v-list-item-content>
               </template>
 
               <v-list-item
-                v-for="(subItem, index) in menu.items"
+                v-for="(subItem, index) in menu.childList"
                 :key="index"
                 link
                 :href="subItem.path"
                 target="blank"
+                class="pl-9"
               >
                 <v-list-item-content>
-                  <v-list-item-title v-text="subItem.title"></v-list-item-title>
+                  <v-list-item-title
+                    style="-webkit-line-clamp: unset; white-space:normal;"
+                  >{{ subItem.title }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list-group>
           </div>
           <div v-else>
             <v-list-item @click="scrollTop()" link :to="menu.path" :color="isDark ? '' : 'base'">
-              <v-list-item-action>
-                <v-icon>{{ menu.icon }}</v-icon>
-              </v-list-item-action>
+              <!-- <v-list-item-action>
+                                <v-icon>{{ menu.icon }}</v-icon>
+              </v-list-item-action>-->
               <v-list-item-content>
-                <v-list-item-title>
-                  {{
-                  menu.name
-                  }}
-                </v-list-item-title>
+                <v-list-item-title>{{ menu.title }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </div>
         </div>
-        <v-list-group
-          v-if="clientWidth < 700"
-          prepend-icon="mdi-calendar-clock"
-          :color="isDark ? '' : 'base'"
-          link
-          class="py-1"
-        >
+        <!-- ÇALIŞMA SAATLERİ -->
+        <v-list-group v-if="clientWidth < 700" :color="isDark ? '' : 'base'" link class="py-1">
           <template v-slot:activator>
-            <v-list-item-title>Çalışma Saatleri</v-list-item-title>
+            <v-list-item-title>ÇALIŞMA SAATLERİ</v-list-item-title>
           </template>
-          <div style="padding-left: 70px;">
+          <div style="padding-left: 30px;">
             <v-chip outlined x-small class="overline" color="error">
               <v-icon left x-small>mdi-circle</v-icon>KAPALI
             </v-chip>
@@ -214,16 +181,22 @@
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
-    <!-- /navigation -->
+
+    <!-- SUPPORT BUTTON -->
     <float-action></float-action>
-    <!-- @set-theme="setTheme" -->
-    <v-content>
+
+    <v-main>
       <v-container fluid :class="isDark ? '' : 'bgColor'">
         <router-view></router-view>
       </v-container>
-
       <footer-component></footer-component>
-    </v-content>
+      <!-- ALERT -->
+      <alert-component
+        :alert-msg="alert.message"
+        :alert-style="alert.style"
+        :alert-open="alert.isOpen"
+      ></alert-component>
+    </v-main>
   </v-app>
 </template>
 <script>
@@ -235,6 +208,11 @@ export default {
     source: String
   },
   data: () => ({
+    alert: {
+      isOpen: false,
+      message: "",
+      style: ""
+    },
     scY: null,
     drawer: null,
     barHeight: null,
@@ -242,16 +220,8 @@ export default {
     bannerHeight: document.getElementById("topBanner").clientHeight,
     appBarStyle: "position:absolute;",
     isDark: JSON.parse(localStorage.getItem("darkMode")),
-    model: 0,
-    list: [
-      { title: "TÜMÜ", icon: "mdi-collapse-all" },
-      { title: "Katalog", icon: "mdi-book-open-page-variant" },
-      { title: "E-Dergiler", icon: "mdi-file-pdf" },
-      { title: "Makaleler", icon: "mdi-file" },
-      { title: "E-Kitaplar", icon: "mdi-book-open" },
-      { title: "Tezler", icon: "mdi-file" },
-      { title: "İSTE Akademik Arşiv", icon: "mdi-archive" }
-    ],
+    model: null,
+    Links: null,
     menus: [
       { icon: "mdi-home", name: "Anasayfa", path: "/", items: [] },
       {
@@ -322,7 +292,6 @@ export default {
   }),
   computed: {},
   methods: {
-    focusInput() {},
     scrollTop() {
       window.scrollTo(0, 0);
     },
@@ -345,13 +314,6 @@ export default {
       this.clientWidth = window.innerWidth;
       this.clientWidth < 600 ? (this.barHeight = 96) : (this.barHeight = 48);
       this.handleScroll();
-      if (this.clientWidth < 600) {
-        //$("#resSearch").appendTo("#appBar");
-        //$("#appBar").css("height", this.barHeight);
-      } else {
-        //$("#resSearch").appendTo("#responsePlace");
-        //$("#appBar").css("height", this.barHeight);
-      }
     },
     handleScroll() {
       this.scY = window.scrollY;
@@ -364,7 +326,6 @@ export default {
     }
   },
   mounted() {
-    console.log("App loaded");
     this.setTheme(this.isDark);
     this.clientWidth < 600 ? (this.barHeight = 96) : (this.barHeight = 48);
     this.breakpointName = this.$vuetify.breakpoint.name;
@@ -376,6 +337,10 @@ export default {
       $("#compLogo")
         .find(".imgchangeColor")
         .toggleClass("whiteBG");
+    },
+    $route(to, from) {
+      const menus = this.$refs.menuRef;
+      menus.forEach(menu => (menu.isActive = false));
     }
   },
   created() {
@@ -383,11 +348,32 @@ export default {
     window.addEventListener("resize", this.resizeWindow);
     this.scY = window.scrollY;
     this.clientWidth = window.innerWidth;
+    // get menu list
+    axios
+      .get("ajaxfile.php", {
+        params: {
+          choose: "menu",
+          param: "appBarMenus"
+        }
+      })
+      .then(response => {
+        let myslqConnect = response.data.indexOf("mysqli_connect()");
+        let nullIndex = response.data.indexOf("[]");
+        nullIndex > -1 || myslqConnect > -1
+          ? ((this.alert.isOpen = true),
+            (this.alert.message = "Hata: Veri Tabanı Bağlantı Sorunu."),
+            (this.alert.style = "error"))
+          : (this.Links = JSON.parse(response.data[0].jsonContent));
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>
 <style scope>
 .position-absolute {
   position: absolute !important;
+  display: block !important;
 }
 </style>

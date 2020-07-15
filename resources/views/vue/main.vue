@@ -1,38 +1,95 @@
 <template>
   <div>
-    <v-col v-if="clientWidth > 699" class="pt-0">
-      <v-chip small outlined class="overline" color="error">
+    <!--CHİPS -->
+    <v-col v-if="clientWidth > 699" class="py-0">
+      <v-chip small outlined class="overline" style="font-size:10px!important;" color="error">
         <v-icon left x-small>mdi-circle</v-icon>KAPALI
       </v-chip>
-      <v-chip small outlined class="overline">
+      <v-chip small outlined class="overline" style="font-size:10px!important;">
         <v-icon left x-small>mdi-calendar</v-icon>HAFTA İÇİ: 08:00-24:00
       </v-chip>
-      <v-chip small outlined class="overline">
+      <v-chip small outlined class="overline" style="font-size:10px!important;">
         <v-icon left x-small>mdi-calendar</v-icon>HAFTA SONU:
         10:00-24:00
       </v-chip>
-      <v-chip small outlined class="overline">
+      <v-chip small outlined class="overline" style="font-size:10px!important;">
         <v-icon left x-small>mdi-calendar</v-icon>RESMİ TATİL: KAPALI
       </v-chip>
     </v-col>
+
+    <!--ARAMA VE SIKÇA SORULAN SORULAR -->
     <v-row>
-      <v-col cols="12" sm="6" md="7" class="pt-0 order-last order-sm-first">
-        <v-row>
-          <v-col v-for="(item, index) in databases" :key="index" cols="12" sm="12" md="6">
-            <info-card :info-card="item"></info-card>
-          </v-col>
-        </v-row>
+      <!-- SEARCH -->
+      <v-col cols="12" md="8">
+        <search-component></search-component>
       </v-col>
-      <v-col cols="12" sm="6" md="5" class="pt-0 order-first order-sm-last">
+      <!--SIKCA SORULAN SORULAR -->
+      <v-col cols="12" md="4" class="py-0">
         <v-row>
-          <v-col>
-            <notify-card :notify-card="notification"></notify-card>
+          <v-col cols="12" sm="6">
+            <v-card
+              to="/sıkca-sorulan-sorular"
+              ripple
+              hover
+              outlined
+              style="display:grid"
+              height="206"
+              class="px-3 py-6 justify-content-center align-items-center text-center"
+            >
+              <v-icon
+                size="70"
+                :color="$vuetify.theme.dark ? '' : 'base'"
+              >mdi-frequently-asked-questions</v-icon>
+
+              <v-card-subtitle class="pa-0 font-weight-bold">SIKÇA SORULAN SORULAR</v-card-subtitle>
+            </v-card>
+          </v-col>
+          <v-col cols="12" sm="6">
+            <v-card
+              ripple
+              hover
+              outlined
+              style="display:grid"
+              height="206"
+              class="px-6 py-6 justify-content-center align-items-center text-center"
+            >
+              <v-icon size="70" :color="$vuetify.theme.dark ? '' : 'base'">mdi-help-circle</v-icon>
+
+              <v-card-subtitle class="pa-0 font-weight-bold">KÜTÜPHANECİYE SOR</v-card-subtitle>
+            </v-card>
           </v-col>
         </v-row>
       </v-col>
     </v-row>
 
-    <!-- <v-card> -->
+    <!--DUYURU VE ETKİNLİK -->
+    <v-row>
+      <v-col cols="12" md="6">
+        <notify-card :notify-card="notification"></notify-card>
+      </v-col>
+      <v-col cols="12" md="6">
+        <event-card :event-card="eventList"></event-card>
+      </v-col>
+    </v-row>
+
+    <!-- IMAGE SLIDER 
+    <carousel></carousel>-->
+
+    <!-- AYIN SEÇKİLERİ -->
+    <v-row>
+      <v-col>
+        <special-choose :monthly-award="monthly_award"></special-choose>
+      </v-col>
+    </v-row>
+
+    <!-- YENİ EKLENEN VERİ TABANLARI  order-last order-sm-first -->
+    <v-row>
+      <v-col>
+        <trial-database :trial-database="trial_databases"></trial-database>
+      </v-col>
+    </v-row>
+
+    <!-- FİRMALAR LOGO -->
     <v-row id="compLogo" class="py-5">
       <v-col cols="6" sm="3" class="d-flex justify-content-center align-items-center">
         <img class="imgchangeColor" :src="'images/logo/ankos.png'" alt height="50" width="auto" />
@@ -51,6 +108,9 @@
         <img :src="'images/logo/apple-store.png'" alt height="55" width="auto" />
       </v-col>
     </v-row>
+
+    <!-- NOTİCE -->
+    <notice></notice>
   </div>
 </template>
 
@@ -61,40 +121,8 @@ export default {
   },
   data: () => ({
     clientWidth: null,
-    databases: [
-      {
-        icon: "mdi-database",
-        category: "Veritabanı",
-        date: "20.04.2020",
-        title: "İdealonline",
-        content:
-          "Değerli öğretim kullanıcılarımız, 30 Nisan 2020 tarihine kadar deneme erişimine açılan İdealOnline veri tabanı hakkında bilgi vermek isteriz. 'İdealonline' , Popüler ve Akademik Yayınları bir platform altında toplayan, kapsamlı bilgiye Türkçe kaynaklarda da ulaşılmasını sağlayan ve bunları okuyucuların hizmetine sunan veri tabanıdır. İdealonline içerisinde Türk Dünyasının önde gelen dergileri de yer almaktadır. Azerbaycan, Kırgızistan, Kazakistan, Başkortsan, Kırım, Karaçay-Malkar gibi Türki Cumhuriyetler tarafından yayınlanan bu dergiler, ilk kez “İdealonline Süreli Yayın Veri Tabanı” aracılığı ile Türkiye’deki Üniversite kütüphanelerinin erişimine açılmıştır.Üniversite kütüphaneleri tarafından aktif olarak kullanılan İdealonline, yayınların  ulaşması için etkili bir veritabanıdır. İçerisindeki gelişmiş arama motorları ile ilgili alana direk erişim sağlayan  EDS  ve Summon gibi uluslararası arama motorlarında da taranmaktadır. Sistem içerisindeki “Kütüphanem”, “Duyuru Kaydı” ve Bildirim Al” özellikleri ile yayın takibini en kolay hâle getirmekle birlikte, geniş filtreleme özelliğiyle de ilgili alana erişimi hızlandırmaktadır."
-      },
-      {
-        icon: "mdi-database",
-        category: "Veritabanı",
-        date: "31.03.2020",
-        title: "World eBook Library",
-        content:
-          "World eBook Library akademik araştırmalara yardımcı elektronik kitap ve elektronik belgelerin sunulduğu dünyanın en büyük elektronik kütüphanelerinden biridir. 4,000.000’den fazla akademik belgeye tam metin erişim sağlar. PDF formatında sınırsız kullanım ve indirme imkanı Her dilde ve her konu başlığında binlerce kitap Eşsiz bir birincil kaynak ve nadir eser koleksiyonu Dünyanın en büyük elektronik kütüphanesi İçerik (4.000.000 ‘den fazla doküman!) 1000 yılı kapsayan bir koleksiyon 200+ dilde kitap ve doküman içerir 16 milyon Ansiklopedi makalesi 4,186,162 başlık 3.000.000+ ekitap (pdf) 510.252 çeşitli dokümanlar (pdf) 145.503 dergi (pdf) 11.158 gazete (pdf) 5791 sesli kitap (mp4) 5318 eğitim videosu 15,126 ciltlenmemiş"
-      },
-      {
-        icon: "mdi-database",
-        category: "Veritabanı",
-        date: "20.04.2020",
-        title: "İdealonline",
-        content:
-          "Değerli öğretim kullanıcılarımız, 30 Nisan 2020 tarihine kadar deneme erişimine açılan İdealOnline veri tabanı hakkında bilgi vermek isteriz. 'İdealonline' , Popüler ve Akademik Yayınları bir platform altında toplayan, kapsamlı bilgiye Türkçe kaynaklarda da ulaşılmasını sağlayan ve bunları okuyucuların hizmetine sunan veri tabanıdır. İdealonline içerisinde Türk Dünyasının önde gelen dergileri de yer almaktadır. Azerbaycan, Kırgızistan, Kazakistan, Başkortsan, Kırım, Karaçay-Malkar gibi Türki Cumhuriyetler tarafından yayınlanan bu dergiler, ilk kez “İdealonline Süreli Yayın Veri Tabanı” aracılığı ile Türkiye’deki Üniversite kütüphanelerinin erişimine açılmıştır.Üniversite kütüphaneleri tarafından aktif olarak kullanılan İdealonline, yayınların  ulaşması için etkili bir veritabanıdır. İçerisindeki gelişmiş arama motorları ile ilgili alana direk erişim sağlayan  EDS  ve Summon gibi uluslararası arama motorlarında da taranmaktadır. Sistem içerisindeki “Kütüphanem”, “Duyuru Kaydı” ve Bildirim Al” özellikleri ile yayın takibini en kolay hâle getirmekle birlikte, geniş filtreleme özelliğiyle de ilgili alana erişimi hızlandırmaktadır."
-      },
-      {
-        icon: "mdi-database",
-        category: "Veritabanı",
-        date: "31.03.2020",
-        title: "World eBook Library",
-        content:
-          "World eBook Library akademik araştırmalara yardımcı elektronik kitap ve elektronik belgelerin sunulduğu dünyanın en büyük elektronik kütüphanelerinden biridir. 4,000.000’den fazla akademik belgeye tam metin erişim sağlar. PDF formatında sınırsız kullanım ve indirme imkanı Her dilde ve her konu başlığında binlerce kitap Eşsiz bir birincil kaynak ve nadir eser koleksiyonu Dünyanın en büyük elektronik kütüphanesi İçerik (4.000.000 ‘den fazla doküman!) 1000 yılı kapsayan bir koleksiyon 200+ dilde kitap ve doküman içerir 16 milyon Ansiklopedi makalesi 4,186,162 başlık 3.000.000+ ekitap (pdf) 510.252 çeşitli dokümanlar (pdf) 145.503 dergi (pdf) 11.158 gazete (pdf) 5791 sesli kitap (mp4) 5318 eğitim videosu 15,126 ciltlenmemiş"
-      }
-    ],
+    trial_databases: [],
+    monthly_award: [],
     notification: [
       {
         date: "26.03.2020",
@@ -119,25 +147,122 @@ export default {
       },
       {
         date: "26.03.2020",
-        title: "İdealonline Deneme Erişimi"
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
       },
       {
         date: "25.03.2020",
-        title: "Webinar Etkinlik Takvimi"
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
       },
       {
         date: "25.03.2020",
-        title: "Koronavirüs ( COVID-19 ): Koronavirüs Hakkında Bilgi Kaynakları"
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
       },
       {
         date: "21.02.2020",
-        title: "İSTE Merkez Kütüphanesi Elektronik Kaynak ve Araçları"
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
+      }
+    ],
+    eventList: [
+      {
+        date: "25.03.2020",
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
+      },
+      {
+        date: "25.03.2020",
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
+      },
+      {
+        date: "25.03.2020",
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
+      },
+      {
+        date: "25.03.2020",
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
+      },
+      {
+        date: "25.03.2020",
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
+      },
+      {
+        date: "25.03.2020",
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
+      },
+      {
+        date: "25.03.2020",
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
+      },
+      {
+        date: "25.03.2020",
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
+      },
+      {
+        date: "25.03.2020",
+        title:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, labore!"
       }
     ]
   }),
   methods: {
     getWindowWidth() {
       this.clientWidth = window.innerWidth;
+    },
+    getMontlyAwardDate() {
+      let date = new Date()
+        .toLocaleString("tr")
+        .split(" ")[0]
+        .split(".");
+      date[0] = "01";
+
+      let ldate = date;
+      date = date.reverse().join("-");
+
+      if (parseInt(ldate[1]) < 12) {
+        if (parseInt(ldate[1]) < 9) {
+          ldate[1] = "0" + (parseInt(ldate[1]) + 1).toString();
+        } else {
+          ldate[1] = (parseInt(ldate[1]) + 1).toString();
+        }
+      } else {
+        ldate[1] = "01";
+        ldate[0] = (parseInt(ldate[0]) + 1).toString();
+      }
+      ldate = ldate.join("-");
+    },
+    getTrialDatabase() {
+      axios
+        .get("ajaxfile.php", {
+          params: {
+            choose: "trial_database"
+          }
+        })
+        .then(response => {
+          this.trial_databases = response.data;
+        });
+    },
+    getMontlyAward() {
+      axios
+        .get("ajaxfile.php", {
+          params: {
+            choose: "monthly_award",
+            param: date,
+            param2: ldate
+          }
+        })
+        .then(response => {
+          this.monthly_award = response.data;
+        });
     }
   },
   mounted() {
@@ -151,6 +276,9 @@ export default {
   created() {
     window.addEventListener("resize", this.getWindowWidth);
     this.clientWidth = window.innerWidth;
+    getMontlyAwardDate();
+    getTrialDatabase();
+    getMontlyAward();
   }
 };
 </script>
