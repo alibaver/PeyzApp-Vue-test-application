@@ -4,10 +4,10 @@
 // $pass = "";
 // $dbname = "iste_library";
 
-$host = "kf3k4aywsrp0d2is.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$user = "axgpobkipsdb9d8f";
-$pass = "skdh5e9tmw5i5tq6";
-$dbname = "kgy3usjhd28sm4gh";
+$host = "us-cdbr-east-02.cleardb.com";
+$user = "b8bf893063c886";
+$pass = "6a99d6b0";
+$dbname = "heroku_6983fb8671c8295";
 
 $con = mysqli_connect($host, $user, $pass, $dbname);
 
