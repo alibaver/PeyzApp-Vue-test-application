@@ -11,4 +11,7 @@ $dbname = "heroku_6983fb8671c8295";
 
 $con = mysqli_connect($host, $user, $pass, $dbname);
 
-!$con ? die("Connection failed: " . mysqli_connect_error()) : "";
+if (!$con)
+    die("Connection failed: " . mysqli_connect_error());
+else
+    echo mysqli_info($con);
