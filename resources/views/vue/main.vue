@@ -206,6 +206,8 @@ export default {
         source: Array
     },
     data: () => ({
+        date: null,
+        lastDate: null,
         clientWidth: null,
         trial_databases: [],
         monthly_award: [],
@@ -306,24 +308,27 @@ export default {
             this.clientWidth = window.innerWidth;
         },
         getMontlyAwardDate() {
-            let date = new Date()
+            this.date = new Date()
                 .toLocaleString("tr")
                 .split(" ")[0]
                 .split(".");
-            date[0] = "01";
-            let ldate = date;
-            date = date.reverse().join("-");
-            if (parseInt(ldate[1]) < 12) {
-                if (parseInt(ldate[1]) < 9) {
-                    ldate[1] = "0" + (parseInt(ldate[1]) + 1).toString();
+            this.date[0] = "01";
+            this.lastDate = this.date;
+            this.date = this.date.reverse().join("-");
+            if (parseInt(this.lastDate[1]) < 12) {
+                if (parseInt(this.lastDate[1]) < 9) {
+                    this.lastDate[1] =
+                        "0" + (parseInt(this.lastDate[1]) + 1).toString();
                 } else {
-                    ldate[1] = (parseInt(ldate[1]) + 1).toString();
+                    this.lastDate[1] = (
+                        parseInt(this.lastDate[1]) + 1
+                    ).toString();
                 }
             } else {
-                ldate[1] = "01";
-                ldate[0] = (parseInt(ldate[0]) + 1).toString();
+                this.lastDate[1] = "01";
+                this.lastDate[0] = (parseInt(this.lastDate[0]) + 1).toString();
             }
-            ldate = ldate.join("-");
+            this.lastDate = this.lastDate.join("-");
         },
         getTrialDatabase() {
             axios
@@ -341,8 +346,8 @@ export default {
                 .get("ajaxfile.php", {
                     params: {
                         choose: "monthly_award",
-                        param: date,
-                        param2: ldate
+                        param: this.date,
+                        param2: this.lastDate
                     }
                 })
                 .then(response => {
@@ -361,9 +366,9 @@ export default {
     created() {
         window.addEventListener("resize", this.getWindowWidth);
         this.clientWidth = window.innerWidth;
-        getMontlyAwardDate();
-        getTrialDatabase();
-        getMontlyAward();
+        this.getMontlyAwardDate();
+        this.getTrialDatabase();
+        this.getMontlyAward();
     }
 };
 </script>
