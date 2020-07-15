@@ -7,7 +7,7 @@
 $host = "us-cdbr-east-02.cleardb.com";
 $user = "bfa4921c800495";
 $pass = "49ed7390";
-$dbname = "heroku_6983fb8671c8295";
+$dbname = "heroku_6983fb8671c8294";
 
 $con = mysqli_connect($host, $user, $pass, $dbname);
 
