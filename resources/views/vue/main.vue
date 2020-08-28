@@ -1,22 +1,5 @@
 <template>
   <div>
-    <!--CHİPS -->
-    <v-col v-if="clientWidth > 699" class="py-0">
-      <v-chip small outlined class="overline" style="font-size:10px!important;" color="error">
-        <v-icon left x-small>mdi-circle</v-icon>KAPALI
-      </v-chip>
-      <v-chip small outlined class="overline" style="font-size:10px!important;">
-        <v-icon left x-small>mdi-calendar</v-icon>HAFTA İÇİ: 08:00-24:00
-      </v-chip>
-      <v-chip small outlined class="overline" style="font-size:10px!important;">
-        <v-icon left x-small>mdi-calendar</v-icon>HAFTA SONU:
-        10:00-24:00
-      </v-chip>
-      <v-chip small outlined class="overline" style="font-size:10px!important;">
-        <v-icon left x-small>mdi-calendar</v-icon>RESMİ TATİL: KAPALI
-      </v-chip>
-    </v-col>
-
     <!--ARAMA VE SIKÇA SORULAN SORULAR -->
     <v-row>
       <!-- SEARCH -->
@@ -26,7 +9,7 @@
       <!--SIKCA SORULAN SORULAR -->
       <v-col cols="12" md="4" class="py-0">
         <v-row>
-          <v-col cols="12" sm="6">
+          <!--<v-col cols="12" sm="6">
             <v-card
               to="/sıkca-sorulan-sorular"
               ripple
@@ -57,9 +40,45 @@
 
               <v-card-subtitle class="pa-0 font-weight-bold">KÜTÜPHANECİYE SOR</v-card-subtitle>
             </v-card>
+          </v-col>-->
+
+          <v-col cols="12">
+            <v-card
+              to="/sıkca-sorulan-sorular"
+              ripple
+              hover
+              outlined
+              style="display:grid"
+              height="206"
+              class="px-3 py-6 justify-content-center align-items-center text-center"
+            >
+              <v-icon
+                size="70"
+                :color="$vuetify.theme.dark ? '' : 'base'"
+              >mdi-frequently-asked-questions</v-icon>
+
+              <v-card-subtitle class="pa-0 font-weight-bold">SIKÇA SORULAN SORULAR</v-card-subtitle>
+            </v-card>
           </v-col>
         </v-row>
       </v-col>
+
+      <!--CHİPS -->
+      <!-- <v-col v-if="clientWidth > 699" class="py-0">
+        <v-chip small outlined class="overline" style="font-size:10px!important;" color="error">
+          <v-icon left x-small>mdi-circle</v-icon>KAPALI
+        </v-chip>
+        <v-chip small outlined class="overline" style="font-size:10px!important;">
+          <v-icon left x-small>mdi-calendar</v-icon>HAFTA İÇİ: 08:00-24:00
+        </v-chip>
+        <v-chip small outlined class="overline" style="font-size:10px!important;">
+          <v-icon left x-small>mdi-calendar</v-icon>HAFTA SONU:
+          10:00-24:00
+        </v-chip>
+        <v-chip small outlined class="overline" style="font-size:10px!important;">
+          <v-icon left x-small>mdi-calendar</v-icon>RESMİ TATİL: KAPALI
+        </v-chip>
+      </v-col>-->
     </v-row>
 
     <!--DUYURU VE ETKİNLİK -->

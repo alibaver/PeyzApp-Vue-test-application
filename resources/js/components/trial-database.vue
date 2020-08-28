@@ -13,7 +13,7 @@
       <v-slide-item
         v-for="(item, index) in trialDatabase"
         :key="index"
-        v-slot:default="{ active, toggle }"
+        v-slot:default="{toggle}"
       >
         <v-card width="285" height="330" class="ma-4 removeShadow" @click="toggle" :ripple="false">
           <v-card-text>
