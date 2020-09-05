@@ -15,11 +15,9 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-import galeri from "../views/vue/galeri";
-import ssSorular from "../views/vue/sıkca-sorulan-sorular";
-import cep from "../views/vue/cep-kutuphanem";
-import databases from "../views/vue/databases";
 import main from "../views/vue/main";
+import takvim from "../views/vue/takvim";
+import giderler from "../views/vue/giderler";
 
 /**
  * The following block of code may be used to automatically register your
@@ -30,11 +28,15 @@ import main from "../views/vue/main";
  */
 
 const files = require.context("./", true, /\.vue$/i);
-files
-    .keys()
-    .map((key) =>
-        Vue.component(key.split("/").pop().split(".")[0], files(key).default)
-    );
+files.keys().map(key =>
+    Vue.component(
+        key
+            .split("/")
+            .pop()
+            .split(".")[0],
+        files(key).default
+    )
+);
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
@@ -49,33 +51,23 @@ const router = new VueRouter({
         {
             path: "/",
             name: "main",
-            component: main,
+            component: main
         },
         {
-            path: "/databases",
-            name: "databases",
-            component: databases,
+            path: "/takvim",
+            name: "takvim",
+            component: takvim
         },
         {
-            path: "/cep-kutuphanem",
-            name: "cep-kutuphanem",
-            component: cep,
-        },
-        {
-            path: "/sıkca-sorulan-sorular",
-            name: "sıkça-sorulan-sorular",
-            component: ssSorular,
-        },
-        {
-            path: "/galeri",
-            name: "galeri",
-            component: galeri,
-        },
-    ],
+            path: "/giderler",
+            name: "giderler",
+            component: giderler
+        }
+    ]
 });
 
 const app = new Vue({
     vuetify: Vuetify,
     el: "#app",
-    router,
+    router
 });

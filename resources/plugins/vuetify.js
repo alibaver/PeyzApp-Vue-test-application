@@ -12,19 +12,14 @@ const opts = {
     theme: {
         themes: {
             light: {
-                primary: colors.red.darken1, // #E53935
+                primary: colors.purple, // #E53935
                 secondary: colors.red.lighten4, // #FFCDD2
-                accent: colors.indigo.base, // #3F51B5
-                base: "#cd2147",
-                footerLight: "#3c484f",
-                footerDark: "#383838",
-                bgColor: "#fafafa"
+                accent: colors.indigo.base // #3F51B5
             },
             dark: {
                 primary: colors.red.darken1, // #E53935
                 secondary: colors.red.lighten4, // #FFCDD2
-                accent: colors.indigo.base, // #3F51B5
-                base: "#cd2147"
+                accent: colors.indigo.base // #3F51B5
             }
         }
     }
