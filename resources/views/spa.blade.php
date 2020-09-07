@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title></title>
-    <link rel="icon" href="{{ asset('images/logo/iste_ico.png') }}">
+    
 
     <!-- Fonts
     <link rel="dns-prefetch" href="//fonts.gstatic.com"> -->
