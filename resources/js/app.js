@@ -52,32 +52,32 @@ const router = new VueRouter({
     routes: [
         {
             path: "/",
-            name: "home",
+            name: "Anasayfa",
             component: main
         },
         {
             path: "/takvim",
-            name: "takvim",
+            name: "Takvim",
             component: takvim
         },
         {
             path: "/giderler",
-            name: "giderler",
+            name: "Giderler",
             component: giderler
         },
         {
             path: "/ekip-olustur",
-            name: "ekip-olustur",
+            name: "Ekip Oluştur",
             component: ekipOlustur
         },
         {
             path: "/kesilen-agac",
-            name: "kesilen-agac",
+            name: "Kesilen Agaç",
             component: kesilenAgac
         },
         {
             path: "/ekip-detay",
-            name: "ekip-detay",
+            name: "Ekip Detay",
             component: ekipDetay
         }
     ]

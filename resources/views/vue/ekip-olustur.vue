@@ -1,7 +1,12 @@
 <template>
   <div>
+    <v-breadcrumbs :items="pagePath" class="pa-0 pl-3 mb-3 secondary--text">
+      <template v-slot:divider>
+        <v-icon>mdi-chevron-right</v-icon>
+      </template>
+    </v-breadcrumbs>
     <center>
-      <v-chip color="primary" label small dark class="body-2 mb-1">
+      <v-chip color="primary" label small dark class="body-2 mb-2">
         <v-icon dark small left>mdi-account-hard-hat</v-icon>
         {{ tName ? tName : "Ekip Adı" }}
       </v-chip>
@@ -82,6 +87,7 @@ export default {
     tName: "",
     team: { name: "", _id: null, wCount: 0, tYevmiye: 0, agacSayi: 0 },
     workers: [],
+    pagePath: [{ text: "Anasayfa", disabled: false, href: "/" }],
     rules: [(value) => !!value || "Gerekli."],
   }),
   methods: {
@@ -189,7 +195,16 @@ export default {
       this.team._id = this.uniq;
     },
   },
-  created() {},
+  created() {
+    let pname = this.$route.name;
+    let ppath = this.$route.fullPath;
+    this.pagePath.push({
+      text: pname,
+      disabled: true,
+      href: ppath,
+    });
+    console.log(this.pagePath);
+  },
 };
 </script>
 <style>
