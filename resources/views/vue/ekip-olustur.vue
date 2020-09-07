@@ -152,6 +152,7 @@ export default {
         this.alert.message = "Eksik veya hatalı bilgi girişi.";
         this.alert.style = "error";
       }
+      //console.log(this.team);
     },
     postTeamDetail() {
       return axios

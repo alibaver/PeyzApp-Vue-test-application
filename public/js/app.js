@@ -2394,7 +2394,8 @@ __webpack_require__.r(__webpack_exports__);
         this.alert.isOpen = true;
         this.alert.message = "Eksik veya hatalı bilgi girişi.";
         this.alert.style = "error";
-      }
+      } //console.log(this.team);
+
     },
     postTeamDetail: function postTeamDetail() {
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("postdata.php", JSON.stringify(this.team), {
@@ -16562,7 +16563,6 @@ var render = function() {
             id: "appBar",
             app: "",
             dense: "",
-            "clipped-left": "",
             color: "white",
             "elevate-on-scroll": ""
           }

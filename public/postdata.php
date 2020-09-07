@@ -21,7 +21,7 @@ if($param == "saveTeam"){
     $sayi = $post["wCount"];
     $yevmiye = $post["tYevmiye"];
     $agac = $post["agacSayi"];
-    $q = "INSERT INTO `ekipler`(`ekip_ID`, `ekip`, `calisan_sayisi, `toplam_yevmiye`, `toplam_agac_sayisi`) VALUES ('$teamID','$teamName','$sayi','$yevmiye','$agac')";
+    $q = "INSERT INTO `ekipler`(`ekip_ID`, `ekip`, `calisan_sayisi`, `toplam_yevmiye`, `toplam_kesilen_agac`) VALUES ('$teamID','$teamName','$sayi','$yevmiye','$agac')";
     $res = mysqli_query($con, $q);
 }
 if($param == "saveWorker"){

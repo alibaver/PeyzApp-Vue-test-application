@@ -28,7 +28,7 @@
     <script src="{{ mix('js/app.js') }}" defer></script>
 
     <script>
-        var darkMode = JSON.parse(localStorage.getItem("darkMode"));
+        //var darkMode = JSON.parse(localStorage.getItem("darkMode"));
     </script>
 </body>
 

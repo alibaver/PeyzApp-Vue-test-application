@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar id="appBar" app dense clipped-left color="white" elevate-on-scroll>
+    <v-app-bar id="appBar" app dense color="white" elevate-on-scroll>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" color="primary" />
       <span class="subtitle-1 primary--text">peyz</span>
       <span class="font-weight-bold primary--text">APP</span>
