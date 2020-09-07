@@ -2332,7 +2332,9 @@ __webpack_require__.r(__webpack_exports__);
       team: {
         name: "",
         _id: null,
-        wCount: 0
+        wCount: 0,
+        tYevmiye: 0,
+        agacSayi: 0
       },
       workers: [],
       rules: [function (value) {

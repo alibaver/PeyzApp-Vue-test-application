@@ -80,7 +80,7 @@ export default {
       style: "",
     },
     tName: "",
-    team: { name: "", _id: null, wCount: 0 },
+    team: { name: "", _id: null, wCount: 0, tYevmiye: 0, agacSayi: 0 },
     workers: [],
     rules: [(value) => !!value || "Gerekli."],
   }),
