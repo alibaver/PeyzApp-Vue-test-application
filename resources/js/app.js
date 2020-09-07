@@ -4,7 +4,6 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require("./bootstrap");
 window.$ = require("jquery");
 window.JQuery = require("jquery");
 
@@ -18,6 +17,9 @@ Vue.use(VueRouter);
 import main from "../views/vue/main";
 import takvim from "../views/vue/takvim";
 import giderler from "../views/vue/giderler";
+import ekipOlustur from "../views/vue/ekip-olustur";
+import kesilenAgac from "../views/vue/kesilen-agac";
+import ekipDetay from "../views/vue/ekip-detay";
 
 /**
  * The following block of code may be used to automatically register your
@@ -50,7 +52,7 @@ const router = new VueRouter({
     routes: [
         {
             path: "/",
-            name: "main",
+            name: "home",
             component: main
         },
         {
@@ -62,6 +64,21 @@ const router = new VueRouter({
             path: "/giderler",
             name: "giderler",
             component: giderler
+        },
+        {
+            path: "/ekip-olustur",
+            name: "ekip-olustur",
+            component: ekipOlustur
+        },
+        {
+            path: "/kesilen-agac",
+            name: "kesilen-agac",
+            component: kesilenAgac
+        },
+        {
+            path: "/ekip-detay",
+            name: "ekip-detay",
+            component: ekipDetay
         }
     ]
 });

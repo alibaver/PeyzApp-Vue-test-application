@@ -2,7 +2,7 @@
 $host = "127.0.0.1";
 $user = "root";
 $pass = "";
-$dbname = "";
+$dbname = "peyzApp";
 
 $con = mysqli_connect($host, $user, $pass, $dbname, 3306);
 

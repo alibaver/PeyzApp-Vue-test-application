@@ -1,2 +1,11 @@
+.gradientCard {
+    background: rgb(162, 24, 123);
+    background: linear-gradient(90deg, #9d50bb 0%, #6e48aa 100%);
+}
+.teamCost {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
 
 

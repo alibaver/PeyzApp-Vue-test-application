@@ -1,11 +1,11 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar id="appBar" app color="primary" dense clipped-left flat dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <span class="subtitle-1">peyz</span>
-      <span class="font-weight-bold">APP</span>
+    <v-app-bar id="appBar" app dense clipped-left color="white" elevate-on-scroll>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" color="primary" />
+      <span class="subtitle-1 primary--text">peyz</span>
+      <span class="font-weight-bold primary--text">APP</span>
       <v-spacer></v-spacer>
-      <span class="caption">v1.0.0</span>
+      <span class="caption primary--text">v1.0.0</span>
     </v-app-bar>
     <!-- navigation -->
     <v-navigation-drawer app v-model="drawer" clipped></v-navigation-drawer>
@@ -32,7 +32,22 @@ export default {
   methods: {},
   mounted() {},
   watch: {},
-  created() {},
+  created() {
+    // , {
+    //     params: {
+    //       choose: "menu",
+    //       param: "appBarMenus"
+    //     }
+    //   }
+    // axios
+    //   .get("ajaxfile.php")
+    //   .then((response) => {
+    //     console.log(response.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  },
 };
 </script>
 <style scope>
