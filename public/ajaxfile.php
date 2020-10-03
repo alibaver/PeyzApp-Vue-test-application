@@ -62,11 +62,11 @@ if ($choose == "getExpense") {
     $userData = mysqli_query($con, $query);
 }
 if ($choose == "getAllExpense") {
-    $query = "SELECT * FROM `tb_gider` WHERE `calculated` = '0' AND `calculated` = '0' ORDER BY `tarih` DESC";
+    $query = "SELECT * FROM `tb_gider` WHERE `calculated` = '0' ORDER BY `tarih` DESC";
     $userData = mysqli_query($con, $query);
 }
 if ($choose == "getFilteredExpense") {
-    $query = "SELECT * FROM `tb_gider` WHERE `tarih` >= '$param' and `tarih` <= '$param2' AND `calculated` = '0' ORDER BY `tarih` DESC";
+    $query = "SELECT * FROM `tb_gider` WHERE `tarih` >= '$param' AND `tarih` <= '$param2' AND `calculated` = '0' ORDER BY `tarih` DESC";
     $userData = mysqli_query($con, $query);
 }
 if ($choose == "getPruning") {

@@ -225,13 +225,13 @@ export default {
         })
         .then((response) => {
           this.teams = response.data;
+          this.pageLoading = false;
           this.teams.forEach((item) => {
             this.items.push({
               text: item.ekip,
               value: item.ekip_ID,
             });
           });
-          this.pageLoading = false;
         })
         .catch((err) => {
           console.log(err);
@@ -239,7 +239,9 @@ export default {
     },
   },
   watch: {},
-  mounted() {},
+  mounted() {
+    this.pageLoading = false;
+  },
   created() {
     this.teamID = this.$route.query.teamId;
     this.teamName = this.$route.query.teamName;
