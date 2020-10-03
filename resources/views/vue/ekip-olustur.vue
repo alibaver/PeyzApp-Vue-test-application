@@ -1,51 +1,88 @@
 <template>
   <div>
-    <v-breadcrumbs :items="pagePath" class="pa-0 pl-3 mb-3 secondary--text">
-      <template v-slot:divider>
-        <v-icon>mdi-chevron-right</v-icon>
-      </template>
-    </v-breadcrumbs>
+    <page-path></page-path>
     <center>
       <v-chip color="primary" label small dark class="body-2 mb-2">
         <v-icon dark small left>mdi-account-hard-hat</v-icon>
         {{ tName ? tName : "Ekip Adı" }}
       </v-chip>
     </center>
-    <v-chip color="primary" class="mr-1" x-small v-for="(person, index) in workers" :key="index">
+    <v-chip
+      color="primary"
+      class="mr-1"
+      x-small
+      v-for="(person, index) in workers"
+      :key="index"
+    >
       <v-icon dark x-small left>mdi-account-circle</v-icon>
       {{ person.ad }} {{ person.soyad }}
     </v-chip>
 
-    <v-card class="pa-4 pr-6 mb-4 mt-2 pb-12">
+    <v-card class="pa-4 mb-4 mt-2 pb-12">
+      <v-dialog
+        ref="dialog"
+        v-model="modal"
+        :return-value.sync="date"
+        persistent
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="date"
+            label="Tarih seçin"
+            prepend-inner-icon="mdi-calendar"
+            readonly
+            hide-details=""
+            outlined
+            v-bind="attrs"
+            v-on="on"
+            ref="tarih"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="date" scrollable locale="tr" width="auto">
+          <v-spacer></v-spacer>
+          <v-btn text color="primary" @click="modal = false">Kapat</v-btn>
+          <v-btn text color="primary" @click="$refs.dialog.save(date)"
+            >Tamam</v-btn
+          >
+        </v-date-picker>
+      </v-dialog>
       <v-text-field
         label="Ekip Adı"
-        prepend-icon="mdi-pencil"
+        prepend-inner-icon="mdi-pencil"
+        hide-details="auto"
         clearable
+        outlined
         v-model="tName"
         :rules="rules"
+        class="mt-3"
       ></v-text-field>
-
       <v-text-field
         ref="ad"
         label="Çalışan Adı"
-        prepend-icon="mdi-account"
+        prepend-inner-icon="mdi-account"
         clearable
+        outlined
         hide-details="auto"
+        class="mt-3"
       ></v-text-field>
       <v-text-field
         ref="soyad"
         label="Çalışan Soyadı"
-        prepend-icon="mdi-account"
+        prepend-inner-icon="mdi-account"
         clearable
+        outlined
         hide-details="auto"
+        class="mt-3"
       ></v-text-field>
       <v-text-field
         label="Yevmiye Miktarı"
-        prepend-icon="mdi-currency-try"
+        prepend-inner-icon="mdi-currency-try"
         clearable
+        outlined
         hide-details="auto"
         type="number"
         ref="yevmiye"
+        class="mt-3"
       ></v-text-field>
 
       <v-btn
@@ -55,12 +92,20 @@
         small
         fab
         @click="addPerson"
-        style="position: absolute; right: 0; transform:translate(-50%, 12px)"
+        style="position: absolute; right: 0; transform: translate(-50%, 12px)"
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-card>
-    <v-btn class="mt-10" color="primary" width="100%" depressed text large @click="save">
+    <v-btn
+      class="mt-10"
+      color="primary"
+      width="100%"
+      depressed
+      text
+      large
+      @click="save"
+    >
       EKİBİ KAYDET
       <v-icon small>mdi-check-all</v-icon>
     </v-btn>
@@ -74,20 +119,26 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 export default {
   data: () => ({
-    ID: undefined,
+    date: "",
+    modal: false,
     uniq: "",
     alert: {
       isOpen: false,
       message: "",
       style: "",
+      time: -1,
     },
     tName: "",
-    team: { name: "", _id: null, wCount: 0, tYevmiye: 0, agacSayi: 0 },
+    team: {
+      name: "",
+      _id: null,
+      wCount: 0,
+      tYevmiye: numeral(0).format("0,0.00"),
+      agacSayi: 0,
+    },
     workers: [],
-    pagePath: [{ text: "Anasayfa", disabled: false, href: "/" }],
     rules: [(value) => !!value || "Gerekli."],
   }),
   methods: {
@@ -118,10 +169,14 @@ export default {
       if (!this.isEmpty()) {
         this.workers.push({
           _teamID: this.uniq,
-          ad: this.$refs.ad.lazyValue,
-          soyad: this.$refs.soyad.lazyValue,
-          yevmiye: parseFloat(this.$refs.yevmiye.lazyValue),
-          gun: 0,
+          ad: this.$refs.ad.lazyValue.turkishToUpper(),
+          soyad: this.$refs.soyad.lazyValue.turkishToUpper(),
+          yevmiye: numeral(parseFloat(this.$refs.yevmiye.lazyValue)).format(
+            "0,0.00"
+          ),
+          tam_gun: 0,
+          yarim_gun: 0,
+          ktarihi: this.date,
         });
         this.$refs.ad.lazyValue = "";
         this.$refs.soyad.lazyValue = "";
@@ -140,6 +195,7 @@ export default {
         this.tName != undefined
       ) {
         this.team.wCount = this.workers.length;
+
         let promise = Promise.all([
           this.postTeamDetail(),
           this.postWorkerDetail(),
@@ -158,10 +214,9 @@ export default {
         this.alert.message = "Eksik veya hatalı bilgi girişi.";
         this.alert.style = "error";
       }
-      //console.log(this.team);
     },
     postTeamDetail() {
-      return axios
+      return this.$axios
         .post("postdata.php", JSON.stringify(this.team), {
           params: {
             param: "saveTeam",
@@ -172,7 +227,7 @@ export default {
         });
     },
     postWorkerDetail() {
-      return axios
+      return this.$axios
         .post("postdata.php", JSON.stringify(this.workers), {
           params: {
             param: "saveWorker",
@@ -183,32 +238,17 @@ export default {
         });
     },
   },
-  mounted() {
-    this.ID = function () {
-      return "_" + Math.random().toString(36).substr(2, 9);
-    };
-  },
+  mounted() {},
   watch: {
     tName() {
-      this.uniq = this.ID();
-      this.team.name = this.tName;
+      this.uniq = this.$createId("_");
+      this.team.name = this.tName.turkishToUpper();
       this.team._id = this.uniq;
     },
   },
   created() {
-    let pname = this.$route.name;
-    let ppath = this.$route.fullPath;
-    this.pagePath.push({
-      text: pname,
-      disabled: true,
-      href: ppath,
-    });
-    console.log(this.pagePath);
+    this.date = this.$getDate();
   },
 };
 </script>
-<style>
-.coloredOutline {
-  border: thin solid #7b1fa2 !important;
-}
-</style>
+<style></style>

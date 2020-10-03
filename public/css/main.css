@@ -1,9 +1,28 @@
+:root {
+    --primary: #7b1fa2;
+    --secondary: #4776e6;
+    --accent: #ff8008;
+}
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
 .gradientCard {
     background: rgb(162, 24, 123);
     background: linear-gradient(90deg, #9d50bb 0%, #6e48aa 100%);
 }
 .teamCost {
-    position: absolute;
+    position: absolute !important;
     right: 20px;
-    top: 20px;
+    top: 60px;
+}
+.colBorder {
+    border-left: solid 4px var(--primary) !important;
+}
+.w100 {
+    width: 100% !important;
+}
+a {
+    text-decoration: none;
 }

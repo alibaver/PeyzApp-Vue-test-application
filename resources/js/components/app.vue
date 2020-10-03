@@ -1,14 +1,42 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar id="appBar" app dense color="white" elevate-on-scroll>
+    <v-app-bar
+      id="appBar"
+      app
+      clipped-left
+      dense
+      color="white"
+      elevate-on-scroll
+    >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" color="primary" />
-      <span class="subtitle-1 primary--text">peyz</span>
-      <span class="font-weight-bold primary--text">APP</span>
+      <a href="/">
+        <span class="subtitle-1 primary--text"
+          >peyz<span class="font-weight-bold primary--text">APP</span>
+        </span>
+      </a>
       <v-spacer></v-spacer>
-      <span class="caption primary--text">v1.0.0</span>
+      <!-- <span class="caption primary--text">v1.0.0</span> -->
     </v-app-bar>
     <!-- navigation -->
-    <v-navigation-drawer app v-model="drawer" clipped></v-navigation-drawer>
+    <v-navigation-drawer app v-model="drawer" clipped>
+      <div class="d-flex justify-center align-center w100 pa-5 flex-column">
+        <v-avatar class="gradientCard" size="100">
+          <span class="white--text text-h4">DK</span>
+        </v-avatar>
+        <span class="mt-4">Delal Kahraman</span>
+      </div>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-item active-class="colBorder" :to="'/hakedis'">
+          <v-icon color="primary" small left>mdi-calculator</v-icon>
+          Hakediş Listesi
+        </v-list-item>
+        <v-list-item active-class="colBorder" :to="'/ayrilan-calisanlar'">
+          <v-icon color="primary" small left>mdi-account-cancel</v-icon>
+          Ayrılan Çalışan Listesi
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
     <!-- /navigation -->
 
     <v-main>
@@ -16,14 +44,11 @@
         <router-view></router-view>
       </v-container>
 
-      <bottom-nav style="position:fixed; bottom:0px"></bottom-nav>
+      <bottom-nav style="position: fixed; bottom: 0px; z-index: 2"></bottom-nav>
     </v-main>
   </v-app>
 </template>
 <script>
-import JQuery from "jquery";
-var $ = JQuery;
-
 export default {
   data: () => ({
     drawer: null,
@@ -32,23 +57,7 @@ export default {
   methods: {},
   mounted() {},
   watch: {},
-  created() {
-    // , {
-    //     params: {
-    //       choose: "menu",
-    //       param: "appBarMenus"
-    //     }
-    //   }
-    // axios
-    //   .get("ajaxfile.php")
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  },
+  created() {},
 };
 </script>
-<style scope>
-</style>
+<style scope></style>

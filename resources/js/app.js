@@ -4,22 +4,88 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-window.$ = require("jquery");
-window.JQuery = require("jquery");
+// window.$ = require("jquery");
+// window.JQuery = require("jquery");
 
 window.Vue = require("vue");
 
 import Vuetify from "../plugins/vuetify";
 import VueRouter from "vue-router";
+import axios from "axios";
+import _numeral from "numeral";
+import parseprice from "parse-price";
+
+window.numeral = require("numeral");
+window.parsePrice = require("parse-price");
+
+window.numeral.register("locale", "tr", {
+    delimiters: {
+        thousands: ".",
+        decimal: ","
+    },
+    abbreviations: {
+        thousand: "k",
+        million: "m",
+        billion: "b",
+        trillion: "t"
+    },
+    ordinal: function(number) {
+        return number === 1 ? "er" : "ème";
+    },
+    currency: {
+        symbol: "₺"
+    }
+});
+window.numeral.locale("tr");
 
 Vue.use(VueRouter);
+Vue.prototype.$axios = axios;
+
+Vue.prototype.$getDate = function() {
+    let date;
+    date = new Date()
+        .toLocaleString("tr")
+        .split(" ")[0]
+        .split(".");
+    date = date.reverse().join("-");
+    return date;
+};
+
+Vue.prototype.$createId = function(letter) {
+    return (
+        letter.toString() +
+        Math.random()
+            .toString(36)
+            .substr(2, 11)
+    );
+};
+String.prototype.turkishToLower = function() {
+    var string = this;
+    var letters = { İ: "i", I: "ı", Ş: "ş", Ğ: "ğ", Ü: "ü", Ö: "ö", Ç: "ç" };
+    string = string.replace(/(([İIŞĞÜÇÖ]))/g, function(letter) {
+        return letters[letter];
+    });
+    return string.toLowerCase();
+};
+String.prototype.turkishToUpper = function() {
+    var string = this;
+    var letters = { i: "İ", ş: "Ş", ğ: "Ğ", ü: "Ü", ö: "Ö", ç: "Ç", ı: "I" };
+    string = string.replace(/(([iışğüçö]))/g, function(letter) {
+        return letters[letter];
+    });
+    return string.toUpperCase();
+};
 
 import main from "../views/vue/main";
 import takvim from "../views/vue/takvim";
-import giderler from "../views/vue/giderler";
+import gider from "../views/vue/gider";
 import ekipOlustur from "../views/vue/ekip-olustur";
-import kesilenAgac from "../views/vue/kesilen-agac";
+import budananAgac from "../views/vue/budanan-agac";
 import ekipDetay from "../views/vue/ekip-detay";
+import calisanEkle from "../views/vue/calisan-ekle";
+
+import hakedis from "../views/vue/hakedis";
+import ayrilanCalisanlar from "../views/vue/ayrilan-calisanlar";
 
 /**
  * The following block of code may be used to automatically register your
@@ -61,9 +127,9 @@ const router = new VueRouter({
             component: takvim
         },
         {
-            path: "/giderler",
-            name: "Giderler",
-            component: giderler
+            path: "/gider",
+            name: "Gider",
+            component: gider
         },
         {
             path: "/ekip-olustur",
@@ -71,14 +137,29 @@ const router = new VueRouter({
             component: ekipOlustur
         },
         {
-            path: "/kesilen-agac",
-            name: "Kesilen Agaç",
-            component: kesilenAgac
+            path: "/budanan-agac",
+            name: "Budanan Ağaç",
+            component: budananAgac
         },
         {
             path: "/ekip-detay",
             name: "Ekip Detay",
             component: ekipDetay
+        },
+        {
+            path: "/calisan-ekle",
+            name: "Çalışan Ekle",
+            component: calisanEkle
+        },
+        {
+            path: "/hakedis",
+            name: "Hakediş",
+            component: hakedis
+        },
+        {
+            path: "/ayrilan-calisanlar",
+            name: "Ayrılan Çalışanlar",
+            component: ayrilanCalisanlar
         }
     ]
 });

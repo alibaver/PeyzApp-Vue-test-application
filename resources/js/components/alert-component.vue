@@ -1,16 +1,18 @@
 <template>
   <div>
-    <v-alert
-      class="alert-msg"
-      :value="alertOpen"
-      :type="alertStyle"
-      border="left"
-      colored-border
+    <v-snackbar
+      v-model="alertOpen"
+      multi-line
+      bottom
+      :color="alertStyle"
+      :timeout="alertTime"
       transition="scale-transition"
-      elevation="3"
-      dismissible
-      @input="cls"
-    >{{ alertMsg }}</v-alert>
+    >
+      {{ alertMsg }}
+      <template v-slot:action="{ attrs }" v-if="alertTime == -1">
+        <v-btn text v-bind="attrs" @click="cls"> kapat </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 <style scoped>
@@ -38,6 +40,10 @@ export default {
     alertOpen: {
       type: Boolean,
       required: true,
+    },
+    alertTime: {
+      type: Number,
+      required: false,
     },
   },
   data: () => ({}),
