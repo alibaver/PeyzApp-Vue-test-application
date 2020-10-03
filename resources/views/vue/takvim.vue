@@ -128,6 +128,7 @@
 <script>
 export default {
   data: () => ({
+    pageLoading: true,
     focus: "",
     weekdays: [1, 2, 3, 4, 5, 6, 0],
     type: "month",
@@ -360,6 +361,7 @@ export default {
               details: JSON.parse(person.workers),
             });
           });
+          this.pageLoading = false;
         })
         .catch((err) => {
           console.log(err);
