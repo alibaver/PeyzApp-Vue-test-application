@@ -1,209 +1,226 @@
 <template>
-  <div
-    id="ekipCon"
-    class="fill-height w100 d-flex justify-center align-end flex-column"
-  >
-    <!-- EKİP YOK -->
-    <div v-if="!teamData.length" class="fill-height">
-      <div
-        style="
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -100%);
-        "
-      >
-        <center>
-          <v-icon size="90" color="grey">mdi-alert</v-icon>
-        </center>
-        <span class="grey--text overline">EKİP BULUNAMADI</span>
-      </div>
-    </div>
-    <!-- EKİP BİLGİLER -->
-    <div v-else class="w100 mb-4 mx-auto">
-      <v-card
-        @click="
-          $router.push({
-            path: '/ekip-detay',
-            query: { teamId: team.ekip_ID },
-          })
-        "
-        class="mb-4 pa-1"
-        v-for="(team, index) in teamData"
-        :key="index"
-        :ripple="false"
-      >
-        <!-- ekip detay -->
-
-        <v-card-title class="subtitle-1"
-          >{{ team.ekip_adi }}
-          <v-spacer></v-spacer>
-          <!-- menu -->
-          <v-menu offset-y style="position: absolute; right: 0">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on">
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </template>
-            <v-list dense>
-              <v-list-item
-                ripple=""
-                class="caption"
-                @click="
-                  $router.push({
-                    path: '/calisan-ekle',
-                    query: {
-                      teamId: team.ekip_ID,
-                      teamName: team.ekip_adi,
-                    },
-                  })
-                "
-              >
-                <v-icon small left>mdi-account-plus</v-icon>
-                Çalışan Ekle
-              </v-list-item>
-              <v-list-item
-                ripple=""
-                class="caption"
-                @click="
-                  $router.push({
-                    path: '/budanan-agac',
-                    query: {
-                      teamId: team.ekip_ID,
-                      teamName: team.ekip_adi,
-                    },
-                  })
-                "
-              >
-                <v-icon small left>mdi-palm-tree</v-icon>
-                Budanan Ağaç </v-list-item
-              ><v-list-item
-                ripple=""
-                class="caption"
-                @click="
-                  $router.push({
-                    path: '/gider',
-                    query: {
-                      teamId: team.ekip_ID,
-                      teamName: team.ekip_adi,
-                    },
-                  })
-                "
-              >
-                <v-icon small left>mdi-currency-try</v-icon>
-                Giderler
-              </v-list-item>
-              <v-list-item
-                ripple=""
-                class="caption"
-                @click="calcHakedis(team.ekip_ID)"
-              >
-                <v-icon small left>mdi-calculator</v-icon>
-                Hakediş Hesapla
-              </v-list-item>
-              <v-list-item
-                ripple=""
-                class="caption"
-                @click="removeTeam(team.ekip_ID)"
-              >
-                <v-icon small left color="error">mdi-account-remove</v-icon>
-                <span class="error--text">Ekibi Sil</span>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-card-title>
-        <v-card-subtitle>{{ team.calisan_sayisi }} Çalışan</v-card-subtitle>
-        <v-card-title class="subtitle-1 pt-0">
-          HAKEDİŞ <span class="caption">&nbsp;(Toplam)</span></v-card-title
-        >
-        <v-card-subtitle class="font-weight-bold primary--text body-1">
-          ₺{{ team.toplam_yevmiye }}
-        </v-card-subtitle>
-        <v-card-text class="pa-2">
-          <v-chip outlined class="success--text mb-2 mr-1">
-            <v-icon small left color="success">mdi-arrow-up-bold</v-icon>
-            <span class="mr-2 caption">Gelir :</span>
-            ₺{{ calcPruning(team.ekip_ID) }}
-          </v-chip>
-          <v-chip outlined class="error--text mb-2 mr-1">
-            <v-icon small left color="error">mdi-arrow-down-bold</v-icon>
-            <span class="mr-2 caption">Gider :</span>
-            - ₺{{ calcExpense(team.ekip_ID) }}
-          </v-chip>
-        </v-card-text>
-
-        <v-divider></v-divider>
-        <!-- ağaç sayı -->
-        <v-card-text class="secondary--text text-overline d-block text-center"
-          >HAFTALIK AĞAÇ GRAFİĞİ</v-card-text
-        >
-        <v-sheet color="transparent" class="pa-2">
-          <v-sparkline
-            :key="String(days)"
-            :smooth="15"
-            :gradient="['#4776E6', '#8E54E9']"
-            :line-width="3"
-            :value="value"
-            :labels="days"
-            :padding="16"
-            color="secondary"
-            auto-draw
-            gradient-direction="left"
-            stroke-linecap="round"
-          ></v-sparkline>
-        </v-sheet>
-      </v-card>
-    </div>
-
-    <v-btn
-      text
-      :dark="!teamData.length ? true : false"
-      class="mb-4 mt-auto mx-auto overline"
-      :class="!teamData.length ? 'gradientCard' : ''"
-      :color="!teamData.length ? '' : 'primary'"
-      :to="'/ekip-olustur'"
-      :style="
-        !teamData.length
-          ? 'position: absolute;bottom: 50px;left: 50%;transform: translateX(-50%);'
-          : ''
-      "
+  <div>
+    <div
+      v-if="pageLoading"
+      class="d-flex justify-center align-center w100 flex-column"
+      style="height: calc(100vh - 130px)"
     >
-      EKİP OLUŞTUR
-      <v-icon right small>mdi-account-multiple-plus</v-icon>
-    </v-btn>
+      <v-progress-circular
+        :width="3"
+        :size="60"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+      <span class="mt-4 overline primary--text">LOADING..</span>
+    </div>
+    <div
+      v-else
+      id="ekipCon"
+      class="fill-height w100 d-flex justify-center align-end flex-column"
+    >
+      <!-- EKİP YOK -->
+      <div v-if="!teamData.length" class="fill-height">
+        <div
+          style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -100%);
+          "
+        >
+          <center>
+            <v-icon size="90" color="grey">mdi-alert</v-icon>
+          </center>
+          <span class="grey--text overline">EKİP BULUNAMADI</span>
+        </div>
+      </div>
+      <!-- EKİP BİLGİLER -->
+      <div v-else class="w100 mb-4 mx-auto">
+        <v-card
+          @click="
+            $router.push({
+              path: '/ekip-detay',
+              query: { teamId: team.ekip_ID },
+            })
+          "
+          class="mb-4 pa-1"
+          v-for="(team, index) in teamData"
+          :key="index"
+          :ripple="false"
+        >
+          <!-- ekip detay -->
 
-    <alert-component
-      @closeAlert="close($event)"
-      :alert-msg="alert.message"
-      :alert-style="alert.style"
-      :alert-open="alert.isOpen"
-      :alert-time="alert.time"
-    ></alert-component>
-    <!-- dialog -->
-    <v-row justify="center">
-      <v-dialog v-model="dialog" persistent max-width="290">
-        <v-card>
-          <v-card-title class="text-h6">Ekibi Sil?</v-card-title>
-          <v-card-text class="text-body-2">
-            Yaptığınız düzenlemeler kaydedilecek ve geri alınamayacaktır.
-            Onaylıyor musunuz?
-          </v-card-text>
-          <v-card-actions>
+          <v-card-title class="subtitle-1"
+            >{{ team.ekip_adi }}
             <v-spacer></v-spacer>
-            <v-btn color="grey darken-2" text @click="dialog = false"
-              >hayır</v-btn
-            >
-            <v-btn color="primary" depressed>evet</v-btn>
-          </v-card-actions>
+            <!-- menu -->
+            <v-menu offset-y style="position: absolute; right: 0">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+              <v-list dense>
+                <v-list-item
+                  ripple=""
+                  class="caption"
+                  @click="
+                    $router.push({
+                      path: '/calisan-ekle',
+                      query: {
+                        teamId: team.ekip_ID,
+                        teamName: team.ekip_adi,
+                      },
+                    })
+                  "
+                >
+                  <v-icon small left>mdi-account-plus</v-icon>
+                  Çalışan Ekle
+                </v-list-item>
+                <v-list-item
+                  ripple=""
+                  class="caption"
+                  @click="
+                    $router.push({
+                      path: '/budanan-agac',
+                      query: {
+                        teamId: team.ekip_ID,
+                        teamName: team.ekip_adi,
+                      },
+                    })
+                  "
+                >
+                  <v-icon small left>mdi-palm-tree</v-icon>
+                  Budanan Ağaç </v-list-item
+                ><v-list-item
+                  ripple=""
+                  class="caption"
+                  @click="
+                    $router.push({
+                      path: '/gider',
+                      query: {
+                        teamId: team.ekip_ID,
+                        teamName: team.ekip_adi,
+                      },
+                    })
+                  "
+                >
+                  <v-icon small left>mdi-currency-try</v-icon>
+                  Giderler
+                </v-list-item>
+                <v-list-item
+                  ripple=""
+                  class="caption"
+                  @click="calcHakedis(team.ekip_ID)"
+                >
+                  <v-icon small left>mdi-calculator</v-icon>
+                  Hakediş Hesapla
+                </v-list-item>
+                <v-list-item
+                  ripple=""
+                  class="caption"
+                  @click="removeTeam(team.ekip_ID)"
+                >
+                  <v-icon small left color="error">mdi-account-remove</v-icon>
+                  <span class="error--text">Ekibi Sil</span>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-card-title>
+          <v-card-subtitle>{{ team.calisan_sayisi }} Çalışan</v-card-subtitle>
+          <v-card-title class="subtitle-1 pt-0">
+            HAKEDİŞ <span class="caption">&nbsp;(Toplam)</span></v-card-title
+          >
+          <v-card-subtitle class="font-weight-bold primary--text body-1">
+            ₺{{ team.toplam_yevmiye }}
+          </v-card-subtitle>
+          <v-card-text class="pa-2">
+            <v-chip outlined class="success--text mb-2 mr-1">
+              <v-icon small left color="success">mdi-arrow-up-bold</v-icon>
+              <span class="mr-2 caption">Gelir :</span>
+              ₺{{ calcPruning(team.ekip_ID) }}
+            </v-chip>
+            <v-chip outlined class="error--text mb-2 mr-1">
+              <v-icon small left color="error">mdi-arrow-down-bold</v-icon>
+              <span class="mr-2 caption">Gider :</span>
+              - ₺{{ calcExpense(team.ekip_ID) }}
+            </v-chip>
+          </v-card-text>
+
+          <v-divider></v-divider>
+          <!-- ağaç sayı -->
+          <v-card-text class="secondary--text text-overline d-block text-center"
+            >HAFTALIK AĞAÇ GRAFİĞİ</v-card-text
+          >
+          <v-sheet color="transparent" class="pa-2">
+            <v-sparkline
+              :key="String(days)"
+              :smooth="15"
+              :gradient="['#4776E6', '#8E54E9']"
+              :line-width="3"
+              :value="value"
+              :labels="days"
+              :padding="16"
+              color="secondary"
+              auto-draw
+              gradient-direction="left"
+              stroke-linecap="round"
+            ></v-sparkline>
+          </v-sheet>
         </v-card>
-      </v-dialog>
-    </v-row>
+      </div>
+
+      <v-btn
+        text
+        :dark="!teamData.length ? true : false"
+        class="mb-4 mt-auto mx-auto overline"
+        :class="!teamData.length ? 'gradientCard' : ''"
+        :color="!teamData.length ? '' : 'primary'"
+        :to="'/ekip-olustur'"
+        :style="
+          !teamData.length
+            ? 'position: absolute;bottom: 50px;left: 50%;transform: translateX(-50%);'
+            : ''
+        "
+      >
+        EKİP OLUŞTUR
+        <v-icon right small>mdi-account-multiple-plus</v-icon>
+      </v-btn>
+
+      <alert-component
+        @closeAlert="close($event)"
+        :alert-msg="alert.message"
+        :alert-style="alert.style"
+        :alert-open="alert.isOpen"
+        :alert-time="alert.time"
+      ></alert-component>
+      <!-- dialog -->
+      <v-row justify="center">
+        <v-dialog v-model="dialog" persistent max-width="290">
+          <v-card>
+            <v-card-title class="text-h6">Ekibi Sil?</v-card-title>
+            <v-card-text class="text-body-2">
+              Yaptığınız düzenlemeler kaydedilecek ve geri alınamayacaktır.
+              Onaylıyor musunuz?
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="grey darken-2" text @click="dialog = false"
+                >hayır</v-btn
+              >
+              <v-btn color="primary" depressed>evet</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   data: () => ({
+    pageLoading: true,
     teamData: [],
     workers: [],
     backups: [],
@@ -455,14 +472,8 @@ export default {
           },
         })
         .then((response) => {
-          let myslqConnect = response.data.indexOf("Connection failed:");
-          myslqConnect > -1
-            ? (this.teamData = 0)
-            : (this.teamData = response.data);
-          this.teamData.forEach(function (team) {
-            let _id = team.ekip_ID;
-            let yev = team.toplam_yevmiye;
-          }, this);
+          this.teamData = response.data;
+          this.pageLoading = false;
         })
         .catch((err) => {
           console.log(err);

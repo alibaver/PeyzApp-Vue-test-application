@@ -1,18 +1,33 @@
 <template>
   <div>
-    <div class="overline w100 px-0 mb-3 d-flex justify-space-between">
-      <v-chip label color="primary" small dark>
-        <v-icon small left>mdi-account-group</v-icon>{{ ekipAdi }}
-      </v-chip>
-      <v-spacer></v-spacer>
-      <v-chip label color="primary" small dark>
-        <v-icon small left>mdi-tree</v-icon>{{ agacSayi }}
-      </v-chip>
+    <div
+      v-if="pageLoading"
+      class="d-flex justify-center align-center w100 flex-column"
+      style="height: calc(100vh - 130px)"
+    >
+      <v-progress-circular
+        :width="3"
+        :size="60"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+      <span class="mt-4 overline primary--text">LOADING..</span>
     </div>
 
-    <v-row>
-      <!-- budama bilgileri -->
-      <!-- <v-col cols="12">
+    <div v-else>
+      <div class="overline w100 px-0 mb-3 d-flex justify-space-between">
+        <v-chip label color="primary" small dark>
+          <v-icon small left>mdi-account-group</v-icon>{{ ekipAdi }}
+        </v-chip>
+        <v-spacer></v-spacer>
+        <v-chip label color="primary" small dark>
+          <v-icon small left>mdi-tree</v-icon>{{ agacSayi }}
+        </v-chip>
+      </div>
+
+      <v-row>
+        <!-- budama bilgileri -->
+        <!-- <v-col cols="12">
         <v-card class="pa-3 colBorder">
           <v-row>
             <v-col
@@ -100,160 +115,166 @@
         </v-card>
       </v-col> -->
 
-      <!-- Çalışan bilgileri -->
-      <v-col
-        cols="12"
-        sm
-        md
-        lg="3"
-        class="py-3"
-        v-for="(worker, index) in workerData"
-        :key="index"
-      >
-        <v-card class="pa-3 colBorder">
-          <v-card-actions class="ma-0 pa-0">
-            <v-spacer></v-spacer>
-            <v-menu offset-y>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn icon small v-bind="attrs" v-on="on">
-                  <v-icon small>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
-              <v-list dense>
-                <v-list-item ripple="" style="min-height: 35px" class="caption">
-                  <v-icon small left>mdi-information-outline</v-icon>
-                  Detaylı bilgi
-                </v-list-item>
-                <v-list-item
-                  ripple=""
-                  style="min-height: 35px"
-                  class="caption"
-                  @click="workerDataBackup(worker.id)"
-                >
-                  <v-icon small left color="error">mdi-account-remove</v-icon>
-                  Ekipten çıkar
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-card-actions>
-          <v-row>
-            <!-- icon -->
-            <v-col
-              cols="4"
-              style="
-                justify-content: center;
-                align-items: center;
-                display: flex;
-              "
-            >
-              <v-avatar size="64">
-                <v-icon size="64">mdi-account-hard-hat</v-icon>
-              </v-avatar>
-            </v-col>
-            <v-col cols="8" class="py-0 pl-0">
-              <!-- AD SOYAD -->
-              <span class="subtitle-1 d-block overline"
-                >{{ worker.ad }} {{ worker.soyad }}</span
-              >
-              <!-- YEVMİYE MİKTARI -->
-              <span class="body-2 d-block">
-                <v-icon x-small color="black">mdi-cash</v-icon>
-                : ₺{{ worker.yevmiye }} /
-                <span class="caption">Günlük</span>
-              </span>
-              <!-- BAŞLANGIÇ TARİHİ -->
-              <span class="body-2 d-block">
-                <v-icon x-small color="black">mdi-calendar</v-icon>
-                :
-                {{ worker.kayit_tarihi.split("-").reverse().join(".") }}
-                <span class="caption">
-                  ({{ workDay(worker.tam_gun, worker.yarim_gun) }}
-                  Gün)
-                </span>
-              </span>
-
-              <!-- HAK EDİŞ TUTARI -->
-              <v-chip
-                class="text-body-2 d-block mt-2 text-center px-1"
-                color="primary"
-                outlined
-                small
-                label
-              >
-                Hakediş Tutarı : ₺{{
-                  hakedisTutari(
-                    worker.tam_gun,
-                    worker.yarim_gun,
-                    worker.yevmiye
-                  )
-                }}
-              </v-chip>
-
-              <!-- yarım / tam -->
-              <v-select
-                :disabled="worker.guncelleme_tarihi >= getDate()"
-                @change="changed = !changed"
-                class="mt-2 mb-1"
-                dense
-                :value="gunler[0]"
-                hide-details
-                :items="gunler"
-                ref="dayInfo"
-                :id="worker.id"
-              ></v-select>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-      <!-- kaydet btn -->
-      <div class="d-flex align-center justify-center w100 my-5 mx-3">
-        <v-btn
-          :disabled="!canSave"
-          class="w100"
-          depressed
-          text
-          color="primary"
-          @click="dialog = !dialog"
+        <!-- Çalışan bilgileri -->
+        <v-col
+          cols="12"
+          sm
+          md
+          lg="3"
+          class="py-3"
+          v-for="(worker, index) in workerData"
+          :key="index"
         >
-          kaydet
-          <v-icon small right>mdi-check-all</v-icon>
-        </v-btn>
-      </div>
-    </v-row>
+          <v-card class="pa-3 colBorder">
+            <v-card-actions class="ma-0 pa-0">
+              <v-spacer></v-spacer>
+              <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn icon small v-bind="attrs" v-on="on">
+                    <v-icon small>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <v-list dense>
+                  <v-list-item
+                    ripple=""
+                    style="min-height: 35px"
+                    class="caption"
+                  >
+                    <v-icon small left>mdi-information-outline</v-icon>
+                    Detaylı bilgi
+                  </v-list-item>
+                  <v-list-item
+                    ripple=""
+                    style="min-height: 35px"
+                    class="caption"
+                    @click="workerDataBackup(worker.id)"
+                  >
+                    <v-icon small left color="error">mdi-account-remove</v-icon>
+                    Ekipten çıkar
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-card-actions>
+            <v-row>
+              <!-- icon -->
+              <v-col
+                cols="4"
+                style="
+                  justify-content: center;
+                  align-items: center;
+                  display: flex;
+                "
+              >
+                <v-avatar size="64">
+                  <v-icon size="64">mdi-account-hard-hat</v-icon>
+                </v-avatar>
+              </v-col>
+              <v-col cols="8" class="py-0 pl-0">
+                <!-- AD SOYAD -->
+                <span class="subtitle-1 d-block overline"
+                  >{{ worker.ad }} {{ worker.soyad }}</span
+                >
+                <!-- YEVMİYE MİKTARI -->
+                <span class="body-2 d-block">
+                  <v-icon x-small color="black">mdi-cash</v-icon>
+                  : ₺{{ worker.yevmiye }} /
+                  <span class="caption">Günlük</span>
+                </span>
+                <!-- BAŞLANGIÇ TARİHİ -->
+                <span class="body-2 d-block">
+                  <v-icon x-small color="black">mdi-calendar</v-icon>
+                  :
+                  {{ worker.kayit_tarihi.split("-").reverse().join(".") }}
+                  <span class="caption">
+                    ({{ workDay(worker.tam_gun, worker.yarim_gun) }}
+                    Gün)
+                  </span>
+                </span>
 
-    <!-- dialog -->
-    <v-row justify="center">
-      <v-dialog v-model="dialog" persistent max-width="290">
-        <v-card>
-          <v-card-title class="text-h6">Değişiklikleri kaydet?</v-card-title>
-          <v-card-text class="text-body-2">
-            Yaptığınız düzenlemeler kaydedilecek ve geri alınamayacaktır.
-            Onaylıyor musunuz?
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="grey darken-2" text @click="dialog = false"
-              >hayır</v-btn
-            >
-            <v-btn color="primary" depressed @click="save">evet</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
+                <!-- HAK EDİŞ TUTARI -->
+                <v-chip
+                  class="text-body-2 d-block mt-2 text-center px-1"
+                  color="primary"
+                  outlined
+                  small
+                  label
+                >
+                  Hakediş Tutarı : ₺{{
+                    hakedisTutari(
+                      worker.tam_gun,
+                      worker.yarim_gun,
+                      worker.yevmiye
+                    )
+                  }}
+                </v-chip>
 
-    <alert-component
-      @closeAlert="close($event)"
-      :alert-msg="alert.message"
-      :alert-style="alert.style"
-      :alert-open="alert.isOpen"
-      :alert-time="alert.time"
-    ></alert-component>
+                <!-- yarım / tam -->
+                <v-select
+                  :disabled="worker.guncelleme_tarihi >= getDate()"
+                  @change="changed = !changed"
+                  class="mt-2 mb-1"
+                  dense
+                  :value="gunler[0]"
+                  hide-details
+                  :items="gunler"
+                  ref="dayInfo"
+                  :id="worker.id"
+                ></v-select>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+        <!-- kaydet btn -->
+        <div class="d-flex align-center justify-center w100 my-5 mx-3">
+          <v-btn
+            :disabled="!canSave"
+            class="w100"
+            depressed
+            text
+            color="primary"
+            @click="dialog = !dialog"
+          >
+            kaydet
+            <v-icon small right>mdi-check-all</v-icon>
+          </v-btn>
+        </div>
+      </v-row>
+
+      <!-- dialog -->
+      <v-row justify="center">
+        <v-dialog v-model="dialog" persistent max-width="290">
+          <v-card>
+            <v-card-title class="text-h6">Değişiklikleri kaydet?</v-card-title>
+            <v-card-text class="text-body-2">
+              Yaptığınız düzenlemeler kaydedilecek ve geri alınamayacaktır.
+              Onaylıyor musunuz?
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="grey darken-2" text @click="dialog = false"
+                >hayır</v-btn
+              >
+              <v-btn color="primary" depressed @click="save">evet</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+
+      <alert-component
+        @closeAlert="close($event)"
+        :alert-msg="alert.message"
+        :alert-style="alert.style"
+        :alert-open="alert.isOpen"
+        :alert-time="alert.time"
+      ></alert-component>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data: () => ({
     changed: false,
+    pageLoading: true,
     ekipAdi: "",
     agacSayi: "",
     dialog: false,
@@ -273,7 +294,7 @@ export default {
       isOpen: false,
       message: "",
       style: "",
-      time: 1000,
+      time: 2000,
     },
     value: [50, 200, 60, 0, 0, 0],
     days: ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"],
@@ -430,6 +451,7 @@ export default {
           this.nWorker !== undefined
             ? (this.canSave = true)
             : (this.canSave = false);
+          this.pageLoading = false;
         })
         .catch((err) => {
           console.log(err);
@@ -584,10 +606,10 @@ export default {
   watch: {},
   created() {
     this.teamID = this.$route.query.teamId;
-    this.getWorkerDetails();
     this.getTeamDetails();
     this.date = this.getDate();
     this.getBackupWorkers();
+    this.getWorkerDetails();
   },
 };
 </script>

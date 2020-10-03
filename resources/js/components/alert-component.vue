@@ -16,7 +16,7 @@
   </div>
 </template>
 <style scoped>
-.alert-msg {
+/* .alert-msg {
   position: fixed;
   bottom: 0;
   width: 90%;
@@ -24,7 +24,7 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 99;
-}
+} */
 </style>
 <script>
 export default {

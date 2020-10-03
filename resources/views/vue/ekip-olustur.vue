@@ -1,127 +1,144 @@
 <template>
   <div>
-    <page-path></page-path>
-    <center>
-      <v-chip color="primary" label small dark class="body-2 mb-2">
-        <v-icon dark small left>mdi-account-hard-hat</v-icon>
-        {{ tName ? tName : "Ekip Adı" }}
-      </v-chip>
-    </center>
-    <v-chip
-      color="primary"
-      class="mr-1"
-      x-small
-      v-for="(person, index) in workers"
-      :key="index"
+    <div
+      v-if="pageLoading"
+      class="d-flex justify-center align-center w100 flex-column"
+      style="height: calc(100vh - 130px)"
     >
-      <v-icon dark x-small left>mdi-account-circle</v-icon>
-      {{ person.ad }} {{ person.soyad }}
-    </v-chip>
-
-    <v-card class="pa-4 mb-4 mt-2 pb-12">
-      <v-dialog
-        ref="dialog"
-        v-model="modal"
-        :return-value.sync="date"
-        persistent
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="date"
-            label="Tarih seçin"
-            prepend-inner-icon="mdi-calendar"
-            readonly
-            hide-details=""
-            outlined
-            v-bind="attrs"
-            v-on="on"
-            ref="tarih"
-          ></v-text-field>
-        </template>
-        <v-date-picker v-model="date" scrollable locale="tr" width="auto">
-          <v-spacer></v-spacer>
-          <v-btn text color="primary" @click="modal = false">Kapat</v-btn>
-          <v-btn text color="primary" @click="$refs.dialog.save(date)"
-            >Tamam</v-btn
-          >
-        </v-date-picker>
-      </v-dialog>
-      <v-text-field
-        label="Ekip Adı"
-        prepend-inner-icon="mdi-pencil"
-        hide-details="auto"
-        clearable
-        outlined
-        v-model="tName"
-        :rules="rules"
-        class="mt-3"
-      ></v-text-field>
-      <v-text-field
-        ref="ad"
-        label="Çalışan Adı"
-        prepend-inner-icon="mdi-account"
-        clearable
-        outlined
-        hide-details="auto"
-        class="mt-3"
-      ></v-text-field>
-      <v-text-field
-        ref="soyad"
-        label="Çalışan Soyadı"
-        prepend-inner-icon="mdi-account"
-        clearable
-        outlined
-        hide-details="auto"
-        class="mt-3"
-      ></v-text-field>
-      <v-text-field
-        label="Yevmiye Miktarı"
-        prepend-inner-icon="mdi-currency-try"
-        clearable
-        outlined
-        hide-details="auto"
-        type="number"
-        ref="yevmiye"
-        class="mt-3"
-      ></v-text-field>
-
-      <v-btn
+      <v-progress-circular
+        :width="3"
+        :size="60"
         color="primary"
-        class="mt-4"
-        dark
-        small
-        fab
-        @click="addPerson"
-        style="position: absolute; right: 0; transform: translate(-50%, 12px)"
-      >
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-    </v-card>
-    <v-btn
-      class="mt-10"
-      color="primary"
-      width="100%"
-      depressed
-      text
-      large
-      @click="save"
-    >
-      EKİBİ KAYDET
-      <v-icon small>mdi-check-all</v-icon>
-    </v-btn>
+        indeterminate
+      ></v-progress-circular>
+      <span class="mt-4 overline primary--text">LOADING..</span>
+    </div>
 
-    <alert-component
-      @closeAlert="close($event)"
-      :alert-msg="alert.message"
-      :alert-style="alert.style"
-      :alert-open="alert.isOpen"
-    ></alert-component>
+    <div v-else>
+      <page-path></page-path>
+      <center>
+        <v-chip color="primary" label small dark class="body-2 mb-2">
+          <v-icon dark small left>mdi-account-hard-hat</v-icon>
+          {{ tName ? tName : "Ekip Adı" }}
+        </v-chip>
+      </center>
+      <v-chip
+        color="primary"
+        class="mr-1"
+        x-small
+        v-for="(person, index) in workers"
+        :key="index"
+      >
+        <v-icon dark x-small left>mdi-account-circle</v-icon>
+        {{ person.ad }} {{ person.soyad }}
+      </v-chip>
+
+      <v-card class="pa-4 mb-4 mt-2 pb-12">
+        <v-dialog
+          ref="dialog"
+          v-model="modal"
+          :return-value.sync="date"
+          persistent
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="date"
+              label="Tarih seçin"
+              prepend-inner-icon="mdi-calendar"
+              readonly
+              hide-details=""
+              outlined
+              v-bind="attrs"
+              v-on="on"
+              ref="tarih"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="date" scrollable locale="tr" width="auto">
+            <v-spacer></v-spacer>
+            <v-btn text color="primary" @click="modal = false">Kapat</v-btn>
+            <v-btn text color="primary" @click="$refs.dialog.save(date)"
+              >Tamam</v-btn
+            >
+          </v-date-picker>
+        </v-dialog>
+        <v-text-field
+          label="Ekip Adı"
+          prepend-inner-icon="mdi-pencil"
+          hide-details="auto"
+          clearable
+          outlined
+          v-model="tName"
+          :rules="rules"
+          class="mt-3"
+        ></v-text-field>
+        <v-text-field
+          ref="ad"
+          label="Çalışan Adı"
+          prepend-inner-icon="mdi-account"
+          clearable
+          outlined
+          hide-details="auto"
+          class="mt-3"
+        ></v-text-field>
+        <v-text-field
+          ref="soyad"
+          label="Çalışan Soyadı"
+          prepend-inner-icon="mdi-account"
+          clearable
+          outlined
+          hide-details="auto"
+          class="mt-3"
+        ></v-text-field>
+        <v-text-field
+          label="Yevmiye Miktarı"
+          prepend-inner-icon="mdi-currency-try"
+          clearable
+          outlined
+          hide-details="auto"
+          type="number"
+          ref="yevmiye"
+          class="mt-3"
+        ></v-text-field>
+
+        <v-btn
+          color="primary"
+          class="mt-4"
+          dark
+          small
+          fab
+          @click="addPerson"
+          style="position: absolute; right: 0; transform: translate(-50%, 12px)"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-card>
+      <v-btn
+        class="mt-10"
+        color="primary"
+        width="100%"
+        depressed
+        text
+        large
+        @click="save"
+      >
+        EKİBİ KAYDET
+        <v-icon small>mdi-check-all</v-icon>
+      </v-btn>
+
+      <alert-component
+        @closeAlert="close($event)"
+        :alert-msg="alert.message"
+        :alert-style="alert.style"
+        :alert-open="alert.isOpen"
+      ></alert-component>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data: () => ({
     date: "",
+    pageLoading: true,
     modal: false,
     uniq: "",
     alert: {
@@ -238,7 +255,9 @@ export default {
         });
     },
   },
-  mounted() {},
+  mounted() {
+    this.pageLoading = false;
+  },
   watch: {
     tName() {
       this.uniq = this.$createId("_");

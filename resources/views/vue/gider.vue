@@ -1,212 +1,235 @@
 <template>
   <div>
-    <page-path></page-path>
-    <alert-component
-      @closeAlert="close($event)"
-      :alert-msg="alert.message"
-      :alert-style="alert.style"
-      :alert-open="alert.isOpen"
-      :alert-time="alert.time"
-    ></alert-component>
-    <v-row>
-      <!-- kart -->
-      <v-col>
-        <v-card class="pa-3 colBorder elevation-1">
-          <div v-if="teamID">
-            <v-card-title class="overline pt-0">EKİP ADI</v-card-title>
-            <v-card-subtitle class="body-2"> {{ teamName }} </v-card-subtitle>
-          </div>
+    <div
+      v-if="pageLoading"
+      class="d-flex justify-center align-center w100 flex-column"
+      style="height: calc(100vh - 130px)"
+    >
+      <v-progress-circular
+        :width="3"
+        :size="60"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+      <span class="mt-4 overline primary--text">LOADING..</span>
+    </div>
 
-          <v-card-title class="overline pt-0"> TOPLAM GİDER </v-card-title>
-          <v-card-subtitle class="body-2">₺{{ totalExpense }}</v-card-subtitle>
+    <div v-else>
+      <page-path></page-path>
+      <alert-component
+        @closeAlert="close($event)"
+        :alert-msg="alert.message"
+        :alert-style="alert.style"
+        :alert-open="alert.isOpen"
+        :alert-time="alert.time"
+      ></alert-component>
+      <v-row>
+        <!-- kart -->
+        <v-col>
+          <v-card class="pa-3 colBorder elevation-1">
+            <div v-if="teamID">
+              <v-card-title class="overline pt-0">EKİP ADI</v-card-title>
+              <v-card-subtitle class="body-2"> {{ teamName }} </v-card-subtitle>
+            </div>
 
-          <!-- Gider Ekle -->
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="500px">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  text
-                  depressed
-                  small
-                  color="primary"
-                  dark
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  GİDER EKLE
-                  <v-icon small right>mdi-plus</v-icon>
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title> Gider Ekle </v-card-title>
-                <v-divider></v-divider>
-                <v-card-text class="pa-0">
-                  <v-row class="ma-0">
-                    <v-col cols="12" class="pa-0">
-                      <!-- ekipler -->
-                      <v-col cols="12">
-                        <v-select
-                          v-if="!teamID"
-                          class="mb-1"
-                          prepend-inner-icon="mdi-account-hard-hat"
-                          outlined
-                          hide-details
-                          ref="ekipAdi"
-                          label="Ekip Seçin"
-                          :items="items"
-                        ></v-select>
-                      </v-col>
-                      <!-- tarih -->
-                      <v-col cols="12" class="py-1">
-                        <v-dialog
-                          ref="dialog"
-                          v-model="modal"
-                          :return-value.sync="date"
-                          persistent
-                        >
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                              v-model="date"
-                              label="Tarih seçin"
-                              prepend-inner-icon="mdi-calendar"
-                              readonly
-                              hide-details=""
-                              outlined
-                              v-bind="attrs"
-                              v-on="on"
-                              ref="tarih"
-                            ></v-text-field>
-                          </template>
-                          <v-date-picker
-                            v-model="date"
-                            scrollable
-                            locale="tr"
-                            width="auto"
-                          >
-                            <v-spacer></v-spacer>
-                            <v-btn text color="primary" @click="modal = false"
-                              >Kapat</v-btn
-                            >
-                            <v-btn
-                              text
-                              color="primary"
-                              @click="$refs.dialog.save(date)"
-                              >Tamam</v-btn
-                            >
-                          </v-date-picker>
-                        </v-dialog>
-                      </v-col>
-                      <!-- aciklama -->
-                      <v-col cols="12" class="py-1">
-                        <v-textarea
-                          outlined
-                          hide-details=""
-                          label="Açıklama"
-                          ref="aciklama"
-                          prepend-inner-icon="mdi-pen"
-                        ></v-textarea>
-                      </v-col>
-                      <!-- fiyat -->
-                      <v-col cols="12" class="py-1 pb-3">
-                        <v-text-field
-                          ref="fiyat"
-                          label="Fiyat"
-                          type="number"
-                          outlined
-                          hide-details=""
-                          prepend-inner-icon="mdi-currency-try"
-                        >
-                        </v-text-field>
-                      </v-col>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-                <v-divider></v-divider>
+            <v-card-title class="overline pt-0"> TOPLAM GİDER </v-card-title>
+            <v-card-subtitle class="body-2"
+              >₺{{ totalExpense }}</v-card-subtitle
+            >
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" text @click="dialog = !dialog">
-                    Kapat
+            <!-- Gider Ekle -->
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-dialog v-model="dialog" max-width="500px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    text
+                    depressed
+                    small
+                    color="primary"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    GİDER EKLE
+                    <v-icon small right>mdi-plus</v-icon>
                   </v-btn>
-                  <v-btn color="primary" text @click="save"> Kaydet </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-card-actions>
-        </v-card>
-        <!-- Filtre -->
-        <v-card class="pa-3 colBorder elevation-1 mt-4">
-          <v-card-title class="overline pt-0"> FİLTRELEME </v-card-title>
-          <v-card-subtitle class="caption">
-            Gider listesini filtreleyeceğiniz tarih aralığını
-            seçin.</v-card-subtitle
-          >
-          <v-card-text>
-            <!-- tarih1 -->
-            <v-dialog
-              ref="range"
-              v-model="tarih"
-              :return-value.sync="rangedate"
-              persistent
+                </template>
+                <v-card>
+                  <v-card-title> Gider Ekle </v-card-title>
+                  <v-divider></v-divider>
+                  <v-card-text class="pa-0">
+                    <v-row class="ma-0">
+                      <v-col cols="12" class="pa-0">
+                        <!-- ekipler -->
+                        <v-col cols="12">
+                          <v-select
+                            v-if="!teamID"
+                            class="mb-1"
+                            prepend-inner-icon="mdi-account-hard-hat"
+                            outlined
+                            hide-details
+                            ref="ekipAdi"
+                            label="Ekip Seçin"
+                            :items="items"
+                          ></v-select>
+                        </v-col>
+                        <!-- tarih -->
+                        <v-col cols="12" class="py-1">
+                          <v-dialog
+                            ref="dialog"
+                            v-model="modal"
+                            :return-value.sync="date"
+                            persistent
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="date"
+                                label="Tarih seçin"
+                                prepend-inner-icon="mdi-calendar"
+                                readonly
+                                hide-details=""
+                                outlined
+                                v-bind="attrs"
+                                v-on="on"
+                                ref="tarih"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="date"
+                              scrollable
+                              locale="tr"
+                              width="auto"
+                            >
+                              <v-spacer></v-spacer>
+                              <v-btn text color="primary" @click="modal = false"
+                                >Kapat</v-btn
+                              >
+                              <v-btn
+                                text
+                                color="primary"
+                                @click="$refs.dialog.save(date)"
+                                >Tamam</v-btn
+                              >
+                            </v-date-picker>
+                          </v-dialog>
+                        </v-col>
+                        <!-- aciklama -->
+                        <v-col cols="12" class="py-1">
+                          <v-textarea
+                            outlined
+                            hide-details=""
+                            label="Açıklama"
+                            ref="aciklama"
+                            prepend-inner-icon="mdi-pen"
+                          ></v-textarea>
+                        </v-col>
+                        <!-- fiyat -->
+                        <v-col cols="12" class="py-1 pb-3">
+                          <v-text-field
+                            ref="fiyat"
+                            label="Fiyat"
+                            type="number"
+                            outlined
+                            hide-details=""
+                            prepend-inner-icon="mdi-currency-try"
+                          >
+                          </v-text-field>
+                        </v-col>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                  <v-divider></v-divider>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="dialog = !dialog">
+                      Kapat
+                    </v-btn>
+                    <v-btn color="primary" text @click="save"> Kaydet </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-card-actions>
+          </v-card>
+          <!-- Filtre -->
+          <v-card class="pa-3 colBorder elevation-1 mt-4">
+            <v-card-title class="overline pt-0"> FİLTRELEME </v-card-title>
+            <v-card-subtitle class="caption">
+              Gider listesini filtreleyeceğiniz tarih aralığını
+              seçin.</v-card-subtitle
             >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="rangedate"
-                  label="Tarih Aralığı Seçin"
-                  prepend-inner-icon="mdi-calendar"
-                  readonly
-                  hide-details=""
-                  outlined
-                  v-bind="attrs"
-                  v-on="on"
-                  ref="tarih"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="rangedate"
-                scrollable
-                locale="tr"
-                width="auto"
-                range
+            <v-card-text>
+              <!-- tarih1 -->
+              <v-dialog
+                ref="range"
+                v-model="tarih"
+                :return-value.sync="rangedate"
+                persistent
               >
-                <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="tarih = false">Kapat</v-btn>
-                <v-btn text color="primary" @click="$refs.range.save(rangedate)"
-                  >Tamam</v-btn
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="rangedate"
+                    label="Tarih Aralığı Seçin"
+                    prepend-inner-icon="mdi-calendar"
+                    readonly
+                    hide-details=""
+                    outlined
+                    v-bind="attrs"
+                    v-on="on"
+                    ref="tarih"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="rangedate"
+                  scrollable
+                  locale="tr"
+                  width="auto"
+                  range
                 >
-              </v-date-picker>
-            </v-dialog>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              color="primary"
-              text
-              small
-              @click="teamID ? getExpense(teamID) : getAllExpense()"
-            >
-              TEMİZLE
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" text small @click="filter">
-              FİLTRELE
-              <v-icon small right>mdi-check-all</v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-      <!-- datatable -->
-      <v-data-table
-        :headers="headers"
-        :items="expenseData"
-        class="elevation-0"
-        disable-sort
-        :items-per-page="5"
-        :loading="loading"
-        loading-text="Veriler yükleniyor..."
-      >
-      </v-data-table>
-    </v-row>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" @click="tarih = false"
+                    >Kapat</v-btn
+                  >
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="$refs.range.save(rangedate)"
+                    >Tamam</v-btn
+                  >
+                </v-date-picker>
+              </v-dialog>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                color="primary"
+                text
+                small
+                @click="teamID ? getExpense(teamID) : getAllExpense()"
+              >
+                TEMİZLE
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text small @click="filter">
+                FİLTRELE
+                <v-icon small right>mdi-check-all</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <!-- datatable -->
+        <v-data-table
+          :headers="headers"
+          :items="expenseData"
+          class="elevation-0"
+          disable-sort
+          :items-per-page="5"
+          :loading="loading"
+          loading-text="Veriler yükleniyor..."
+        >
+        </v-data-table>
+      </v-row>
+    </div>
   </div>
 </template>
 <script>
@@ -225,7 +248,7 @@ export default {
       isOpen: false,
       message: "",
       style: "",
-      time: 1000,
+      time: 2000,
     },
     dialog: false,
     loading: true,
@@ -240,6 +263,7 @@ export default {
       { text: "Harcama Tutarı (₺)", value: "total" },
     ],
     expenseData: [],
+    pageLoading: true,
   }),
   methods: {
     close(e) {
@@ -340,6 +364,7 @@ export default {
               value: item.ekip_ID,
             });
           });
+          this.pageLoading = false;
         })
         .catch((err) => {
           console.log(err);
