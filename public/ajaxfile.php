@@ -62,7 +62,7 @@ if ($choose == "getExpense") {
     $userData = mysqli_query($con, $query);
 }
 if ($choose == "getAllExpense") {
-    $query = "SELECT * FROM `tb_gider` WHERE `calculated` = '0' ORDER BY `tarih` DESC";
+    $query = "SELECT * FROM `tb_gider` WHERE `calculated` = '0' AND `calculated` = '0' ORDER BY `tarih` DESC";
     $userData = mysqli_query($con, $query);
 }
 if ($choose == "getFilteredExpense") {
