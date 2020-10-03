@@ -303,8 +303,7 @@ export default {
     ],
   }),
   mounted() {
-    this.$refs.calendar.checkChange();
-    this.getCalendar();
+    //this.$refs.calendar.checkChange();
   },
   methods: {
     viewDay({ date }) {
@@ -350,6 +349,7 @@ export default {
         })
         .then((response) => {
           this.calendarData = response.data;
+          this.pageLoading = false;
 
           this.calendarData.forEach((person) => {
             this.events.push({
@@ -361,7 +361,6 @@ export default {
               details: JSON.parse(person.workers),
             });
           });
-          this.pageLoading = false;
         })
         .catch((err) => {
           console.log(err);
@@ -370,6 +369,9 @@ export default {
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
     },
+  },
+  created() {
+    this.getCalendar();
   },
 };
 </script>
