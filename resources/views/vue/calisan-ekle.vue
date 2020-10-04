@@ -15,23 +15,14 @@
     </div>
     <div v-else>
       <page-path></page-path>
-      <v-snackbar v-model="snackbar" timeout="3000" color="success">
-        snackbar
-
-        <template v-slot:action="{ attrs }">
-          <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
-            kapat
-          </v-btn>
-        </template>
-      </v-snackbar>
-      <!-- <alert-component
+      <alert-component
         @closeAlert="close($event)"
         :alert-msg="alert.message"
         :alert-style="alert.style"
         :alert-open="alert.isOpen"
         :alert-time="alert.time"
-      ></alert-component> -->
-      <v-card class="colBorder pa-4 pb-1">
+      ></alert-component>
+      <v-card class="colBorder pa-4 pb-1 mt-5">
         <v-row>
           <v-col cols="12">
             <!-- icon -->
@@ -48,7 +39,7 @@
               </v-avatar>
             </div>
             <center v-if="checkTeamId">
-              <v-chip color="white" label class="mb-2 overline"
+              <v-chip color="white" label class="mb-2"
                 ><v-icon small left color="primary">mdi-account-group</v-icon
                 >{{ teamName }}
               </v-chip>

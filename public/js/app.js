@@ -2010,7 +2010,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     alertMsg: {
@@ -3023,15 +3022,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -9683,8 +9673,7 @@ var render = function() {
             "multi-line": "",
             bottom: "",
             color: _vm.alertStyle,
-            timeout: _vm.alertTime,
-            transition: "scale-transition"
+            timeout: _vm.alertTime
           },
           scopedSlots: _vm._u(
             [
@@ -11043,51 +11032,23 @@ var render = function() {
           [
             _c("page-path"),
             _vm._v(" "),
-            _c(
-              "v-snackbar",
-              {
-                attrs: { timeout: "3000", color: "success" },
-                scopedSlots: _vm._u([
-                  {
-                    key: "action",
-                    fn: function(ref) {
-                      var attrs = ref.attrs
-                      return [
-                        _c(
-                          "v-btn",
-                          _vm._b(
-                            {
-                              attrs: { color: "blue", text: "" },
-                              on: {
-                                click: function($event) {
-                                  _vm.snackbar = false
-                                }
-                              }
-                            },
-                            "v-btn",
-                            attrs,
-                            false
-                          ),
-                          [_vm._v("\n          kapat\n        ")]
-                        )
-                      ]
-                    }
-                  }
-                ]),
-                model: {
-                  value: _vm.snackbar,
-                  callback: function($$v) {
-                    _vm.snackbar = $$v
-                  },
-                  expression: "snackbar"
-                }
+            _c("alert-component", {
+              attrs: {
+                "alert-msg": _vm.alert.message,
+                "alert-style": _vm.alert.style,
+                "alert-open": _vm.alert.isOpen,
+                "alert-time": _vm.alert.time
               },
-              [_vm._v("\n      snackbar\n\n      ")]
-            ),
+              on: {
+                closeAlert: function($event) {
+                  return _vm.close($event)
+                }
+              }
+            }),
             _vm._v(" "),
             _c(
               "v-card",
-              { staticClass: "colBorder pa-4 pb-1" },
+              { staticClass: "colBorder pa-4 pb-1 mt-5" },
               [
                 _c(
                   "v-row",
@@ -11128,7 +11089,7 @@ var render = function() {
                                 _c(
                                   "v-chip",
                                   {
-                                    staticClass: "mb-2 overline",
+                                    staticClass: "mb-2",
                                     attrs: { color: "white", label: "" }
                                   },
                                   [
@@ -13396,11 +13357,9 @@ var render = function() {
                                         }
                                       },
                                       [
-                                        _c(
-                                          "v-icon",
-                                          { attrs: { small: "", left: "" } },
-                                          [_vm._v("mdi-account-plus")]
-                                        ),
+                                        _c("v-icon", { attrs: { left: "" } }, [
+                                          _vm._v("mdi-account-plus")
+                                        ]),
                                         _vm._v(
                                           "\n                Çalışan Ekle\n              "
                                         )
@@ -13425,11 +13384,9 @@ var render = function() {
                                         }
                                       },
                                       [
-                                        _c(
-                                          "v-icon",
-                                          { attrs: { small: "", left: "" } },
-                                          [_vm._v("mdi-palm-tree")]
-                                        ),
+                                        _c("v-icon", { attrs: { left: "" } }, [
+                                          _vm._v("mdi-palm-tree")
+                                        ]),
                                         _vm._v(
                                           "\n                Budanan Ağaç "
                                         )
@@ -13453,11 +13410,9 @@ var render = function() {
                                         }
                                       },
                                       [
-                                        _c(
-                                          "v-icon",
-                                          { attrs: { small: "", left: "" } },
-                                          [_vm._v("mdi-currency-try")]
-                                        ),
+                                        _c("v-icon", { attrs: { left: "" } }, [
+                                          _vm._v("mdi-currency-try")
+                                        ]),
                                         _vm._v(
                                           "\n                Giderler\n              "
                                         )
@@ -13476,11 +13431,9 @@ var render = function() {
                                         }
                                       },
                                       [
-                                        _c(
-                                          "v-icon",
-                                          { attrs: { small: "", left: "" } },
-                                          [_vm._v("mdi-calculator")]
-                                        ),
+                                        _c("v-icon", { attrs: { left: "" } }, [
+                                          _vm._v("mdi-calculator")
+                                        ]),
                                         _vm._v(
                                           "\n                Hakediş Hesapla\n              "
                                         )
@@ -13502,11 +13455,7 @@ var render = function() {
                                         _c(
                                           "v-icon",
                                           {
-                                            attrs: {
-                                              small: "",
-                                              left: "",
-                                              color: "error"
-                                            }
+                                            attrs: { left: "", color: "error" }
                                           },
                                           [_vm._v("mdi-account-remove")]
                                         ),
@@ -73001,8 +72950,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
 /* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/index.js");
 /* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/index.js");
-/* harmony import */ var vuetify_lib_components_VSnackbar__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VSnackbar */ "./node_modules/vuetify/lib/components/VSnackbar/index.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
 
 
 
@@ -73036,8 +72984,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAvatar: vuetify_lib_components_VAvatar__WEBPACK_IMPORTED_MODULE_4__["VAvatar"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_7__["VChip"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VCol"],VDatePicker: vuetify_lib_components_VDatePicker__WEBPACK_IMPORTED_MODULE_9__["VDatePicker"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_10__["VDialog"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__["VIcon"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_12__["VProgressCircular"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VRow"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_13__["VSelect"],VSnackbar: vuetify_lib_components_VSnackbar__WEBPACK_IMPORTED_MODULE_14__["VSnackbar"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VSpacer"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_15__["VTextField"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAvatar: vuetify_lib_components_VAvatar__WEBPACK_IMPORTED_MODULE_4__["VAvatar"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_7__["VChip"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VCol"],VDatePicker: vuetify_lib_components_VDatePicker__WEBPACK_IMPORTED_MODULE_9__["VDatePicker"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_10__["VDialog"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__["VIcon"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_12__["VProgressCircular"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VRow"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_13__["VSelect"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VSpacer"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_14__["VTextField"]})
 
 
 /* hot reload */

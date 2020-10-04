@@ -73,7 +73,7 @@
                     })
                   "
                 >
-                  <v-icon small left>mdi-account-plus</v-icon>
+                  <v-icon left>mdi-account-plus</v-icon>
                   Çalışan Ekle
                 </v-list-item>
                 <v-list-item
@@ -88,7 +88,7 @@
                     })
                   "
                 >
-                  <v-icon small left>mdi-palm-tree</v-icon>
+                  <v-icon left>mdi-palm-tree</v-icon>
                   Budanan Ağaç </v-list-item
                 ><v-list-item
                   ripple=""
@@ -102,15 +102,15 @@
                     })
                   "
                 >
-                  <v-icon small left>mdi-currency-try</v-icon>
+                  <v-icon left>mdi-currency-try</v-icon>
                   Giderler
                 </v-list-item>
                 <v-list-item ripple="" @click="calcHakedis(team.ekip_ID)">
-                  <v-icon small left>mdi-calculator</v-icon>
+                  <v-icon left>mdi-calculator</v-icon>
                   Hakediş Hesapla
                 </v-list-item>
                 <v-list-item ripple="" @click="removeTeam(team.ekip_ID)">
-                  <v-icon small left color="error">mdi-account-remove</v-icon>
+                  <v-icon left color="error">mdi-account-remove</v-icon>
                   <span class="error--text">Ekibi Sil</span>
                 </v-list-item>
               </v-list>

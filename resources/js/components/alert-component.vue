@@ -6,7 +6,6 @@
       bottom
       :color="alertStyle"
       :timeout="alertTime"
-      transition="scale-transition"
     >
       {{ alertMsg }}
       <template v-slot:action="{ attrs }" v-if="alertTime == -1">
