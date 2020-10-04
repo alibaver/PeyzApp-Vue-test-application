@@ -30,3 +30,6 @@ a {
     position: fixed !important;
     bottom: 0px !important;
 }
+.pLoad {
+    height: calc(100vh - 140px) !important;
+}

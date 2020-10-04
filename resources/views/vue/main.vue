@@ -2,8 +2,7 @@
   <div>
     <div
       v-if="pageLoading"
-      class="d-flex justify-center align-center w100 flex-column"
-      style="height: calc(100vh - 130px)"
+      class="d-flex justify-center align-center w100 flex-column pLoad"
     >
       <v-progress-circular
         :width="3"
