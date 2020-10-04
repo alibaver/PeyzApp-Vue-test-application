@@ -2008,7 +2008,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     alertMsg: {
@@ -9859,7 +9858,9 @@ var render = function() {
         [
           _c("v-container", { staticClass: "pb-16" }, [_c("router-view")], 1),
           _vm._v(" "),
-          _c("bottom-nav", { staticStyle: { "z-index": "2" } })
+          _c("bottom-nav", {
+            staticStyle: { position: "fixed", bottom: "0px", "z-index": "2" }
+          })
         ],
         1
       )

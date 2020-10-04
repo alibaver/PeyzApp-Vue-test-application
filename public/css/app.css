@@ -26,5 +26,9 @@ body {
 a {
     text-decoration: none;
 }
+.v-snack__wrapper {
+    position: fixed !important;
+    bottom: 60px !important;
+}
 
 

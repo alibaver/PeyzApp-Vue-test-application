@@ -37,7 +37,7 @@
         <router-view></router-view>
       </v-container>
 
-      <bottom-nav style="z-index: 2"></bottom-nav>
+      <bottom-nav style="position: fixed; bottom: 0px; z-index: 2"></bottom-nav>
     </v-main>
   </v-app>
 </template>
