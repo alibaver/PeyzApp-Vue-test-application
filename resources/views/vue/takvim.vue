@@ -2,126 +2,135 @@
   <div>
     <div
       v-if="pageLoading"
-      class="d-flex justify-center align-center w100 flex-column pLoad"
+      class="d-flex justify-center align-center pLoad"
+      style="
+        position: fixed;
+        z-index: 99;
+        background-color: rgba(0, 0, 0, 0.3);
+        width: 100%;
+        top: 0;
+        left: 0;
+        height: 100% !important;
+      "
     >
-      <v-progress-circular
-        :width="3"
-        :size="60"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
-      <span class="mt-4 overline primary--text">LOADING..</span>
+      <v-card class="pa-5 d-flex justify-center align-center flex-column">
+        <v-progress-circular
+          :width="3"
+          :size="60"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
+        <span class="mt-4 overline primary--text">loading..</span>
+      </v-card>
     </div>
-    <div v-else>
-      <v-row>
-        <v-col class="pt-0">
-          <page-path></page-path>
-          <v-sheet>
-            <div class="d-flex justify-space-around w100 align-center">
-              <v-btn fab text small color="grey darken-2" @click="prev">
-                <v-icon small>mdi-chevron-left</v-icon>
-              </v-btn>
-              <span v-if="$refs.calendar">{{ $refs.calendar.title }}</span>
-              <v-btn fab text small color="grey darken-2" @click="next">
-                <v-icon small>mdi-chevron-right</v-icon>
-              </v-btn>
-            </div>
-          </v-sheet>
-          <v-sheet>
-            <v-calendar
-              ref="calendar"
-              v-model="focus"
-              color="primary"
-              :type="type"
-              locale="tr"
-              :weekdays="weekdays"
-              :events="events"
-              :event-color="getEventColor"
-              @click:event="showEvent"
-              @click:more="viewDay"
-            ></v-calendar>
-            <v-menu
-              v-model="selectedOpen"
-              :close-on-content-click="false"
-              :activator="selectedElement"
-              offset-x
-              min-width="270"
-            >
-              <v-card flat>
-                <v-toolbar :color="selectedEvent.color" dark dense flat>
-                  <v-btn icon small>
-                    <v-icon small>mdi-account-hard-hat</v-icon>
-                  </v-btn>
-                  <span v-html="selectedEvent.name"></span>
-                  <v-spacer></v-spacer>
-                  <v-btn icon small>
-                    <v-icon small>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </v-toolbar>
-                <v-card-text>
-                  <div class="w100 d-flex justify-space-between align-center">
-                    <div>
-                      <v-icon small color="green">mdi-check-all</v-icon
-                      ><span class="caption"> Tam Gün</span>
-                    </div>
-                    <div>
-                      <v-icon small color="blue">mdi-check</v-icon
-                      ><span class="caption"> Yarım Gün</span>
-                    </div>
-                    <div>
-                      <v-icon small color="error">mdi-close </v-icon
-                      ><span class="caption"> Gelmedi</span>
-                    </div>
+    <v-row>
+      <v-col class="pt-0">
+        <page-path></page-path>
+        <v-sheet>
+          <div class="d-flex justify-space-around w100 align-center">
+            <v-btn fab text small color="grey darken-2" @click="prev">
+              <v-icon small>mdi-chevron-left</v-icon>
+            </v-btn>
+            <span v-if="$refs.calendar">{{ $refs.calendar.title }}</span>
+            <v-btn fab text small color="grey darken-2" @click="next">
+              <v-icon small>mdi-chevron-right</v-icon>
+            </v-btn>
+          </div>
+        </v-sheet>
+        <v-sheet>
+          <v-calendar
+            ref="calendar"
+            v-model="focus"
+            color="primary"
+            :type="type"
+            locale="tr"
+            :weekdays="weekdays"
+            :events="events"
+            :event-color="getEventColor"
+            @click:event="showEvent"
+            @click:more="viewDay"
+          ></v-calendar>
+          <v-menu
+            v-model="selectedOpen"
+            :close-on-content-click="false"
+            :activator="selectedElement"
+            offset-x
+            min-width="270"
+          >
+            <v-card flat>
+              <v-toolbar :color="selectedEvent.color" dark dense flat>
+                <v-btn icon small>
+                  <v-icon small>mdi-account-hard-hat</v-icon>
+                </v-btn>
+                <span v-html="selectedEvent.name"></span>
+                <v-spacer></v-spacer>
+                <v-btn icon small>
+                  <v-icon small>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </v-toolbar>
+              <v-card-text>
+                <div class="w100 d-flex justify-space-between align-center">
+                  <div>
+                    <v-icon small color="green">mdi-check-all</v-icon
+                    ><span class="caption"> Tam Gün</span>
                   </div>
-                  <v-divider class="mt-2"></v-divider>
+                  <div>
+                    <v-icon small color="blue">mdi-check</v-icon
+                    ><span class="caption"> Yarım Gün</span>
+                  </div>
+                  <div>
+                    <v-icon small color="error">mdi-close </v-icon
+                    ><span class="caption"> Gelmedi</span>
+                  </div>
+                </div>
+                <v-divider class="mt-2"></v-divider>
 
-                  <v-list dense class="pa-0 ma-0">
-                    <v-list-item
-                      v-for="person in selectedEvent.details"
-                      :key="person.worker_id"
-                      class="pa-0"
-                      style="height: 25px"
-                    >
-                      <v-icon
-                        v-if="person.status == 'Tam Gün'"
-                        small
-                        left
-                        color="green"
-                        >mdi-check-all</v-icon
-                      >
-                      <v-icon
-                        v-else-if="person.status == 'Yarım Gün'"
-                        small
-                        left
-                        color="blue"
-                        >mdi-check</v-icon
-                      >
-                      <v-icon v-else small left color="error">mdi-close</v-icon>
-
-                      <v-icon small left color="gray"
-                        >mdi-account-hard-hat</v-icon
-                      >
-                      <span class="body-2"
-                        >{{ person.ad }} {{ person.soyad }}</span
-                      >
-                    </v-list-item>
-                  </v-list>
-                </v-card-text>
-                <v-card-actions>
-                  <v-btn
-                    small
-                    text
-                    color="secondary"
-                    @click="selectedOpen = false"
-                    >Kapat</v-btn
+                <v-list dense class="pa-0 ma-0">
+                  <v-list-item
+                    v-for="person in selectedEvent.details"
+                    :key="person.worker_id"
+                    class="pa-0"
+                    style="height: 25px"
                   >
-                </v-card-actions>
-              </v-card>
-            </v-menu>
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </div>
+                    <v-icon
+                      v-if="person.status == 'Tam Gün'"
+                      small
+                      left
+                      color="green"
+                      >mdi-check-all</v-icon
+                    >
+                    <v-icon
+                      v-else-if="person.status == 'Yarım Gün'"
+                      small
+                      left
+                      color="blue"
+                      >mdi-check</v-icon
+                    >
+                    <v-icon v-else small left color="error">mdi-close</v-icon>
+
+                    <v-icon small left color="gray"
+                      >mdi-account-hard-hat</v-icon
+                    >
+                    <span class="body-2"
+                      >{{ person.ad }} {{ person.soyad }}</span
+                    >
+                  </v-list-item>
+                </v-list>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  small
+                  text
+                  color="secondary"
+                  @click="selectedOpen = false"
+                  >Kapat</v-btn
+                >
+              </v-card-actions>
+            </v-card>
+          </v-menu>
+        </v-sheet>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>
@@ -348,8 +357,6 @@ export default {
         })
         .then((response) => {
           this.calendarData = response.data;
-          this.pageLoading = false;
-
           this.calendarData.forEach((person) => {
             this.events.push({
               name: person.ekip_adi,
@@ -360,6 +367,7 @@ export default {
               details: JSON.parse(person.workers),
             });
           });
+          this.pageLoading = false;
         })
         .catch((err) => {
           console.log(err);
