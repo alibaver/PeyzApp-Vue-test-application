@@ -15,17 +15,7 @@
     </v-snackbar>
   </div>
 </template>
-<style scoped>
-/* .alert-msg {
-  position: fixed;
-  bottom: 0;
-  width: 90%;
-  max-width: 1000px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 99;
-} */
-</style>
+
 <script>
 export default {
   props: {

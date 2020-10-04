@@ -15,13 +15,22 @@
     </div>
     <div v-else>
       <page-path></page-path>
-      <alert-component
+      <v-snackbar v-model="snackbar" timeout="3000" color="success">
+        snackbar
+
+        <template v-slot:action="{ attrs }">
+          <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+            kapat
+          </v-btn>
+        </template>
+      </v-snackbar>
+      <!-- <alert-component
         @closeAlert="close($event)"
         :alert-msg="alert.message"
         :alert-style="alert.style"
         :alert-open="alert.isOpen"
         :alert-time="alert.time"
-      ></alert-component>
+      ></alert-component> -->
       <v-card class="colBorder pa-4 pb-1">
         <v-row>
           <v-col cols="12">
@@ -132,6 +141,7 @@
 export default {
   data: () => ({
     items: [],
+    snackbar: true,
     teamID: "",
     teamName: "",
     date: "",
