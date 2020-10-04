@@ -16,12 +16,12 @@
 
     <div v-else>
       <div class="overline w100 px-0 mb-3 d-flex justify-space-between">
-        <v-chip label color="primary" small dark>
-          <v-icon small left>mdi-account-group</v-icon>{{ ekipAdi }}
+        <v-chip label color="primary" dark>
+          <v-icon left>mdi-account-group</v-icon>{{ ekipAdi }}
         </v-chip>
         <v-spacer></v-spacer>
-        <v-chip label color="primary" small dark>
-          <v-icon small left>mdi-tree</v-icon>{{ agacSayi }}
+        <v-chip label color="primary" dark>
+          <v-icon left>mdi-tree</v-icon>{{ agacSayi }}
         </v-chip>
       </div>
 
@@ -126,35 +126,34 @@
           :key="index"
         >
           <v-card class="pa-3 colBorder">
-            <v-card-actions class="ma-0 pa-0">
-              <v-spacer></v-spacer>
-              <v-menu offset-y>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn icon small v-bind="attrs" v-on="on">
-                    <v-icon small>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </template>
-                <v-list dense>
-                  <v-list-item
-                    ripple=""
-                    style="min-height: 35px"
-                    class="caption"
-                  >
-                    <v-icon small left>mdi-information-outline</v-icon>
-                    Detaylı bilgi
-                  </v-list-item>
-                  <v-list-item
-                    ripple=""
-                    style="min-height: 35px"
-                    class="caption"
-                    @click="workerDataBackup(worker.id)"
-                  >
-                    <v-icon small left color="error">mdi-account-remove</v-icon>
-                    Ekipten çıkar
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </v-card-actions>
+            <!-- menu -->
+            <v-menu offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                  style="position: absolute; left: 10px; top: 10px"
+                >
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+              <v-list dense>
+                <v-list-item ripple="" style="min-height: 35px" class="caption">
+                  <v-icon small left>mdi-information-outline</v-icon>
+                  Detaylı bilgi
+                </v-list-item>
+                <v-list-item
+                  ripple=""
+                  style="min-height: 35px"
+                  class="caption"
+                  @click="workerDataBackup(worker.id)"
+                >
+                  <v-icon small left color="error">mdi-account-remove</v-icon>
+                  Ekipten çıkar
+                </v-list-item>
+              </v-list>
+            </v-menu>
             <v-row>
               <!-- icon -->
               <v-col
@@ -171,17 +170,17 @@
               </v-col>
               <v-col cols="8" class="py-0 pl-0">
                 <!-- AD SOYAD -->
-                <span class="subtitle-1 d-block overline"
+                <span class="subtitle-1 d-block"
                   >{{ worker.ad }} {{ worker.soyad }}</span
                 >
                 <!-- YEVMİYE MİKTARI -->
-                <span class="body-2 d-block">
+                <span class="body-2 d-block my-1">
                   <v-icon x-small color="black">mdi-cash</v-icon>
                   : ₺{{ worker.yevmiye }} /
                   <span class="caption">Günlük</span>
                 </span>
                 <!-- BAŞLANGIÇ TARİHİ -->
-                <span class="body-2 d-block">
+                <span class="body-2 d-block my-1">
                   <v-icon x-small color="black">mdi-calendar</v-icon>
                   :
                   {{ worker.kayit_tarihi.split("-").reverse().join(".") }}
@@ -193,10 +192,9 @@
 
                 <!-- HAK EDİŞ TUTARI -->
                 <v-chip
-                  class="text-body-2 d-block mt-2 text-center px-1"
+                  class="body-1 d-block mt-2 text-center px-2"
                   color="primary"
                   outlined
-                  small
                   label
                 >
                   Hakediş Tutarı : ₺{{
@@ -212,8 +210,7 @@
                 <v-select
                   :disabled="worker.guncelleme_tarihi >= getDate()"
                   @change="changed = !changed"
-                  class="mt-2 mb-1"
-                  dense
+                  class="my-1"
                   :value="gunler[0]"
                   hide-details
                   :items="gunler"
