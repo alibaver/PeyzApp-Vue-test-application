@@ -9859,9 +9859,7 @@ var render = function() {
         [
           _c("v-container", { staticClass: "pb-16" }, [_c("router-view")], 1),
           _vm._v(" "),
-          _c("bottom-nav", {
-            staticStyle: { position: "fixed", bottom: "0px", "z-index": "2" }
-          })
+          _c("bottom-nav", { staticStyle: { "z-index": "2" } })
         ],
         1
       )
@@ -10012,7 +10010,7 @@ var render = function() {
           "div",
           {
             staticClass: "d-flex justify-center align-center w100 flex-column",
-            staticStyle: { height: "calc(100vh - 130px)" }
+            staticStyle: { height: "calc(100vh - 140px)" }
           },
           [
             _c("v-progress-circular", {
@@ -10302,7 +10300,7 @@ var render = function() {
           "div",
           {
             staticClass: "d-flex justify-center align-center w100 flex-column",
-            staticStyle: { height: "calc(100vh - 130px)" }
+            staticStyle: { height: "calc(100vh - 140px)" }
           },
           [
             _c("v-progress-circular", {
@@ -11012,7 +11010,7 @@ var render = function() {
           "div",
           {
             staticClass: "d-flex justify-center align-center w100 flex-column",
-            staticStyle: { height: "calc(100vh - 130px)" }
+            staticStyle: { height: "calc(100vh - 140px)" }
           },
           [
             _c("v-progress-circular", {
@@ -11335,7 +11333,7 @@ var render = function() {
           "div",
           {
             staticClass: "d-flex justify-center align-center w100 flex-column",
-            staticStyle: { height: "calc(100vh - 130px)" }
+            staticStyle: { height: "calc(100vh - 140px)" }
           },
           [
             _c("v-progress-circular", {
@@ -11821,7 +11819,7 @@ var render = function() {
           "div",
           {
             staticClass: "d-flex justify-center align-center w100 flex-column",
-            staticStyle: { height: "calc(100vh - 130px)" }
+            staticStyle: { height: "calc(100vh - 140px)" }
           },
           [
             _c("v-progress-circular", {
@@ -12145,7 +12143,7 @@ var render = function() {
           "div",
           {
             staticClass: "d-flex justify-center align-center w100 flex-column",
-            staticStyle: { height: "calc(100vh - 130px)" }
+            staticStyle: { height: "calc(100vh - 140px)" }
           },
           [
             _c("v-progress-circular", {
@@ -12833,7 +12831,7 @@ var render = function() {
           "div",
           {
             staticClass: "d-flex justify-center align-center w100 flex-column",
-            staticStyle: { height: "calc(100vh - 130px)" }
+            staticStyle: { height: "calc(100vh - 140px)" }
           },
           [
             _c("v-progress-circular", {
@@ -13749,7 +13747,7 @@ var render = function() {
           "div",
           {
             staticClass: "d-flex justify-center align-center w100 flex-column",
-            staticStyle: { height: "calc(100vh - 130px)" }
+            staticStyle: { height: "calc(100vh - 140px)" }
           },
           [
             _c("v-progress-circular", {
