@@ -114,6 +114,35 @@
         </v-card>
       </v-col> -->
 
+        <!-- tarih1 -->
+        <v-col cols="12" class="px-5">
+          <v-dialog
+            ref="dialog"
+            v-model="modal"
+            :return-value.sync="date"
+            persistent
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="date"
+                label="Tarih seçin"
+                prepend-inner-icon="mdi-calendar"
+                readonly
+                hide-details=""
+                v-bind="attrs"
+                v-on="on"
+                ref="tarih"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="date" scrollable locale="tr" width="auto">
+              <v-spacer></v-spacer>
+              <v-btn text color="primary" @click="modal = false">Kapat</v-btn>
+              <v-btn text color="primary" @click="$refs.dialog.save(date)"
+                >Tamam</v-btn
+              >
+            </v-date-picker>
+          </v-dialog>
+        </v-col>
         <!-- Çalışan bilgileri -->
         <v-col
           cols="12"
@@ -191,7 +220,7 @@
                   outlined
                   label
                 >
-                  Hakediş Tutarı : ₺{{
+                  <span class="caption">Hakediş Tutarı :</span> ₺{{
                     hakedisTutari(
                       worker.tam_gun,
                       worker.yarim_gun,
@@ -278,6 +307,7 @@ export default {
     updatedWorkers: [],
     pruningData: [],
     date: "",
+    modal: false,
     canSave: false,
     nWorker: "",
     gunler: ["Tam Gün", "Yarım Gün", "Gelmedi"],
@@ -321,7 +351,7 @@ export default {
           arr.push({
             yGun: gun,
             tGun: tgun,
-            uDate: this.getDate(),
+            uDate: this.date > this.$getDate() ? this.$getDate() : this.date,
             _id: parseInt(item.id),
           });
         } else {
@@ -338,7 +368,7 @@ export default {
           arr.push({
             yGun: person.yarim_gun,
             tGun: person.tam_gun,
-            uDate: this.getDate(),
+            uDate: this.date > this.$getDate() ? this.$getDate() : this.date,
             _id: parseInt(item.id),
           });
         }
@@ -351,6 +381,7 @@ export default {
         });
         this._uWorkers(arr);
 
+        //console.log(arr);
         this.dialog = false;
       });
 
@@ -377,9 +408,10 @@ export default {
         calendar.push({
           ekip_id: this.teamID,
           ekip_adi: this.ekipAdi,
-          date: this.getDate(),
+          date: this.date,
           workers: JSON.stringify(wDetail),
         });
+
         this._sCalendar(calendar);
         this.goHome();
       }
