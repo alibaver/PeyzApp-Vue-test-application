@@ -3,7 +3,6 @@
     <v-snackbar
       v-model="alertOpen"
       multi-line
-      bottom
       :color="alertStyle"
       :timeout="alertTime"
     >
