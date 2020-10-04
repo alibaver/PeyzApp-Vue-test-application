@@ -93,6 +93,10 @@ if ($choose == "getFilteredPayment") {
     $query = "SELECT * FROM `tb_hakedis` WHERE `tarih` >= '$param' AND `tarih` <= '$param2' ORDER BY `tarih` DESC";
     $userData = mysqli_query($con, $query);
 }
+if ($choose == "getUsers") {
+    $query = "SELECT * FROM `tb_kullanici` WHERE `k_adi` = '$param' AND `sifre` = '$param2'";
+    $userData = mysqli_query($con, $query);
+}
 
 // if ($choose == "trial_database") {
 //     $query = "select * from trial_databases ORDER BY trial_databases.date DESC";

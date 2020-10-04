@@ -405,7 +405,6 @@ export default {
               value: item.ekip_ID,
             });
           });
-          this.pageLoading = false;
         })
         .catch((err) => {
           console.log(err);
@@ -474,6 +473,7 @@ export default {
           });
           this.totalPrice = numeral(this.totalPrice).format("0,0.00");
           this.loading = false;
+          this.pageLoading = false;
         })
         .catch((err) => {
           console.log(err);
@@ -501,6 +501,7 @@ export default {
           });
           this.totalPrice = numeral(this.totalPrice).format("0,0.00");
           this.loading = false;
+          this.pageLoading = false;
         })
         .catch((err) => {
           console.log(err);

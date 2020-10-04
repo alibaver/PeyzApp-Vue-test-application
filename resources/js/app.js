@@ -83,9 +83,9 @@ import ekipOlustur from "../views/vue/ekip-olustur";
 import budananAgac from "../views/vue/budanan-agac";
 import ekipDetay from "../views/vue/ekip-detay";
 import calisanEkle from "../views/vue/calisan-ekle";
-
 import hakedis from "../views/vue/hakedis";
 import ayrilanCalisanlar from "../views/vue/ayrilan-calisanlar";
+import login from "../views/vue/login";
 
 /**
  * The following block of code may be used to automatically register your
@@ -119,49 +119,94 @@ const router = new VueRouter({
         {
             path: "/",
             name: "Anasayfa",
-            component: main
+            component: main,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/takvim",
             name: "Takvim",
-            component: takvim
+            component: takvim,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/gider",
             name: "Gider",
-            component: gider
+            component: gider,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/ekip-olustur",
             name: "Ekip Oluştur",
-            component: ekipOlustur
+            component: ekipOlustur,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/budanan-agac",
             name: "Budanan Ağaç",
-            component: budananAgac
+            component: budananAgac,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/ekip-detay",
             name: "Ekip Detay",
-            component: ekipDetay
+            component: ekipDetay,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/calisan-ekle",
             name: "Çalışan Ekle",
-            component: calisanEkle
+            component: calisanEkle,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/hakedis",
             name: "Hakediş",
-            component: hakedis
+            component: hakedis,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/ayrilan-calisanlar",
             name: "Ayrılan Çalışanlar",
-            component: ayrilanCalisanlar
+            component: ayrilanCalisanlar,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/login",
+            name: "Giriş Sayfası",
+            component: login
         }
     ]
+});
+
+router.beforeEach(function(to, from, next) {
+    const requiresAuth = JSON.parse(
+        window.localStorage.getItem("requiresAuth")
+    );
+    if (to.path !== "/login" && to.path !== "login" && !requiresAuth) {
+        next({ path: "/login" });
+    } else if ((to.path === "/login" || to.path === "login") && requiresAuth) {
+        next({ path: "/" });
+    } else {
+        next();
+    }
 });
 
 const app = new Vue({
