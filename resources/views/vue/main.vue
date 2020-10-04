@@ -54,13 +54,13 @@
             >{{ team.ekip_adi }}
             <v-spacer></v-spacer>
             <!-- menu -->
-            <v-menu offset-y style="position: absolute; right: 0">
+            <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon v-bind="attrs" v-on="on">
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
-              <v-list dense>
+              <v-list>
                 <v-list-item
                   ripple=""
                   class="caption"

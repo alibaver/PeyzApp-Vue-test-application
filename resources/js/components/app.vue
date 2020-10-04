@@ -1,13 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar
-      id="appBar"
-      app
-      clipped-left
-      dense
-      color="white"
-      elevate-on-scroll
-    >
+    <v-app-bar id="appBar" app clipped-left color="white" elevate-on-scroll>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" color="primary" />
       <a href="/">
         <span class="subtitle-1 primary--text"

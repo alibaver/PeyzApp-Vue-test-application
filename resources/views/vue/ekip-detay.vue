@@ -17,11 +17,11 @@
     <div v-else>
       <div class="overline w100 px-0 mb-3 d-flex justify-space-between">
         <v-chip label color="primary" dark>
-          <v-icon left>mdi-account-group</v-icon>{{ ekipAdi }}
+          <v-icon small left>mdi-account-group</v-icon>{{ ekipAdi }}
         </v-chip>
         <v-spacer></v-spacer>
         <v-chip label color="primary" dark>
-          <v-icon left>mdi-tree</v-icon>{{ agacSayi }}
+          <v-icon small left>mdi-tree</v-icon>{{ agacSayi }}
         </v-chip>
       </div>
 
@@ -138,14 +138,13 @@
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
-              <v-list dense>
-                <v-list-item ripple="" style="min-height: 35px" class="caption">
+              <v-list>
+                <v-list-item ripple="" class="caption">
                   <v-icon small left>mdi-information-outline</v-icon>
                   Detaylı bilgi
                 </v-list-item>
                 <v-list-item
                   ripple=""
-                  style="min-height: 35px"
                   class="caption"
                   @click="workerDataBackup(worker.id)"
                 >
