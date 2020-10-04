@@ -28,5 +28,5 @@ a {
 }
 .v-snack__wrapper {
     position: fixed !important;
-    bottom: 60px !important;
+    bottom: 0px !important;
 }

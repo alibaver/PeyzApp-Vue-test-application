@@ -5,6 +5,7 @@
       multi-line
       :color="alertStyle"
       :timeout="alertTime"
+      transition="scale-transition"
     >
       {{ alertMsg }}
       <template v-slot:action="{ attrs }" v-if="alertTime == -1">
@@ -13,6 +14,7 @@
     </v-snackbar>
   </div>
 </template>
+
 <script>
 export default {
   props: {

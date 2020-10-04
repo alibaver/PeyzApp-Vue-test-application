@@ -2008,6 +2008,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     alertMsg: {
@@ -9670,7 +9672,8 @@ var render = function() {
           attrs: {
             "multi-line": "",
             color: _vm.alertStyle,
-            timeout: _vm.alertTime
+            timeout: _vm.alertTime,
+            transition: "scale-transition"
           },
           scopedSlots: _vm._u(
             [
