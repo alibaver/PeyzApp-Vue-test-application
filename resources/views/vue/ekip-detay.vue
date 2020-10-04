@@ -139,16 +139,12 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item ripple="" class="caption">
-                  <v-icon small left>mdi-information-outline</v-icon>
+                <v-list-item ripple="">
+                  <v-icon left>mdi-information-outline</v-icon>
                   Detaylı bilgi
                 </v-list-item>
-                <v-list-item
-                  ripple=""
-                  class="caption"
-                  @click="workerDataBackup(worker.id)"
-                >
-                  <v-icon small left color="error">mdi-account-remove</v-icon>
+                <v-list-item ripple="" @click="workerDataBackup(worker.id)">
+                  <v-icon left color="error">mdi-account-remove</v-icon>
                   Ekipten çıkar
                 </v-list-item>
               </v-list>

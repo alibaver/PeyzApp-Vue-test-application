@@ -3553,10 +3553,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4958,17 +4954,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -11511,16 +11496,11 @@ var render = function() {
                                 [
                                   _c(
                                     "v-list-item",
-                                    {
-                                      staticClass: "caption",
-                                      attrs: { ripple: "" }
-                                    },
+                                    { attrs: { ripple: "" } },
                                     [
-                                      _c(
-                                        "v-icon",
-                                        { attrs: { small: "", left: "" } },
-                                        [_vm._v("mdi-information-outline")]
-                                      ),
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("mdi-information-outline")
+                                      ]),
                                       _vm._v(
                                         "\n                Detaylı bilgi\n              "
                                       )
@@ -11531,7 +11511,6 @@ var render = function() {
                                   _c(
                                     "v-list-item",
                                     {
-                                      staticClass: "caption",
                                       attrs: { ripple: "" },
                                       on: {
                                         click: function($event) {
@@ -11542,13 +11521,7 @@ var render = function() {
                                     [
                                       _c(
                                         "v-icon",
-                                        {
-                                          attrs: {
-                                            small: "",
-                                            left: "",
-                                            color: "error"
-                                          }
-                                        },
+                                        { attrs: { left: "", color: "error" } },
                                         [_vm._v("mdi-account-remove")]
                                       ),
                                       _vm._v(
@@ -13409,7 +13382,6 @@ var render = function() {
                                     _c(
                                       "v-list-item",
                                       {
-                                        staticClass: "caption",
                                         attrs: { ripple: "" },
                                         on: {
                                           click: function($event) {
@@ -13439,7 +13411,6 @@ var render = function() {
                                     _c(
                                       "v-list-item",
                                       {
-                                        staticClass: "caption",
                                         attrs: { ripple: "" },
                                         on: {
                                           click: function($event) {
@@ -13468,7 +13439,6 @@ var render = function() {
                                     _c(
                                       "v-list-item",
                                       {
-                                        staticClass: "caption",
                                         attrs: { ripple: "" },
                                         on: {
                                           click: function($event) {
@@ -13498,7 +13468,6 @@ var render = function() {
                                     _c(
                                       "v-list-item",
                                       {
-                                        staticClass: "caption",
                                         attrs: { ripple: "" },
                                         on: {
                                           click: function($event) {
@@ -13522,7 +13491,6 @@ var render = function() {
                                     _c(
                                       "v-list-item",
                                       {
-                                        staticClass: "caption",
                                         attrs: { ripple: "" },
                                         on: {
                                           click: function($event) {

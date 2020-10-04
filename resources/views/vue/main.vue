@@ -63,7 +63,6 @@
               <v-list>
                 <v-list-item
                   ripple=""
-                  class="caption"
                   @click="
                     $router.push({
                       path: '/calisan-ekle',
@@ -79,7 +78,6 @@
                 </v-list-item>
                 <v-list-item
                   ripple=""
-                  class="caption"
                   @click="
                     $router.push({
                       path: '/budanan-agac',
@@ -94,7 +92,6 @@
                   Budanan Ağaç </v-list-item
                 ><v-list-item
                   ripple=""
-                  class="caption"
                   @click="
                     $router.push({
                       path: '/gider',
@@ -108,19 +105,11 @@
                   <v-icon small left>mdi-currency-try</v-icon>
                   Giderler
                 </v-list-item>
-                <v-list-item
-                  ripple=""
-                  class="caption"
-                  @click="calcHakedis(team.ekip_ID)"
-                >
+                <v-list-item ripple="" @click="calcHakedis(team.ekip_ID)">
                   <v-icon small left>mdi-calculator</v-icon>
                   Hakediş Hesapla
                 </v-list-item>
-                <v-list-item
-                  ripple=""
-                  class="caption"
-                  @click="removeTeam(team.ekip_ID)"
-                >
+                <v-list-item ripple="" @click="removeTeam(team.ekip_ID)">
                   <v-icon small left color="error">mdi-account-remove</v-icon>
                   <span class="error--text">Ekibi Sil</span>
                 </v-list-item>
