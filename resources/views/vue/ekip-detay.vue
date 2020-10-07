@@ -146,9 +146,9 @@
         <!-- Çalışan bilgileri -->
         <v-col
           cols="12"
-          sm
-          md
-          lg="3"
+          sm="6"
+          md="6"
+          lg="4"
           class="py-3"
           v-for="(worker, index) in workerData"
           :key="index"
@@ -220,7 +220,7 @@
                   outlined
                   label
                 >
-                  <span class="caption">Hakediş Tutarı :</span> ₺{{
+                  <span class="caption">H. Tutarı :</span> ₺{{
                     hakedisTutari(
                       worker.tam_gun,
                       worker.yarim_gun,

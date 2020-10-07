@@ -41,6 +41,10 @@ window.numeral.locale("tr");
 Vue.use(VueRouter);
 Vue.prototype.$axios = axios;
 
+Vue.prototype.$uid = "";
+Vue.prototype.$ad = "";
+Vue.prototype.$soyad = "";
+
 Vue.prototype.$getDate = function() {
     let date;
     date = new Date()
@@ -200,6 +204,7 @@ router.beforeEach(function(to, from, next) {
     const requiresAuth = JSON.parse(
         window.localStorage.getItem("requiresAuth")
     );
+
     if (to.path !== "/login" && to.path !== "login" && !requiresAuth) {
         next({ path: "/login" });
     } else if ((to.path === "/login" || to.path === "login") && requiresAuth) {

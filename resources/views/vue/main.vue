@@ -35,127 +35,140 @@
       </div>
       <!-- EKİP BİLGİLER -->
       <div v-else class="w100 mb-4 mx-auto">
-        <v-card
-          @click="
-            $router.push({
-              path: '/ekip-detay',
-              query: { teamId: team.ekip_ID },
-            })
-          "
-          class="mb-4 pa-1"
-          v-for="(team, index) in teamData"
-          :key="index"
-          :ripple="false"
-        >
-          <!-- ekip detay -->
-
-          <v-card-title class="subtitle-1"
-            >{{ team.ekip_adi }}
-            <v-spacer></v-spacer>
-            <!-- menu -->
-            <v-menu offset-y>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs" v-on="on">
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-item
-                  ripple=""
-                  @click="
-                    $router.push({
-                      path: '/calisan-ekle',
-                      query: {
-                        teamId: team.ekip_ID,
-                        teamName: team.ekip_adi,
-                      },
-                    })
-                  "
-                >
-                  <v-icon left>mdi-account-plus</v-icon>
-                  Çalışan Ekle
-                </v-list-item>
-                <v-list-item
-                  ripple=""
-                  @click="
-                    $router.push({
-                      path: '/budanan-agac',
-                      query: {
-                        teamId: team.ekip_ID,
-                        teamName: team.ekip_adi,
-                      },
-                    })
-                  "
-                >
-                  <v-icon left>mdi-palm-tree</v-icon>
-                  Budanan Ağaç </v-list-item
-                ><v-list-item
-                  ripple=""
-                  @click="
-                    $router.push({
-                      path: '/gider',
-                      query: {
-                        teamId: team.ekip_ID,
-                        teamName: team.ekip_adi,
-                      },
-                    })
-                  "
-                >
-                  <v-icon left>mdi-currency-try</v-icon>
-                  Giderler
-                </v-list-item>
-                <v-list-item ripple="" @click="calcHakedis(team.ekip_ID)">
-                  <v-icon left>mdi-calculator</v-icon>
-                  Hakediş Hesapla
-                </v-list-item>
-                <v-list-item ripple="" @click="removeTeam(team.ekip_ID)">
-                  <v-icon left color="error">mdi-account-remove</v-icon>
-                  <span class="error--text">Ekibi Sil</span>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-card-title>
-          <v-card-subtitle>{{ team.calisan_sayisi }} Çalışan</v-card-subtitle>
-          <v-card-title class="subtitle-1 pt-0">
-            HAKEDİŞ <span class="caption">&nbsp;(Toplam)</span></v-card-title
+        <v-row>
+          <v-col
+            cols="12"
+            lg="4"
+            md="6"
+            sm="6"
+            v-for="(team, index) in teamData"
+            :key="index"
           >
-          <v-card-subtitle class="font-weight-bold primary--text body-1">
-            ₺{{ team.toplam_yevmiye }}
-          </v-card-subtitle>
-          <v-card-text class="pa-2">
-            <v-chip outlined class="success--text mb-2 mr-1">
-              <v-icon small left color="success">mdi-arrow-up-bold</v-icon>
-              <span class="mr-2 caption">Gelir :</span>
-              ₺{{ calcPruning(team.ekip_ID) }}
-            </v-chip>
-            <v-chip outlined class="error--text mb-2 mr-1">
-              <v-icon small left color="error">mdi-arrow-down-bold</v-icon>
-              <span class="mr-2 caption">Gider :</span>
-              - ₺{{ calcExpense(team.ekip_ID) }}
-            </v-chip>
-          </v-card-text>
+            <v-card
+              @click="
+                $router.push({
+                  path: '/ekip-detay',
+                  query: { teamId: team.ekip_ID },
+                })
+              "
+              class="mb-4 pa-1"
+              :ripple="false"
+            >
+              <!-- ekip detay -->
 
-          <v-divider></v-divider>
-          <!-- ağaç sayı -->
-          <v-card-text class="secondary--text text-overline d-block text-center"
-            >HAFTALIK AĞAÇ GRAFİĞİ</v-card-text
-          >
-          <v-sheet color="transparent" class="pa-2">
-            <v-sparkline
-              :key="String(days)"
-              :smooth="15"
-              :gradient="['#4776E6', '#8E54E9']"
-              :line-width="3"
-              :value="value"
-              :labels="days"
-              :padding="16"
-              color="secondary"
-              auto-draw
-              gradient-direction="left"
-              stroke-linecap="round"
-            ></v-sparkline>
-          </v-sheet>
-        </v-card>
+              <v-card-title class="subtitle-1"
+                >{{ team.ekip_adi }}
+                <v-spacer></v-spacer>
+                <!-- menu -->
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon v-bind="attrs" v-on="on">
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-item
+                      ripple=""
+                      @click="
+                        $router.push({
+                          path: '/calisan-ekle',
+                          query: {
+                            teamId: team.ekip_ID,
+                            teamName: team.ekip_adi,
+                          },
+                        })
+                      "
+                    >
+                      <v-icon left>mdi-account-plus</v-icon>
+                      Çalışan Ekle
+                    </v-list-item>
+                    <v-list-item
+                      ripple=""
+                      @click="
+                        $router.push({
+                          path: '/budanan-agac',
+                          query: {
+                            teamId: team.ekip_ID,
+                            teamName: team.ekip_adi,
+                          },
+                        })
+                      "
+                    >
+                      <v-icon left>mdi-palm-tree</v-icon>
+                      Budanan Ağaç </v-list-item
+                    ><v-list-item
+                      ripple=""
+                      @click="
+                        $router.push({
+                          path: '/gider',
+                          query: {
+                            teamId: team.ekip_ID,
+                            teamName: team.ekip_adi,
+                          },
+                        })
+                      "
+                    >
+                      <v-icon left>mdi-currency-try</v-icon>
+                      Giderler
+                    </v-list-item>
+                    <v-list-item ripple="" @click="calcHakedis(team.ekip_ID)">
+                      <v-icon left>mdi-calculator</v-icon>
+                      Hakediş Hesapla
+                    </v-list-item>
+                    <v-list-item ripple="" @click="removeTeam(team.ekip_ID)">
+                      <v-icon left color="error">mdi-account-remove</v-icon>
+                      <span class="error--text">Ekibi Sil</span>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-card-title>
+              <v-card-subtitle
+                >{{ team.calisan_sayisi }} Çalışan</v-card-subtitle
+              >
+              <v-card-title class="subtitle-1 pt-0">
+                HAKEDİŞ
+                <span class="caption">&nbsp;(Toplam)</span></v-card-title
+              >
+              <v-card-subtitle class="font-weight-bold primary--text body-1">
+                ₺{{ team.toplam_yevmiye }}
+              </v-card-subtitle>
+              <v-card-text class="pa-2">
+                <v-chip outlined class="success--text mb-2 mr-1">
+                  <v-icon small left color="success">mdi-arrow-up-bold</v-icon>
+                  <span class="mr-2 caption">Gelir :</span>
+                  ₺{{ calcPruning(team.ekip_ID) }}
+                </v-chip>
+                <v-chip outlined class="error--text mb-2 mr-1">
+                  <v-icon small left color="error">mdi-arrow-down-bold</v-icon>
+                  <span class="mr-2 caption">Gider :</span>
+                  - ₺{{ calcExpense(team.ekip_ID) }}
+                </v-chip>
+              </v-card-text>
+
+              <v-divider></v-divider>
+              <!-- ağaç sayı -->
+              <v-card-text
+                class="secondary--text text-overline d-block text-center"
+                >HAFTALIK AĞAÇ GRAFİĞİ</v-card-text
+              >
+              <v-sheet color="transparent" class="pa-2">
+                <v-sparkline
+                  :key="String(days)"
+                  :smooth="15"
+                  :gradient="['#4776E6', '#8E54E9']"
+                  :line-width="3"
+                  :value="value"
+                  :labels="days"
+                  :padding="16"
+                  color="secondary"
+                  auto-draw
+                  gradient-direction="left"
+                  stroke-linecap="round"
+                ></v-sparkline>
+              </v-sheet>
+            </v-card>
+          </v-col>
+        </v-row>
       </div>
 
       <v-btn
@@ -457,10 +470,13 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "teams",
+            param: window.localStorage.getItem("_uid"),
           },
         })
         .then((response) => {
-          this.teamData = response.data;
+          response.data.indexOf("Connection failed: Connection refused") > -1
+            ? (this.teamData = 0)
+            : (this.teamData = response.data);
           this.pageLoading = false;
         })
         .catch((err) => {

@@ -14,7 +14,7 @@ isset($_GET['param2']) ? $param2 = $_GET['param2'] : $param2 = "";
 isset($_GET['param3']) ? $param3 = $_GET['param3'] : $param3 = "";
 
 if ($choose == "teams") {
-    $query = "SELECT * FROM `tb_ekip` ORDER BY id DESC";
+    $query = "SELECT * FROM `tb_ekip` WHERE `kullanici_id`= '$param' ORDER BY id DESC";
     $userData = mysqli_query($con, $query);
 }
 if ($choose == "trees") {

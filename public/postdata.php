@@ -21,11 +21,12 @@ isset($_GET['param3']) ? $param3 = $_GET['param3'] : $param3 = "";
 
 if($param == "saveTeam"){
     $teamName = $post["name"];
+    $uid = $post["uid"];
     $teamID = $post["_id"];
     $sayi = $post["wCount"];
     $yevmiye = $post["tYevmiye"];
     $agac = $post["agacSayi"];
-    $q = "INSERT INTO `tb_ekip`(`ekip_ID`, `ekip_adi`, `calisan_sayisi`, `toplam_yevmiye`, `toplam_kesilen_agac`) VALUES ('$teamID','$teamName','$sayi','$yevmiye','$agac')";
+    $q = "INSERT INTO `tb_ekip`(`kullanici_id`,`ekip_ID`, `ekip_adi`, `calisan_sayisi`, `toplam_yevmiye`, `toplam_kesilen_agac`) VALUES ('$uid','$teamID','$teamName','$sayi','$yevmiye','$agac')";
     $res = mysqli_query($con, $q);
 }
 if($param == "saveWorker"){

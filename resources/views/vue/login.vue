@@ -4,7 +4,10 @@
     style="height: 100vh"
   >
     <span class="white--text body-1"
-      >peyz<span class="white--text font-weight-bold body-1">APP</span></span
+      ><v-icon left dark>mdi-palm-tree</v-icon>peyz<span
+        class="white--text font-weight-bold body-1"
+        >APP</span
+      ></span
     >
     <v-card max-width="290" class="elevation-0 transparent">
       <v-card-text>
@@ -114,16 +117,32 @@ export default {
         })
         .then((res) => {
           this.pageLoading = false;
+          const user = res.data[0];
           if (res.data.length > 0) {
             window.localStorage.setItem("requiresAuth", true);
-            this.$router.push("/");
+            window.localStorage.setItem("_uid", user.kullanici_id);
+            window.localStorage.setItem("ad", user.ad);
+            window.localStorage.setItem("soyad", user.soyad);
+
+            this.alert.message = "Giriş başarılı";
+            this.alert.style = "success";
+            this.alert.isOpen = true;
+            window.location.reload();
           } else {
             this.alert.message = "Kullanıcı adı veya şifre hatalı.";
             this.alert.style = "error";
             this.alert.isOpen = true;
           }
+          this.alert.time > -1
+            ? setTimeout(() => {
+                this.alert.isOpen = false;
+              }, this.alert.time)
+            : "";
         });
     },
+  },
+  mounted() {
+    console.log("login");
   },
 };
 </script>

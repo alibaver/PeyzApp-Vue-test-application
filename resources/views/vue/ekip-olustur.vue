@@ -136,6 +136,7 @@
 <script>
 export default {
   data: () => ({
+    _uid: "",
     date: "",
     pageLoading: true,
     modal: false,
@@ -211,6 +212,7 @@ export default {
         this.tName != undefined
       ) {
         this.team.wCount = this.workers.length;
+        this.team.uid = this._uid;
 
         let promise = Promise.all([
           this.postTeamDetail(),
@@ -256,6 +258,7 @@ export default {
   },
   mounted() {
     this.pageLoading = false;
+    this._uid = window.localStorage.getItem("_uid");
   },
   watch: {
     tName() {

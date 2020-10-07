@@ -28,12 +28,12 @@
         <page-path></page-path>
         <v-sheet>
           <div class="d-flex justify-space-around w100 align-center">
-            <v-btn fab text small color="grey darken-2" @click="prev">
-              <v-icon small>mdi-chevron-left</v-icon>
+            <v-btn fab small text color="grey darken-2" @click="prev">
+              <v-icon>mdi-chevron-left</v-icon>
             </v-btn>
             <span v-if="$refs.calendar">{{ $refs.calendar.title }}</span>
-            <v-btn fab text small color="grey darken-2" @click="next">
-              <v-icon small>mdi-chevron-right</v-icon>
+            <v-btn fab small text color="grey darken-2" @click="next">
+              <v-icon>mdi-chevron-right</v-icon>
             </v-btn>
           </div>
         </v-sheet>
@@ -118,11 +118,8 @@
                 </v-list>
               </v-card-text>
               <v-card-actions>
-                <v-btn
-                  small
-                  text
-                  color="secondary"
-                  @click="selectedOpen = false"
+                <v-spacer></v-spacer>
+                <v-btn text color="secondary" @click="selectedOpen = false"
                   >Kapat</v-btn
                 >
               </v-card-actions>

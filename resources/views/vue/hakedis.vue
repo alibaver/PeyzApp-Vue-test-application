@@ -14,124 +14,137 @@
     </div>
     <div v-else>
       <v-row>
-        <v-col>
-          <!-- kart -->
-          <v-card v-if="!teamID" class="pa-3 colBorder elevation-1">
-            <!-- ekipler -->
-            <v-col cols="12">
-              <v-select
-                v-if="!teamID"
-                class="mt-1 mb-1"
-                prepend-inner-icon="mdi-account-hard-hat"
-                outlined
-                hide-details
-                ref="ekipAdi"
-                label="Ekip Seçin"
-                :items="items"
-                @change="changeTeam"
-              ></v-select>
-            </v-col>
-          </v-card>
-          <!-- Filtre -->
-          <v-card class="pa-3 colBorder elevation-1 mt-4">
-            <v-card-title class="overline pt-0"> FİLTRELEME </v-card-title>
-            <v-card-subtitle class="caption">
-              Gider listesini filtreleyeceğiniz tarih aralığını
-              seçin.</v-card-subtitle
-            >
-            <v-card-text>
-              <!-- tarih1 -->
-              <v-dialog
-                ref="range"
-                v-model="tarih"
-                :return-value.sync="rangedate"
-                persistent
+        <!-- Filtre -->
+        <!-- kart -->
+        <v-col cols="12" md="5" class="pa-0">
+          <v-col cols="12">
+            <v-card v-if="!teamID" class="pa-3 colBorder elevation-1">
+              <v-card-title class="overline py-0">EKİP SEÇİM</v-card-title>
+              <!-- ekipler -->
+              <v-col cols="12">
+                <v-select
+                  v-if="!teamID"
+                  class="mt-1 mb-1"
+                  prepend-inner-icon="mdi-account-hard-hat"
+                  outlined
+                  hide-details
+                  ref="ekipAdi"
+                  label="Ekip Seçin"
+                  :items="items"
+                  @change="changeTeam"
+                ></v-select>
+              </v-col>
+            </v-card>
+          </v-col>
+          <v-col cols="12">
+            <v-card class="pa-3 colBorder elevation-1">
+              <v-card-title class="overline pt-0"> FİLTRELEME </v-card-title>
+              <v-card-subtitle class="caption">
+                Gider listesini filtreleyeceğiniz tarih aralığını
+                seçin.</v-card-subtitle
               >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="rangedate"
-                    label="Tarih Aralığı Seçin"
-                    prepend-inner-icon="mdi-calendar"
-                    readonly
-                    hide-details=""
-                    outlined
-                    v-bind="attrs"
-                    v-on="on"
-                    ref="tarih"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="rangedate"
-                  scrollable
-                  locale="tr"
-                  width="auto"
-                  range
+              <v-card-text>
+                <!-- tarih1 -->
+                <v-dialog
+                  ref="range"
+                  v-model="tarih"
+                  :return-value.sync="rangedate"
+                  persistent
                 >
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="tarih = false"
-                    >Kapat</v-btn
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="rangedate"
+                      label="Tarih Aralığı Seçin"
+                      prepend-inner-icon="mdi-calendar"
+                      readonly
+                      hide-details=""
+                      outlined
+                      v-bind="attrs"
+                      v-on="on"
+                      ref="tarih"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="rangedate"
+                    scrollable
+                    locale="tr"
+                    width="auto"
+                    range
                   >
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="$refs.range.save(rangedate)"
-                    >Tamam</v-btn
-                  >
-                </v-date-picker>
-              </v-dialog>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                color="primary"
-                text
-                small
-                @click="teamID ? getPayment(teamID) : getAllPayment()"
-              >
-                TEMİZLE
-              </v-btn>
-              <v-spacer></v-spacer>
-              <v-btn color="primary" text small @click="filter">
-                FİLTRELE
-                <v-icon small right>mdi-check-all</v-icon>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="tarih = false"
+                      >Kapat</v-btn
+                    >
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="$refs.range.save(rangedate)"
+                      >Tamam</v-btn
+                    >
+                  </v-date-picker>
+                </v-dialog>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  color="primary"
+                  text
+                  small
+                  @click="teamID ? getPayment(teamID) : getAllPayment()"
+                >
+                  TEMİZLE
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text small @click="filter">
+                  FİLTRELE
+                  <v-icon small right>mdi-check-all</v-icon>
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
         </v-col>
         <!-- datatable -->
-        <v-data-table
-          :headers="headers"
-          :items="paymentData"
-          class="elevation-0"
-          disable-sort
-          :items-per-page="5"
-          :loading="loading"
-          loading-text="Veriler yükleniyor..."
-        >
-          <template v-slot:[`item.calisanlar`]="{ item }">
-            <div style="display: table-caption; height: 50px; overflow: auto">
-              <v-chip
-                class="my-1 text-center"
-                x-small
-                v-for="(worker, index) in item.calisanlar"
-                :key="index"
-              >
-                {{ worker.ad }} {{ worker.soyad }}
-              </v-chip>
-            </div>
-          </template>
-          <template v-slot:[`item.ayrilan_calisanlar`]="{ item }">
-            <div style="display: table-caption; height: 50px; overflow: auto">
-              <v-chip
-                class="my-1 text-center"
-                x-small
-                v-for="(worker, index) in item.ayrilan_calisanlar"
-                :key="index"
-              >
-                {{ worker.ad }} {{ worker.soyad }}
-              </v-chip>
-            </div>
-          </template>
-        </v-data-table>
+        <v-col cols="12" md="7" class="pa-0">
+          <v-col cols="12">
+            <v-data-table
+              :headers="headers"
+              :items="paymentData"
+              class="elevation-0"
+              disable-sort
+              :items-per-page="5"
+              :loading="loading"
+              loading-text="Veriler yükleniyor..."
+            >
+              <template v-slot:[`item.calisanlar`]="{ item }">
+                <div
+                  style="display: table-caption; height: 50px; overflow: auto"
+                >
+                  <v-chip
+                    class="my-1 text-center"
+                    x-small
+                    v-for="(worker, index) in item.calisanlar"
+                    :key="index"
+                  >
+                    {{ worker.ad }} {{ worker.soyad }}
+                  </v-chip>
+                </div>
+              </template>
+              <template v-slot:[`item.ayrilan_calisanlar`]="{ item }">
+                <div
+                  style="display: table-caption; height: 50px; overflow: auto"
+                >
+                  <v-chip
+                    class="my-1 text-center"
+                    x-small
+                    v-for="(worker, index) in item.ayrilan_calisanlar"
+                    :key="index"
+                  >
+                    {{ worker.ad }} {{ worker.soyad }}
+                  </v-chip>
+                </div>
+              </template>
+            </v-data-table>
+          </v-col>
+        </v-col>
       </v-row>
     </div>
   </div>
@@ -196,6 +209,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "teams",
+            param: window.localStorage.getItem("_uid"),
           },
         })
         .then((response) => {

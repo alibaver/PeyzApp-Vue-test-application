@@ -221,6 +221,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "teams",
+            param: window.localStorage.getItem("_uid"),
           },
         })
         .then((response) => {
