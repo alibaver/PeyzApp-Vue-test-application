@@ -141,8 +141,6 @@ export default {
         });
     },
   },
-  mounted() {
-    console.log("login");
-  },
+  mounted() {},
 };
 </script>
