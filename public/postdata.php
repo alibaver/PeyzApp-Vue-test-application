@@ -9,19 +9,18 @@ $post = json_decode($post, true);
 
 $json = json_encode($post);
 
+$uid;
 $param;
 $param2;
 $param3;
 
-if (isset($_GET['param'])) {
-    $param = $_GET['param'];
-}
+isset($_GET['uid']) ? $uid = $_GET['uid'] : $uid = "";
+isset($_GET['param']) ? $param = $_GET['param'] : $param = "";
 isset($_GET['param2']) ? $param2 = $_GET['param2'] : $param2 = "";
 isset($_GET['param3']) ? $param3 = $_GET['param3'] : $param3 = "";
 
 if($param == "saveTeam"){
     $teamName = $post["name"];
-    $uid = $post["uid"];
     $teamID = $post["_id"];
     $sayi = $post["wCount"];
     $yevmiye = $post["tYevmiye"];
@@ -38,7 +37,7 @@ if($param == "saveWorker"){
         $kTarihi = $item["ktarihi"];
         $tGun = $item["tam_gun"];
         $yGun = $item["yarim_gun"];
-        $q = "INSERT INTO `tb_calisan`(`ekip_ID`, `ad`, `soyad`, `yevmiye`, `kayit_tarihi`,`tam_gun`, `yarim_gun`, `guncelleme_tarihi`) VALUES ('$_id','$ad','$soyad','$yevmiye','$kTarihi','$tGun','$yGun',0000-00-00)";
+        $q = "INSERT INTO `tb_calisan`(`kullanici_id`,`ekip_ID`, `ad`, `soyad`, `yevmiye`, `kayit_tarihi`,`tam_gun`, `yarim_gun`, `guncelleme_tarihi`) VALUES ('$uid','$_id','$ad','$soyad','$yevmiye','$kTarihi','$tGun','$yGun',0000-00-00)";
         $res = mysqli_query($con, $q);
     }    
 }
@@ -61,7 +60,7 @@ if ($param == "setCalendar") {
     $_ekip_adi = $post[0]["ekip_adi"];
     $_date = $post[0]["date"];
     $_workers = $post[0]["workers"];
-    $q = "INSERT INTO `tb_calendar`(`ekip_ID`, `ekip_adi`, `tarih`, `workers`) VALUES ('$_ekip_id', '$_ekip_adi','$_date','$_workers')";
+    $q = "INSERT INTO `tb_calendar`(`kullanici_id`,`ekip_ID`, `ekip_adi`, `tarih`, `workers`) VALUES ('$uid','$_ekip_id', '$_ekip_adi','$_date','$_workers')";
     $res = mysqli_query($con, $q);
 }
 if ($param == "updateYevmiye") {
@@ -85,7 +84,7 @@ if($param == "pruning"){
     $agacadi = $post["budamaAdi"];
     $adet = $post["agacSayisi"];
     $total = $post["total"];
-    $q = "INSERT INTO `tb_budama`(`budama_id`,`budama_tarihi`, `ekip_ID`, `ekip_adi`, `agac_ID`, `agac_adi`, `adet`, `total`) VALUES ('$id','$budamatarihi','$ekipid','$ekipadi','$agacid','$agacadi','$adet','$total')";
+    $q = "INSERT INTO `tb_budama`(`kullanici_id`,`budama_id`,`budama_tarihi`, `ekip_ID`, `ekip_adi`, `agac_ID`, `agac_adi`, `adet`, `total`) VALUES ('$uid','$id','$budamatarihi','$ekipid','$ekipadi','$agacid','$agacadi','$adet','$total')";
     $res = mysqli_query($con, $q);
 }
 if($param == "updatePruning"){
@@ -99,7 +98,7 @@ if($param == "expense"){
     $tarih = $post["tarih"];
     $aciklama = $post["aciklama"];
     $total = $post["total"];
-    $q = "INSERT INTO `tb_gider`(`ekip_ID`, `ekip_adi`, `tarih`, `aciklama`, `total`) VALUES ('$ekipid','$ekipadi','$tarih','$aciklama','$total')";
+    $q = "INSERT INTO `tb_gider`(`kullanici_id`,`ekip_ID`, `ekip_adi`, `tarih`, `aciklama`, `total`) VALUES ('$uid','$ekipid','$ekipadi','$tarih','$aciklama','$total')";
     $res = mysqli_query($con, $q);
 }
 if($param == "updateExpense"){
@@ -130,7 +129,7 @@ if ($param == "workerDataBackup") {
     $tam_gun = $post["tam_gun"];
     $yarim_gun = $post["yarim_gun"];
     $hakedis = $post["hakedis"];
-    $q= "INSERT INTO `tb_workerBackup`( `ekip_ID`,`ekip_adi`, `calisan_id`, `ad`, `soyad`, `yevmiye`, `kayit_tarihi`, `ayrilis_tarihi`, `tam_gun`, `yarim_gun`, `hakedis`) VALUES ('$ekipid','$ekipadi','$id','$ad','$soyad','$yevmiye','$kayit_tarihi','$ayrilis_tarihi','$tam_gun','$yarim_gun','$hakedis')";
+    $q= "INSERT INTO `tb_workerBackup`(`kullanici_id`,`ekip_ID`,`ekip_adi`, `calisan_id`, `ad`, `soyad`, `yevmiye`, `kayit_tarihi`, `ayrilis_tarihi`, `tam_gun`, `yarim_gun`, `hakedis`) VALUES ('$uid','$ekipid','$ekipadi','$id','$ad','$soyad','$yevmiye','$kayit_tarihi','$ayrilis_tarihi','$tam_gun','$yarim_gun','$hakedis')";
     $res = mysqli_query($con, $q);
 }
 if ($param == "progressPayment") {
@@ -144,7 +143,7 @@ if ($param == "progressPayment") {
     $agac_gelir = $post["agac_gelir"];
     $calisanlar = $post["calisanlar"];
     $ayrilanlar = $post["ayrilan_calisanlar"];    
-    $q= "INSERT INTO `tb_hakedis`(`tarih`, `ekip_ID`, `ekip_adi`, `calisan_sayisi`, `toplam_yevmiye`,`toplam_gider`,`toplam_kesilen_agac`,`agac_gelir`, `calisanlar`,`ayrilan_calisanlar`) VALUES ('$tarih','$ekipid','$ekip_adi','$calisan_sayisi','$toplam_yevmiye','$toplam_gider','$toplam_kesilen_agac','$agac_gelir','$calisanlar','$ayrilanlar')";
+    $q= "INSERT INTO `tb_hakedis`(`kullanici_id`,`tarih`, `ekip_ID`, `ekip_adi`, `calisan_sayisi`, `toplam_yevmiye`,`toplam_gider`,`toplam_kesilen_agac`,`agac_gelir`, `calisanlar`,`ayrilan_calisanlar`) VALUES ('$uid','$tarih','$ekipid','$ekip_adi','$calisan_sayisi','$toplam_yevmiye','$toplam_gider','$toplam_kesilen_agac','$agac_gelir','$calisanlar','$ayrilanlar')";
     $res = mysqli_query($con, $q);
 }
 if ($param == "deleteTeam") {

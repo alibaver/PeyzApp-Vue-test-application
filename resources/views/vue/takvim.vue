@@ -350,6 +350,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "getCalendars",
+            uid: this.$uid,
           },
         })
         .then((response) => {

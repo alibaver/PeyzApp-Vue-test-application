@@ -13,10 +13,11 @@
       <span class="mt-4 overline primary--text">LOADING..</span>
     </div>
     <div v-else>
+      <page-path></page-path>
       <v-row>
         <!-- Filtre -->
         <!-- kart -->
-        <v-col cols="12" md="5" class="pa-0">
+        <v-col cols="12" md="5" lg="4" class="pa-0">
           <v-col cols="12">
             <v-card v-if="!teamID" class="pa-3 colBorder elevation-1">
               <v-card-title class="overline py-0">EKİP SEÇİM</v-card-title>
@@ -50,10 +51,12 @@
                   v-model="tarih"
                   :return-value.sync="rangedate"
                   persistent
+                  width="100%"
+                  max-width="400"
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="rangedate"
+                      v-model="dateRangeText"
                       label="Tarih Aralığı Seçin"
                       prepend-inner-icon="mdi-calendar"
                       readonly
@@ -103,7 +106,7 @@
           </v-col>
         </v-col>
         <!-- datatable -->
-        <v-col cols="12" md="7" class="pa-0">
+        <v-col cols="12" md="7" lg="8" class="pa-0">
           <v-col cols="12">
             <v-data-table
               :headers="headers"
@@ -209,7 +212,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "teams",
-            param: window.localStorage.getItem("_uid"),
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -232,6 +235,7 @@ export default {
           params: {
             choose: "getPayment",
             param: _id,
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -252,6 +256,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "getAllPayment",
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -274,6 +279,7 @@ export default {
             choose: "getFilteredPayment",
             param: t1,
             param2: t2,
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -290,7 +296,11 @@ export default {
         });
     },
   },
-  computed: {},
+  computed: {
+    dateRangeText() {
+      return this.rangedate.join(" ~ ");
+    },
+  },
   mounted() {},
   watch: {},
   created() {

@@ -41,9 +41,9 @@ window.numeral.locale("tr");
 Vue.use(VueRouter);
 Vue.prototype.$axios = axios;
 
-Vue.prototype.$uid = "";
-Vue.prototype.$ad = "";
-Vue.prototype.$soyad = "";
+Vue.prototype.$uid = window.localStorage.getItem("_uid");
+Vue.prototype.$ad = window.localStorage.getItem("ad");
+Vue.prototype.$soyad = window.localStorage.getItem("soyad");
 
 Vue.prototype.$getDate = function() {
     let date;

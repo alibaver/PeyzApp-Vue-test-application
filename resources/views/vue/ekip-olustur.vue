@@ -16,32 +16,35 @@
     <div v-else>
       <page-path></page-path>
       <center>
-        <v-chip color="primary" label small dark class="body-2 mb-2">
+        <v-chip color="primary" label dark class="body-2 mb-2">
           <v-icon dark small left>mdi-account-hard-hat</v-icon>
           {{ tName ? tName : "Ekip Adı" }}
         </v-chip>
+        <br />
+        <v-chip
+          color="primary"
+          class="mr-1"
+          small
+          v-for="(person, index) in workers"
+          :key="index"
+        >
+          <v-icon dark small left>mdi-account-circle</v-icon>
+          {{ person.ad }} {{ person.soyad }}
+        </v-chip>
       </center>
-      <v-chip
-        color="primary"
-        class="mr-1"
-        x-small
-        v-for="(person, index) in workers"
-        :key="index"
-      >
-        <v-icon dark x-small left>mdi-account-circle</v-icon>
-        {{ person.ad }} {{ person.soyad }}
-      </v-chip>
 
-      <v-card class="pa-4 mb-4 mt-2 pb-12">
+      <v-card class="pa-6 mb-4 mt-2 pb-12 mx-auto" max-width="500">
         <v-dialog
           ref="dialog"
           v-model="modal"
           :return-value.sync="date"
           persistent
+          width="100%"
+          max-width="400"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="date"
+              v-model="formattedDate"
               label="Tarih seçin"
               prepend-inner-icon="mdi-calendar"
               readonly
@@ -68,7 +71,7 @@
           outlined
           v-model="tName"
           :rules="rules"
-          class="mt-3"
+          class="mt-5"
         ></v-text-field>
         <v-text-field
           ref="ad"
@@ -77,7 +80,7 @@
           clearable
           outlined
           hide-details="auto"
-          class="mt-3"
+          class="mt-5"
         ></v-text-field>
         <v-text-field
           ref="soyad"
@@ -86,7 +89,7 @@
           clearable
           outlined
           hide-details="auto"
-          class="mt-3"
+          class="mt-5"
         ></v-text-field>
         <v-text-field
           label="Yevmiye Miktarı"
@@ -96,17 +99,16 @@
           hide-details="auto"
           type="number"
           ref="yevmiye"
-          class="mt-3"
+          class="mt-5"
         ></v-text-field>
 
         <v-btn
           color="primary"
           class="mt-4"
           dark
-          small
           fab
           @click="addPerson"
-          style="position: absolute; right: 0; transform: translate(-50%, 12px)"
+          style="position: absolute; right: 0; transform: translate(-50%, 5px)"
         >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
@@ -136,7 +138,6 @@
 <script>
 export default {
   data: () => ({
-    _uid: "",
     date: "",
     pageLoading: true,
     modal: false,
@@ -212,7 +213,6 @@ export default {
         this.tName != undefined
       ) {
         this.team.wCount = this.workers.length;
-        this.team.uid = this._uid;
 
         let promise = Promise.all([
           this.postTeamDetail(),
@@ -238,6 +238,7 @@ export default {
         .post("postdata.php", JSON.stringify(this.team), {
           params: {
             param: "saveTeam",
+            uid: this.$uid,
           },
         })
         .catch((err) => {
@@ -249,6 +250,7 @@ export default {
         .post("postdata.php", JSON.stringify(this.workers), {
           params: {
             param: "saveWorker",
+            uid: this.$uid,
           },
         })
         .catch((err) => {
@@ -256,9 +258,13 @@ export default {
         });
     },
   },
+  computed: {
+    formattedDate() {
+      return this.date.split("-").reverse().join(".");
+    },
+  },
   mounted() {
     this.pageLoading = false;
-    this._uid = window.localStorage.getItem("_uid");
   },
   watch: {
     tName() {

@@ -12,6 +12,10 @@ body {
     background: rgb(162, 24, 123);
     background: linear-gradient(90deg, #9d50bb 0%, #6e48aa 100%);
 }
+.drawerGround {
+    background: rgb(162, 24, 123);
+    background: linear-gradient(0deg, #9d50bb 0%, #6e48aa 100%);
+}
 .teamCost {
     position: absolute !important;
     right: 20px;
@@ -32,6 +36,10 @@ a {
 }
 .pLoad {
     height: calc(100vh - 140px) !important;
+}
+.activeMenu {
+    border-left: solid 4px white !important;
+    color: white !important;
 }
 
 

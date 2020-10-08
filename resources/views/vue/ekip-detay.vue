@@ -121,10 +121,12 @@
             v-model="modal"
             :return-value.sync="date"
             persistent
+            width="100%"
+            max-width="400"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
-                v-model="date"
+                v-model="formattedDate"
                 label="Tarih seçin"
                 prepend-inner-icon="mdi-calendar"
                 readonly
@@ -422,6 +424,7 @@ export default {
           params: {
             choose: "teamDetails",
             param: this.teamID,
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -438,6 +441,7 @@ export default {
           params: {
             choose: "pruningDetails",
             param: this.teamID,
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -464,6 +468,7 @@ export default {
           params: {
             choose: "workerDetails",
             param: this.teamID,
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -506,6 +511,7 @@ export default {
           params: {
             choose: "getBackups",
             param: this.teamID,
+            uid: this.$uid,
           },
         })
         .then((res) => {
@@ -523,6 +529,7 @@ export default {
         .post("postdata.php", JSON.stringify(person), {
           params: {
             param: "workerDataBackup",
+            uid: this.$uid,
           },
         })
         .then((res) => {
@@ -537,6 +544,7 @@ export default {
         .post("postdata.php", JSON.stringify(_obj), {
           params: {
             param: "removeWorker",
+            uid: this.$uid,
           },
         })
         .then((res) => {
@@ -561,6 +569,7 @@ export default {
         .post("postdata.php", JSON.stringify(_obj), {
           params: {
             param: "uwCount",
+            uid: this.$uid,
           },
         })
         .then((res) => {})
@@ -573,6 +582,7 @@ export default {
         .post("postdata.php", JSON.stringify(_obj), {
           params: {
             param: "updatedTotalPrice",
+            uid: this.$uid,
           },
         })
         .then((res) => {})
@@ -585,6 +595,7 @@ export default {
         .post("postdata.php", JSON.stringify(array), {
           params: {
             param: "updatedWorkers",
+            uid: this.$uid,
           },
         })
         .then((res) => {})
@@ -597,6 +608,7 @@ export default {
         .post("postdata.php", JSON.stringify(cal), {
           params: {
             param: "setCalendar",
+            uid: this.$uid,
           },
         })
         .then((res) => {})
@@ -626,6 +638,11 @@ export default {
     },
   },
   mounted() {},
+  computed: {
+    formattedDate() {
+      return this.date.split("-").reverse().join(".");
+    },
+  },
   watch: {},
   created() {
     this.teamID = this.$route.query.teamId;

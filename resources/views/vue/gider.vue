@@ -26,7 +26,7 @@
       <v-row>
         <!-- Filtre -->
         <!-- kart -->
-        <v-col cols="12" md="5" class="pa-0">
+        <v-col cols="12" md="5" lg="4" class="pa-0">
           <v-col cols="12">
             <v-card class="pa-3 colBorder elevation-1">
               <div v-if="teamID">
@@ -44,7 +44,7 @@
               <!-- Gider Ekle -->
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-dialog v-model="dialog" max-width="500px">
+                <v-dialog v-model="dialog" max-width="400px">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       text
@@ -85,10 +85,12 @@
                               v-model="modal"
                               :return-value.sync="date"
                               persistent
+                              width="100%"
+                              max-width="400"
                             >
                               <template v-slot:activator="{ on, attrs }">
                                 <v-text-field
-                                  v-model="date"
+                                  v-model="formattedDate"
                                   label="Tarih seçin"
                                   prepend-inner-icon="mdi-calendar"
                                   readonly
@@ -174,10 +176,12 @@
                   v-model="tarih"
                   :return-value.sync="rangedate"
                   persistent
+                  width="100%"
+                  max-width="400"
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="rangedate"
+                      v-model="dateRangeText"
                       label="Tarih Aralığı Seçin"
                       prepend-inner-icon="mdi-calendar"
                       readonly
@@ -227,7 +231,7 @@
           </v-col>
         </v-col>
         <!-- datatable -->
-        <v-col cols="12" md="7" class="pa-0">
+        <v-col cols="12" md="7" lg="8" class="pa-0">
           <v-col cols="12">
             <v-data-table
               :headers="headers"
@@ -297,14 +301,14 @@ export default {
           _ekipAdi = this.$refs.ekipAdi.selectedItems[0].text;
           _ekipId = this.$refs.ekipAdi.selectedItems[0].value;
           _aciklama = this.$refs.aciklama.lazyValue;
-          _tarih = this.$refs.tarih.value;
+          // _tarih = this.$refs.tarih.value;
           _total = this.$refs.fiyat.lazyValue;
 
           let sendObj = {
             ekipId: _ekipId,
             ekipAdi: _ekipAdi,
             aciklama: _aciklama,
-            tarih: _tarih,
+            tarih: this.date,
             total: numeral(parsePrice(_total)).format("0,0.00"),
           };
 
@@ -329,14 +333,14 @@ export default {
           _ekipAdi = this.teamName;
           _ekipId = this.teamID;
           _aciklama = this.$refs.aciklama.lazyValue;
-          _tarih = this.$refs.tarih.value;
+          // _tarih = this.$refs.tarih.value;
           _total = this.$refs.fiyat.lazyValue;
 
           let sendObj = {
             ekipId: _ekipId,
             ekipAdi: _ekipAdi,
             aciklama: _aciklama,
-            tarih: _tarih,
+            tarih: this.date,
             total: numeral(parsePrice(_total)).format("0,0.00"),
           };
 
@@ -367,7 +371,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "teams",
-            param: window.localStorage.getItem("_uid"),
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -389,6 +393,7 @@ export default {
         .post("postdata.php", JSON.stringify(obj), {
           params: {
             param: "expense",
+            uid: this.$uid,
           },
         })
         .catch((err) => {
@@ -414,6 +419,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "getAllExpense",
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -436,6 +442,7 @@ export default {
           params: {
             choose: "getExpense",
             param: _id,
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -459,6 +466,7 @@ export default {
             choose: "getFilteredExpense",
             param: t1,
             param2: t2,
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -477,7 +485,14 @@ export default {
     },
   },
   mounted() {},
-  computed: {},
+  computed: {
+    formattedDate() {
+      return this.date.split("-").reverse().join(".");
+    },
+    dateRangeText() {
+      return this.rangedate.join(" ~ ");
+    },
+  },
   watch: {},
   created() {
     this.getTeams();

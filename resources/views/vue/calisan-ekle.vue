@@ -21,7 +21,7 @@
         :alert-open="alert.isOpen"
         :alert-time="alert.time"
       ></alert-component>
-      <v-card class="colBorder pa-4 pb-1 mt-5">
+      <v-card class="colBorder pa-4 pb-1 mt-5 mx-auto" max-width="500">
         <v-row>
           <v-col cols="12">
             <!-- icon -->
@@ -59,10 +59,12 @@
               v-model="modal"
               :return-value.sync="date"
               persistent
+              max-width="400"
+              width="100%"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="date"
+                  v-model="formattedDate"
                   label="Tarih seçin"
                   prepend-inner-icon="mdi-calendar"
                   readonly
@@ -193,6 +195,7 @@ export default {
         .post("postdata.php", JSON.stringify(_obj), {
           params: {
             param: "saveWorker",
+            uid: this.$uid,
           },
         })
         .then((res) => {
@@ -209,6 +212,7 @@ export default {
         .post("postdata.php", JSON.stringify(_obj), {
           params: {
             param: "uwCount",
+            uid: this.$uid,
           },
         })
         .then((res) => {})
@@ -221,7 +225,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "teams",
-            param: window.localStorage.getItem("_uid"),
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -237,6 +241,11 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+  },
+  computed: {
+    formattedDate() {
+      return this.date.split("-").reverse().join(".");
     },
   },
   watch: {},

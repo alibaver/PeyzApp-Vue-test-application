@@ -34,7 +34,7 @@
         </div>
       </div>
       <!-- EKİP BİLGİLER -->
-      <div v-else class="w100 mb-4 mx-auto">
+      <div v-else class="w100 mx-auto">
         <v-row>
           <v-col
             cols="12"
@@ -307,6 +307,7 @@ export default {
         .post("postdata.php", JSON.stringify(_obj), {
           params: {
             param: "progressPayment",
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -392,6 +393,7 @@ export default {
       return this.$axios.post("postdata.php", JSON.stringify(_id), {
         params: {
           param: "deleteTeam",
+          uid: this.$uid,
         },
       });
     },
@@ -399,6 +401,7 @@ export default {
       return this.$axios.post("postdata.php", JSON.stringify(_id), {
         params: {
           param: "deleteTeamWorker",
+          uid: this.$uid,
         },
       });
     },
@@ -406,6 +409,7 @@ export default {
       return this.$axios.post("postdata.php", JSON.stringify(_id), {
         params: {
           param: "updatePruning",
+          uid: this.$uid,
         },
       });
     },
@@ -413,6 +417,7 @@ export default {
       return this.$axios.post("postdata.php", JSON.stringify(_id), {
         params: {
           param: "resetPayment",
+          uid: this.$uid,
         },
       });
     },
@@ -420,6 +425,7 @@ export default {
       return this.$axios.post("postdata.php", JSON.stringify(_id), {
         params: {
           param: "resetTeamPayment",
+          uid: this.$uid,
         },
       });
     },
@@ -427,6 +433,7 @@ export default {
       return this.$axios.post("postdata.php", JSON.stringify(_id), {
         params: {
           param: "updateBackupPayment",
+          uid: this.$uid,
         },
       });
     },
@@ -434,6 +441,7 @@ export default {
       return this.$axios.post("postdata.php", JSON.stringify(_id), {
         params: {
           param: "updateExpense",
+          uid: this.$uid,
         },
       });
     },
@@ -442,6 +450,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "allBackups",
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -456,6 +465,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "allWorkers",
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -470,7 +480,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "teams",
-            param: window.localStorage.getItem("_uid"),
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -488,6 +498,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "getAllExpense",
+            uid: this.$uid,
           },
         })
         .then((response) => {
@@ -502,6 +513,7 @@ export default {
         .get("ajaxfile.php", {
           params: {
             choose: "getAllPruning",
+            uid: this.$uid,
           },
         })
         .then((response) => {

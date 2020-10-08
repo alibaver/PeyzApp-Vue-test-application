@@ -8,47 +8,83 @@
             >peyz<span class="font-weight-bold primary--text">APP</span>
           </span>
         </a>
+        <v-chip small class="ml-2 caption">BETA</v-chip>
         <v-spacer></v-spacer>
       </v-app-bar>
-      <v-navigation-drawer app v-model="drawer">
-        <div class="d-flex justify-center align-center w100 pa-5 flex-column">
-          <v-avatar class="gradientCard" size="100">
-            <span class="white--text text-h4"
+      <v-navigation-drawer app v-model="drawer" class="drawerGround">
+        <div class="d-flex justify-center align-center w100 pa-10 flex-column">
+          <v-avatar class="" color="white" size="100">
+            <span class="primary--text text-h4"
               >{{ ad.substr(0, 1) }}{{ soyad.substr(0, 1) }}
             </span>
           </v-avatar>
-          <span class="mt-4">{{ ad }} {{ soyad }} </span>
+          <span class="mt-7 white--text">{{ ad }} {{ soyad }} </span>
         </div>
         <v-divider></v-divider>
         <v-list>
           <div class="d-none d-md-block">
-            <v-list-item active-class="colBorder" :to="'/'">
-              <v-icon color="primary" small left>mdi-account-hard-hat</v-icon>
+            <v-list-item
+              dark
+              active-class="activeMenu"
+              :to="'/'"
+              style="min-height: 55px"
+            >
+              <v-icon left>mdi-account-hard-hat</v-icon>
               Ekip
             </v-list-item>
-            <v-list-item active-class="colBorder" :to="'/budanan-agac'">
-              <v-icon color="primary" small left>mdi-tree</v-icon>
+            <v-list-item
+              dark
+              active-class="activeMenu"
+              :to="'/budanan-agac'"
+              style="min-height: 55px"
+            >
+              <v-icon left>mdi-tree</v-icon>
               Budanan Ağaç
             </v-list-item>
-            <v-list-item active-class="colBorder" :to="'/takvim'">
-              <v-icon color="primary" small left>mdi-calendar</v-icon>
+            <v-list-item
+              dark
+              active-class="activeMenu"
+              :to="'/takvim'"
+              style="min-height: 55px"
+            >
+              <v-icon left>mdi-calendar</v-icon>
               Takvim
             </v-list-item>
-            <v-list-item active-class="colBorder" :to="'/gider'">
-              <v-icon color="primary" small left>mdi-currency-try</v-icon>
+            <v-list-item
+              dark
+              active-class="activeMenu"
+              :to="'/gider'"
+              style="min-height: 55px"
+            >
+              <v-icon left>mdi-currency-try</v-icon>
               Gider
             </v-list-item>
           </div>
-          <v-list-item active-class="colBorder" :to="'/hakedis'">
-            <v-icon color="primary" small left>mdi-calculator</v-icon>
+          <v-list-item
+            dark
+            active-class="activeMenu"
+            :to="'/hakedis'"
+            style="min-height: 55px"
+          >
+            <v-icon left>mdi-calculator</v-icon>
             Hakediş Listesi
           </v-list-item>
-          <v-list-item active-class="colBorder" :to="'/ayrilan-calisanlar'">
-            <v-icon color="primary" small left>mdi-account-cancel</v-icon>
+          <v-list-item
+            dark
+            active-class="activeMenu"
+            :to="'/ayrilan-calisanlar'"
+            style="min-height: 55px"
+          >
+            <v-icon left>mdi-account-cancel</v-icon>
             Ayrılan Çalışan Listesi
           </v-list-item>
-          <v-list-item active-class="colBorder" @click="logout">
-            <v-icon color="primary" small left>mdi-login</v-icon>
+          <v-list-item
+            dark
+            active-class="activeMenu"
+            style="min-height: 55px"
+            @click="logout"
+          >
+            <v-icon left>mdi-login</v-icon>
             Çıkış yap
           </v-list-item>
         </v-list>
@@ -60,8 +96,8 @@
     </div>
 
     <v-main>
-      <v-container
-        class="pb-16"
+      <div
+        :class="$route.fullPath === '/login' ? '' : 'pa-4 pb-16'"
         :style="
           $route.fullPath === '/login'
             ? 'margin:0;padding:0;height:100vh;max-width:none'
@@ -69,7 +105,7 @@
         "
       >
         <router-view></router-view>
-      </v-container>
+      </div>
     </v-main>
   </v-app>
 </template>
