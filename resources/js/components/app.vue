@@ -133,16 +133,7 @@ export default {
             this.$router.push("/login");
         }
     },
-    mounted() {
-        const url =
-            "https://api.bybit.com/v2/public/orderBook/L2?symbol=BTCUSD";
-        var ourRequest = new XMLHttpRequest();
-        ourRequest.open("GET", url, true);
-        ourRequest.onload = function() {
-            console.log(ourRequest.responseText);
-        };
-        ourRequest.send();
-    },
+    mounted() {},
     watch: {},
     created() {}
 };
